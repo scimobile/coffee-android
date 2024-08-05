@@ -1,2 +1,2 @@
-package com.sci.coffeeandroid.feature.auth.data.datasource
+package com.sci.coffeeandroid.feature.auth.data.service
 
