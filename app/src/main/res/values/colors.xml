@@ -4,4 +4,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#F17102</color>
     <color name="blue">#1877F2</color>
+    <color name="color_inactive_button">#B6BAC3</color>
+    <color name="color_divider">#B6BAC3</color>
+    <color name="color_secondary_text">#6B7280</color>
+    <color name="color_icon_active">#1E1F20</color>
+    <color name="color_icon_inactive">#6B7280</color>
+
 </resources>

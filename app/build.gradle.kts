@@ -48,4 +48,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.bundles.koin.bundle)
     implementation(libs.bundles.ktor.bundle)
+    implementation(libs.glide.android)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.mmkv.android)
+    implementation(libs.kotlinx.serialization)
 }
