@@ -27,6 +27,11 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -52,4 +57,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.mmkv.android)
     implementation(libs.kotlinx.serialization)
+
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 }

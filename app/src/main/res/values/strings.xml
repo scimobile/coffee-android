@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Coffee Android</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="first_slide_header">Welcome To \nCaffeine Corner</string>
+    <string name="onboarding_first_slide_description">Discover your favorite coffee, order with ease, and enjoy exclusive perks.</string>
+    <string name="onboarding_second_slide_description">Collect points with every purchase and redeem them for free coffee and exclusive rewards.</string>
+    <string name="second_slide_header">Earn Loyalty \nPoints</string>
+    <string name="third_slide_header">Easy Ordering \n</string>
+    <string name="onboarding_third_slide_description">Order your favorite coffee in just a few taps and pick it up at your convenience.</string>
 </resources>
