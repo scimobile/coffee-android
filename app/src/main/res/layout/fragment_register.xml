@@ -7,15 +7,29 @@
     android:background="@color/white"
     tools:context=".feature.auth.ui.screen.RegisterFragment">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_guide_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_large" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_guide_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_large" />
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xxxlarge"
-        android:text="Creat an account"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:text="@string/creat_an_account"
         android:textColor="@color/black"
+        android:fontFamily="@font/poppins_bold"
         android:textSize="@dimen/text_heading_1x"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,80 +39,105 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
-        android:text="Connect with your friends today!"
+        android:text="@string/connect_with_friends"
         android:textSize="@dimen/text_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_xxlarge"
-        android:layout_marginHorizontal="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_medium_2"
-        android:background="@drawable/edit_text_shape"
-        android:hint="Enter your username"
-        android:paddingStart="@dimen/margin_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_sub_title" />
 
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_xxlarge"
-        android:layout_marginHorizontal="@dimen/margin_large"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium_2"
-        android:background="@drawable/edit_text_shape"
-        android:hint="Enter your email"
-        android:paddingHorizontal="@dimen/margin_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_username" />
+        android:hint="@string/enter_your_username"
+        app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+        app:layout_constraintStart_toStartOf="@id/start_guide_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_sub_title">
 
-    <EditText
-        android:id="@+id/et_phone_number"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_xxlarge"
-        android:layout_marginHorizontal="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_medium_2"
-        android:background="@drawable/edit_text_shape"
-        android:hint="Enter your phone number"
-        android:paddingHorizontal="@dimen/margin_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_email" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:background="@drawable/edit_text_shape"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_xxlarge"
-        android:layout_marginHorizontal="@dimen/margin_large"
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_email"
         android:layout_marginTop="@dimen/margin_medium_2"
-        android:background="@drawable/edit_text_shape"
-        android:drawableEnd="@drawable/ic_eye_close"
-        android:hint="Enter your password"
-        android:paddingHorizontal="@dimen/margin_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
+        app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+        app:layout_constraintStart_toStartOf="@id/start_guide_line"
+        app:layout_constraintTop_toBottomOf="@id/text_field_username">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_shape"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_phone_number"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_phone_number"
+        app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+        app:layout_constraintStart_toStartOf="@id/start_guide_line"
+        app:layout_constraintTop_toBottomOf="@id/text_field_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_shape"
+            android:inputType="phone" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_password"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+        app:layout_constraintStart_toStartOf="@id/start_guide_line"
+        app:layout_constraintTop_toBottomOf="@id/text_field_phone_number">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_shape"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_singup"
+        android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_medium_x_25"
         android:background="@drawable/button_shape"
         android:paddingHorizontal="@dimen/margin_medium"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_password" />
+        app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+        app:layout_constraintStart_toStartOf="@id/start_guide_line"
+        app:layout_constraintTop_toBottomOf="@id/text_field_password" />
 
-    
+
     <View
         android:id="@+id/view1"
         android:layout_width="120dp"
@@ -108,13 +147,13 @@
         app:layout_constraintEnd_toStartOf="@+id/tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_singup" />
+        app:layout_constraintTop_toBottomOf="@id/btn_signup" />
 
     <TextView
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Or With"
+        android:text="@string/or_with"
         app:layout_constraintBottom_toBottomOf="@id/view1"
         app:layout_constraintEnd_toStartOf="@+id/view2"
         app:layout_constraintHorizontal_bias="0.5"
@@ -134,50 +173,46 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_facebook"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginHorizontal="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_medium_x_25"
-        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
-        android:paddingHorizontal="@dimen/margin_medium"
-        android:text="Signup with Facebook"
         android:backgroundTint="#1877F2"
-        app:icon="@drawable/ic_facebook"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:text="@string/signup_with_facebook"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view1" />
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        app:icon="@drawable/ic_facebook"
+        app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+        app:layout_constraintStart_toStartOf="@id/start_guide_line"
+        app:layout_constraintTop_toBottomOf="@id/view1"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_google"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginHorizontal="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_medium_3"
-        android:paddingHorizontal="@dimen/margin_medium"
         android:background="@drawable/edit_text_shape"
-        android:text="Signup with Google"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
         android:drawableLeft="@drawable/ic_google"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:text="@string/signup_with_google"
         android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+        app:layout_constraintStart_toStartOf="@id/start_guide_line"
         app:layout_constraintTop_toBottomOf="@id/btn_facebook" />
 
     <TextView
+        android:id="@+id/tv_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_login"
+        android:layout_marginBottom="@dimen/margin_large"
         android:text="@string/have_an_account_login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/margin_large" />
-
-
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
