@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginHorizontal="@dimen/margin_medium_x_23"
-        android:layout_marginTop="@dimen/margin_medium_x_23"
+        android:layout_marginTop="@dimen/margin_xxlarge"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/first_slide_header"
         android:textColor="@color/color_onboarding_text"
@@ -26,7 +26,9 @@
         android:layout_below="@id/tv_header_first_slide"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/margin_medium_x_30"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="-3dp"
         android:src="@drawable/coffee_onboarding_first_slide" />
 
     <TextView
@@ -34,13 +36,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_first_slide"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="@dimen/margin_medium_x_23"
+        android:layout_marginTop="@dimen/margin_xxxxlarge"
+        android:fontFamily="@font/poppins_regular"
         android:text="@string/onboarding_first_slide_description"
         android:textColor="@color/color_onboarding_text"
-        android:layout_alignParentStart="true"
-        android:textSize="@dimen/text_regular_2x"
-        android:layout_alignParentEnd="true"
-        android:fontFamily="@font/poppins_regular"
-        android:layout_marginTop="@dimen/margin_xxxxlarge"
-        android:layout_marginHorizontal="@dimen/margin_medium_x_23"/>
+        android:textSize="@dimen/text_regular_2x" />
 
 </RelativeLayout>

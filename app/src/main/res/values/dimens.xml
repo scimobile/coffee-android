@@ -11,6 +11,7 @@
     <dimen name="margin_medium_x_14">14dp</dimen>
     <dimen name="margin_medium_x_15">15dp</dimen>
     <dimen name="margin_medium_x_23">23dp</dimen>
+    <dimen name="margin_medium_x_24">24dp</dimen>
     <dimen name="margin_medium_x_25">25dp</dimen>
     <dimen name="margin_medium_x_30">30dp</dimen>
     <dimen name="margin_medium_2">16dp</dimen>

@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginHorizontal="@dimen/margin_medium_x_23"
-        android:layout_marginTop="@dimen/margin_medium_x_23"
+        android:layout_marginTop="@dimen/margin_xxlarge"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/second_slide_header"
         android:textColor="@color/color_onboarding_text"
