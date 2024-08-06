@@ -12,4 +12,5 @@
     <string name="or_with">Or With</string>
     <string name="signup_with_facebook">Signup with Facebook</string>
     <string name="signup_with_google">Signup with Google</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>
