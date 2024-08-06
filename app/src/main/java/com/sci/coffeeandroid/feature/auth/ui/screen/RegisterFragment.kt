@@ -5,56 +5,96 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isEmpty
 import com.sci.coffeeandroid.R
+import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
+import com.sci.coffeeandroid.util.PhoneNumberInputFilter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.etPhoneNumber.filters = arrayOf(PhoneNumberInputFilter())
+
+        binding.btnSignup.setOnClickListener {
+
+
+            if (binding.etUsername.text.isNullOrEmpty() || binding.etUsername.text!!.trim()
+                    .isEmpty()
+            ) {
+                binding.textFieldUsername.error = "Username is required"
+            }
+
+            if (binding.etEmail.text.isNullOrEmpty() || binding.etEmail.text!!.trim().isEmpty()) {
+                binding.textFieldEmail.error = "Email is required"
+            }
+
+            if (binding.etPhoneNumber.text.isNullOrEmpty() || binding.etPhoneNumber.text!!.trim()
+                    .isEmpty()
+            ) {
+                binding.textFieldPhoneNumber.error = "Phone number is required"
+            }
+
+            if (binding.etPassword.text.isNullOrEmpty() || binding.etPassword.text!!.trim()
+                    .isEmpty()
+            ) {
+                binding.textFieldPassword.error = "Password is required"
+            }
+
+            if (binding.etConfirmPassword.text.isNullOrEmpty() || binding.etConfirmPassword.text!!.trim()
+                    .isEmpty()
+            ) {
+                binding.textFieldConfirmPassword.error = "Confirm password is required"
+            }
+
+            if (binding.etPhoneNumber.text!!.length < 6) {
+                binding.textFieldPhoneNumber.error = "Enter correct phone number"
+                return@setOnClickListener
+            }
+
+            if (binding.etPassword.text!!.length < 8) {
+                binding.textFieldPassword.error = "Password must contain at least 8 characters. "
+                return@setOnClickListener
+            }
+            else {
+                if (!isValidPassword(binding.etPassword.text!!.toString())) {
+                    binding.textFieldPassword.error =
+                        "Password must contain at least one number, and one special character."
+                    return@setOnClickListener
                 }
             }
+        }
+
+
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        // Check if password is at least 8 characters long
+        if (password.length < 8) return false
+
+        // Check if password contains at least one number
+        val containsNumber = password.any { it.isDigit() }
+
+        // Check if password contains at least one special character
+        val specialCharacterRegex = Regex("[!@#$%^&*(),.?\":{}|<>]")
+        val containsSpecialChar =
+            password.any { specialCharacterRegex.containsMatchIn(it.toString()) }
+
+        return containsNumber && containsSpecialChar
     }
 }

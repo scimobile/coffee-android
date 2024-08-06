@@ -2,7 +2,7 @@
     <string name="app_name">Coffee Android</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="have_an_account_login">Already have an account?  <font color="#0000FF">Login</font></string>
-    <string name="creat_an_account">Creat an account</string>
+    <string name="create_an_account">Create an account</string>
     <string name="connect_with_friends">Connect with your friends today!</string>
     <string name="enter_your_username">Enter your username</string>
     <string name="enter_your_email">Enter your email</string>
@@ -13,4 +13,8 @@
     <string name="signup_with_facebook">Signup with Facebook</string>
     <string name="signup_with_google">Signup with Google</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
 </resources>
