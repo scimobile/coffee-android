@@ -10,4 +10,5 @@
     <string name="onboarding_third_slide_description">Order your favorite coffee in just a few taps and pick it up at your convenience.</string>
     <string name="onboarding_first_slide_button_text">Next</string>
     <string name="onboarding_third_slide_button_text">Get Started</string>
+    <string name="preference_file_key">com.sci.coffeeandroid.PREFERENCE_FILE_KEY</string>
 </resources>
