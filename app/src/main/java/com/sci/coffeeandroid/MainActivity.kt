@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         if (!sharePref.getBoolean("isOnboardingShown", false)) {
             val intent = Intent(this, OnboardingActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

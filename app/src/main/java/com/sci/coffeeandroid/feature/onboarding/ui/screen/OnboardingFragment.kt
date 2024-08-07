@@ -1,6 +1,7 @@
 package com.sci.coffeeandroid.feature.onboarding.ui.screen
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentOnboardingBinding
 import com.sci.coffeeandroid.feature.onboarding.ui.adapter.OnboardingPagerAdapter
@@ -68,6 +70,8 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
                 sharePref.edit {
                     putBoolean("isOnboardingShown",true)
                 }
+                val intent = Intent(requireActivity(), MainActivity::class.java)
+                startActivity(intent)
                 requireActivity().finish()
             }
         }
