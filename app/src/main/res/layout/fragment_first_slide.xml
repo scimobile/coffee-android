@@ -26,9 +26,8 @@
         android:layout_below="@id/tv_header_first_slide"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="3dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="-3dp"
+        android:layout_marginHorizontal="@dimen/margin_medium_x_23"
         android:src="@drawable/coffee_onboarding_first_slide" />
 
     <TextView
