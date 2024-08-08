@@ -78,6 +78,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
                 sharePref.edit {
                     putBoolean("isOnboardingShown", true)
                 }
+                
                 val intent = Intent(requireActivity(), MainActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
