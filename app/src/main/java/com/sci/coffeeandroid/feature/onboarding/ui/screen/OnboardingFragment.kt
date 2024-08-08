@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.core.content.edit
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -46,7 +47,6 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
         val adapter = OnboardingPagerAdapter(
             requireActivity()
         )
-        var index = 0
 
         binding.viewPager.adapter = adapter
         binding.dotIndicator.attachTo(viewPager2 = binding.viewPager)
@@ -55,17 +55,27 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 updateButtonText(position = position)
-                index = position
             }
         })
+
+
         updateButtonText(binding.viewPager.currentItem)
 
         binding.viewPager.setPageTransformer(ZoomOutPageTransformer())
 
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            val position = binding.viewPager.currentItem
+            if (position == 2 || position == 1) {
+                binding.viewPager.currentItem = position - 1
+            }else{
+                requireActivity().finish()
+            }
+        }
+
         binding.btnNext.setOnClickListener {
             val position = binding.viewPager.currentItem
             if (position == 0 || position == 1) {
-                binding.viewPager.currentItem = index + 1
+                binding.viewPager.currentItem = position + 1
             } else {
                 sharePref.edit {
                     putBoolean("isOnboardingShown",true)
