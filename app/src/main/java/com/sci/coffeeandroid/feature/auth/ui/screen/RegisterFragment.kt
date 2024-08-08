@@ -5,10 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isEmpty
-import com.sci.coffeeandroid.R
+import android.widget.Toast
 import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
 import com.sci.coffeeandroid.util.PhoneNumberInputFilter
+import com.sci.coffeeandroid.util.addTextChangeListener
+import com.sci.coffeeandroid.util.validateInputs
 
 
 class RegisterFragment : Fragment() {
@@ -25,76 +26,47 @@ class RegisterFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.etPhoneNumber.filters = arrayOf(PhoneNumberInputFilter())
 
+        addTextChangeListener(
+            etUsername = binding.etUsername,
+            etEmail = binding.etEmail,
+            etPhone = binding.etPhoneNumber,
+            etPassword = binding.etPassword,
+            etConfirmPassword = binding.etConfirmPassword,
+            textFieldUsername = binding.textFieldUsername,
+            textFieldEmail = binding.textFieldEmail,
+            textFieldPhoneNumber = binding.textFieldPhoneNumber,
+            textFieldPassword = binding.textFieldPassword,
+            textFieldConfirmPassword = binding.textFieldConfirmPassword
+        )
         binding.btnSignup.setOnClickListener {
 
+            val username = binding.etUsername.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val phone = binding.etPhoneNumber.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            val confirmPassword = binding.etConfirmPassword.text.toString().trim()
 
-            if (binding.etUsername.text.isNullOrEmpty() || binding.etUsername.text!!.trim()
-                    .isEmpty()
+            if (validateInputs(
+                    username,
+                    email,
+                    phone,
+                    password,
+                    confirmPassword,
+                    textFieldUserName = binding.textFieldUsername,
+                    textFieldEmail = binding.textFieldEmail,
+                    textFieldPhoneNumber = binding.textFieldPhoneNumber,
+                    textFieldPassword = binding.textFieldPassword,
+                    textFieldConfirmPassword = binding.textFieldConfirmPassword
+                )
             ) {
-                binding.textFieldUsername.error = "Username is required"
-            }
-
-            if (binding.etEmail.text.isNullOrEmpty() || binding.etEmail.text!!.trim().isEmpty()) {
-                binding.textFieldEmail.error = "Email is required"
-            }
-
-            if (binding.etPhoneNumber.text.isNullOrEmpty() || binding.etPhoneNumber.text!!.trim()
-                    .isEmpty()
-            ) {
-                binding.textFieldPhoneNumber.error = "Phone number is required"
-            }
-
-            if (binding.etPassword.text.isNullOrEmpty() || binding.etPassword.text!!.trim()
-                    .isEmpty()
-            ) {
-                binding.textFieldPassword.error = "Password is required"
-            }
-
-            if (binding.etConfirmPassword.text.isNullOrEmpty() || binding.etConfirmPassword.text!!.trim()
-                    .isEmpty()
-            ) {
-                binding.textFieldConfirmPassword.error = "Confirm password is required"
-            }
-
-            if (binding.etPhoneNumber.text!!.length < 6) {
-                binding.textFieldPhoneNumber.error = "Enter correct phone number"
-                return@setOnClickListener
-            }
-
-            if (binding.etPassword.text!!.length < 8) {
-                binding.textFieldPassword.error = "Password must contain at least 8 characters. "
-                return@setOnClickListener
-            }
-            else {
-                if (!isValidPassword(binding.etPassword.text!!.toString())) {
-                    binding.textFieldPassword.error =
-                        "Password must contain at least one number, and one special character."
-                    return@setOnClickListener
-                }
+                Toast.makeText(requireContext(), "Execute register api call", Toast.LENGTH_LONG)
+                    .show()
             }
         }
-
-
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        // Check if password is at least 8 characters long
-        if (password.length < 8) return false
-
-        // Check if password contains at least one number
-        val containsNumber = password.any { it.isDigit() }
-
-        // Check if password contains at least one special character
-        val specialCharacterRegex = Regex("[!@#$%^&*(),.?\":{}|<>]")
-        val containsSpecialChar =
-            password.any { specialCharacterRegex.containsMatchIn(it.toString()) }
-
-        return containsNumber && containsSpecialChar
     }
 }
