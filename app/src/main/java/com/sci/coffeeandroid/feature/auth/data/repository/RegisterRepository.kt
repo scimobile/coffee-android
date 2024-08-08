@@ -11,7 +11,7 @@ class RegisterRepository(
         email: String,
         phone: String,
         password: String
-    ): UserModel {
+    ): Result<UserModel> {
         return userRemoteDataSource.register(username, email, phone, password)
     }
 }

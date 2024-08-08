@@ -1,19 +1,27 @@
 package com.sci.coffeeandroid.feature.auth.ui.screen
 
+import android.content.ClipData.newIntent
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterUiState
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
 import com.sci.coffeeandroid.util.PhoneNumberInputFilter
 import com.sci.coffeeandroid.util.addTextChangeListener
+import com.sci.coffeeandroid.util.showSuccessDialog
 import com.sci.coffeeandroid.util.validateInputs
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class RegisterFragment : Fragment() {
 
+    private val viewModel: RegisterViewModel by viewModel()
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
@@ -21,9 +29,11 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
+
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,8 +74,41 @@ class RegisterFragment : Fragment() {
                     textFieldConfirmPassword = binding.textFieldConfirmPassword
                 )
             ) {
-                Toast.makeText(requireContext(), "Execute register api call", Toast.LENGTH_LONG)
+                viewModel.register(
+                    username,
+                    email,
+                    phone,
+                    password
+                )
+            }
+        }
+        viewModel.registerUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is RegisterUiState.Loading -> binding.pbRegister.visibility = View.VISIBLE
+                RegisterUiState.NewUser -> Toast.makeText(context, "New User", Toast.LENGTH_LONG)
                     .show()
+
+                RegisterUiState.Success -> {
+                    binding.pbRegister.visibility = View.GONE
+                    showSuccessDialog(
+                        context = requireContext(),
+                        message = "Successfully Registered!",
+                        title = "Success",
+                        onClick = {
+                            requireActivity()
+                                .supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, LoginFragment())
+                                .commit()
+                        }
+                    )
+
+                }
+
+
+                RegisterUiState.UserAlreadyExit -> {
+                    binding.pbRegister.visibility = View.GONE
+                }
             }
         }
     }

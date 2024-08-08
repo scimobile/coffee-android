@@ -5,33 +5,33 @@ import com.sci.coffeeandroid.feature.auth.data.model.request.RegisterRequestMode
 import com.sci.coffeeandroid.feature.auth.data.model.response.Data
 import com.sci.coffeeandroid.feature.auth.data.model.response.RegisterResponse
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
+import io.ktor.client.HttpClient
 
-class UserRemoteDataSource(
-
-) {
+class UserRemoteDataSource(private val httpClient: HttpClient) {
     suspend fun register(
         username: String,
         email: String,
         phone: String,
         password: String
-    ): UserModel {
+    ): Result<UserModel> {
         val request = RegisterRequestModel(
             username = username,
             email = email,
             phoneNumber = phone,
             password = password
         )
-
-        return RegisterResponse(
-            id = "1",
-            data = Data(
-                email = request.email,
-                phoneNumber = request.phoneNumber,
-                username = request.username
-            ),
-            status = true,
-            message = "Register Successfully"
+        return Result.success(
+             RegisterResponse(
+                id = "1",
+                data = Data(
+                    email = request.email,
+                    phoneNumber = request.phoneNumber,
+                    username = request.username
+                ),
+                status = true,
+                message = "Register Successfully"
+            )
+                .toUserModel()
         )
-            .toUserModel()
     }
 }
