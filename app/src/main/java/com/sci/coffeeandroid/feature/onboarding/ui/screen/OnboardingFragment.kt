@@ -75,7 +75,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
                 binding.viewPager.currentItem = position + 1
             } else {
                 sharePref.edit {
-                    putBoolean("isOnboardingShown", true)
+                    putBoolean(getString(R.string.is_onboarding_shown), true)
                 }
 
                 val intent = Intent(requireActivity(), MainActivity::class.java).apply {

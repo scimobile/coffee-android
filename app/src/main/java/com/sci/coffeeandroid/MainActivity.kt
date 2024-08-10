@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         enableEdgeToEdge()
 
-        if (!sharePref.getBoolean("isOnboardingShown", false)) {
+        if (!sharePref.getBoolean(getString(R.string.is_onboarding_shown), false)) {
             val intent = Intent(this, OnboardingActivity::class.java)
             startActivity(intent)
             finish()
