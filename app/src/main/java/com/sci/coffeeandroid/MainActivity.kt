@@ -1,20 +1,26 @@
 package com.sci.coffeeandroid
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.sci.coffeeandroid.feature.onboarding.ui.screen.OnboardingActivity
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    private val sharePref: SharedPreferences by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        enableEdgeToEdge()
+
+        if (!sharePref.getBoolean(getString(R.string.is_onboarding_shown), false)) {
+            val intent = Intent(this, OnboardingActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
