@@ -38,12 +38,12 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_medium_x_23"
         android:layout_marginTop="@dimen/margin_xxxxlarge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:fontFamily="@font/poppins_regular"
-        app:layout_constraintTop_toBottomOf="@id/iv_third_slide"
         android:text="@string/onboarding_third_slide_description"
         android:textColor="@color/color_onboarding_text"
-        android:textSize="@dimen/text_regular_2x" />
+        android:textSize="@dimen/text_regular_2x"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_third_slide" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

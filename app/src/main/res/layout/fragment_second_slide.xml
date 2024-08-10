@@ -24,10 +24,10 @@
         android:id="@+id/iv_second_slide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="5:4"
         android:layout_marginHorizontal="@dimen/margin_medium_x_23"
         android:layout_marginTop="@dimen/margin_medium_x_30"
         android:src="@drawable/coffee_onboarding_second_slide"
+        app:layout_constraintDimensionRatio="5:4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_header_second_slide" />
@@ -41,9 +41,9 @@
         android:fontFamily="@font/poppins_regular"
         android:text="@string/onboarding_second_slide_description"
         android:textColor="@color/color_onboarding_text"
+        android:textSize="@dimen/text_regular_2x"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_second_slide"
-        android:textSize="@dimen/text_regular_2x" />
+        app:layout_constraintTop_toBottomOf="@id/iv_second_slide" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

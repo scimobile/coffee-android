@@ -1,6 +1,5 @@
 package com.sci.coffeeandroid.feature.onboarding.ui.screen
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -78,10 +77,11 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
                 sharePref.edit {
                     putBoolean("isOnboardingShown", true)
                 }
-                
-                val intent = Intent(requireActivity(), MainActivity::class.java)
+
+                val intent = Intent(requireActivity(), MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
                 startActivity(intent)
-                requireActivity().finish()
             }
         }
     }
