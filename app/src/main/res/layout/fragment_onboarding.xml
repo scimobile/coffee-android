@@ -9,21 +9,21 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
         android:id="@+id/dot_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xxxlarge"
         app:dampingRatio="0.5"
         app:dotsColor="@color/color_coffee_brown"
         app:dotsCornerRadius="8dp"
         app:dotsSize="12dp"
-        android:layout_marginTop="@dimen/margin_xxxlarge"
         app:dotsSpacing="6dp"
         app:dotsStrokeColor="@color/color_icon_inactive"
         app:layout_constraintEnd_toEndOf="@id/view_pager"
@@ -38,11 +38,11 @@
         android:layout_marginHorizontal="@dimen/margin_medium_x_30"
         android:layout_marginBottom="@dimen/margin_medium_x_23"
         android:backgroundTint="@color/color_coffee_brown"
-        tools:text="@string/onboarding_first_slide_button_text"
         android:fontFamily="@font/poppins_regular"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/onboarding_first_slide_button_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
