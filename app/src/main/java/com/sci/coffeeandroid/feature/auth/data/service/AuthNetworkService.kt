@@ -1,6 +1,7 @@
 package com.sci.coffeeandroid.feature.auth.data.service
 
 import com.sci.coffeeandroid.feature.auth.data.model.response.LoginResponseModel
+import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.RegisterResponse
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 import io.ktor.client.HttpClient
@@ -17,4 +18,9 @@ interface AuthNetworkService {
         username: String,
         password: String
     ): Result<LoginResponseModel>
+
+    suspend fun resetPassword(
+        email: String,
+        newPassword: String
+    ): Result<PasswordResetResponse>
 }

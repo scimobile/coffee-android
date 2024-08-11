@@ -3,6 +3,7 @@ package com.sci.coffeeandroid.feature.auth.data.repository
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthLocalDataSource
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSource
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSourceImpl
+import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 
 class AuthRepositoryImpl(
@@ -28,6 +29,13 @@ class AuthRepositoryImpl(
                    token = it.accessToken
                )
            }
+    }
+
+    override suspend fun resetPassword(
+        email: String,
+        newPassword: String
+    ): Result<PasswordResetResponse> {
+        return authRemoteDataSource.resetPassword(email,newPassword)
     }
 
     override fun isUserLoggedIn() = authLocalDataSource.isUserLoggedIn()

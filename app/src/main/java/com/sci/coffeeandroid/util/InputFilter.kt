@@ -104,6 +104,22 @@ fun addTextChangeListener(
     }
 }
 
+fun addTextChangesListener(
+    etPassword: EditText,
+    etConfirmPassword: EditText,
+    textFieldPassword : TextInputLayout,
+    textFieldConfirmPassword : TextInputLayout
+) {
+
+    etConfirmPassword.doAfterTextChanged {
+        textFieldConfirmPassword.error = null
+    }
+
+    etPassword.doAfterTextChanged {
+        textFieldPassword.error = null
+    }
+}
+
 fun addTextChangeListener(
     etEmail: EditText,
     etPassword: EditText,

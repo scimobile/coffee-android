@@ -1,4 +1,5 @@
 package com.sci.coffeeandroid.feature.auth.data.datasource
+import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 
 interface AuthRemoteDataSource {
@@ -13,4 +14,9 @@ interface AuthRemoteDataSource {
         username: String,
         password: String
     ): Result<UserModel>
+
+    suspend fun resetPassword(
+        email: String,
+        newPassword: String
+    ): Result<PasswordResetResponse>
 }

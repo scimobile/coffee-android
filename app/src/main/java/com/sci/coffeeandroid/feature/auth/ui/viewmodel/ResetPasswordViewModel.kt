@@ -9,34 +9,28 @@ import com.sci.coffeeandroid.util.ApiException
 import com.sci.coffeeandroid.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
-class LoginViewModel(
+class ResetPasswordViewModel(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _uiState: MutableLiveData<LoginUiState> = MutableLiveData()
-    val uiState: LiveData<LoginUiState> = _uiState
+    private val _uiState: MutableLiveData<ResetPasswordUiState> = MutableLiveData()
+    val uiState: LiveData<ResetPasswordUiState> = _uiState
 
-    private val _uiEvent: SingleLiveEvent<LoginViewModelEvent> = SingleLiveEvent()
-    val uiEvent: LiveData<LoginViewModelEvent> = _uiEvent
+    private val _uiEvent: SingleLiveEvent<ResetPasswordViewModelEvent> = SingleLiveEvent()
+    val uiEvent: LiveData<ResetPasswordViewModelEvent> = _uiEvent
 
-    init {
-        if (authRepository.isUserLoggedIn()) {
-//            _uiEvent.value = LoginViewModelEvent.UserAlreadyLoggedIn
-        }
-    }
+    fun resetPassword(email: String, newPassword: String) {
 
-    fun login(userName: String, password: String) {
-
-        _uiState.value = LoginUiState.Loading
+        _uiState.value = ResetPasswordUiState.Loading
         viewModelScope.launch {
             authRepository
-                .login(
-                    username = userName,
-                    password = password
+                .resetPassword(
+                    email = email,
+                    newPassword = newPassword
                 )
                 .fold(
                     onSuccess = {
-                        _uiState.value = LoginUiState.LoginSuccess
+                        _uiState.value = ResetPasswordUiState.ResetSuccess
                     },
 
                     onFailure = { error ->
@@ -45,7 +39,7 @@ class LoginViewModel(
 
                             else -> {
                                 _uiEvent.value =
-                                    LoginViewModelEvent.Error(
+                                    ResetPasswordViewModelEvent.Error(
                                         error.message ?: "Something went wrong"
                                     )
                             }
@@ -55,14 +49,15 @@ class LoginViewModel(
         }
 
     }
+
     private fun handleApiException(apiException: ApiException) {
         when (apiException.code) {
             404 -> {
-                _uiState.value = LoginUiState.NewUser
+                _uiState.value = ResetPasswordUiState.NewUser
             }
 
             else -> {
-                _uiEvent.value = LoginViewModelEvent
+                _uiEvent.value = ResetPasswordViewModelEvent
                     .Error(apiException.message ?: "Something went wrong")
             }
         }
@@ -71,20 +66,12 @@ class LoginViewModel(
 
 }
 
-sealed class LoginUiState {
-    data object Idle : LoginUiState()
-
-    data object Loading : LoginUiState()
-
-    data object LoginSuccess : LoginUiState()
-
-    data object NewUser : LoginUiState()
-
-    data object UserAlreadyLoggedIn : LoginUiState()
-
+sealed class ResetPasswordUiState {
+    data object Loading : ResetPasswordUiState()
+    data object NewUser : ResetPasswordUiState()
+    data object ResetSuccess : ResetPasswordUiState()
 }
 
-sealed class LoginViewModelEvent {
-
-    data class Error(val error: String) : LoginViewModelEvent()
+sealed class ResetPasswordViewModelEvent {
+    data class Error(val error: String) : ResetPasswordViewModelEvent()
 }

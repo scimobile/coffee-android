@@ -10,65 +10,67 @@ import android.widget.Toast
 import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentLoginBinding
+import com.sci.coffeeandroid.databinding.FragmentResetPasswordBinding
 import com.sci.coffeeandroid.feature.auth.ui.screen.HomeActivity
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordUiState
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModel
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModelEvent
 import com.sci.coffeeandroid.util.addTextChangeListener
+import com.sci.coffeeandroid.util.addTextChangesListener
 import com.sci.coffeeandroid.util.validateInputs
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : Fragment() {
+class ResetPasswordFragment : Fragment() {
 
-    private val viewModel: LoginViewModel by viewModel()
-    private var _binding: FragmentLoginBinding? = null
+    private val viewModel: ResetPasswordViewModel by viewModel()
+    private var _binding: FragmentResetPasswordBinding? = null
     private val binding get() = _binding!!
-
+    private var email:String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentResetPasswordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     companion object {
-        fun newInstance(): LoginFragment = LoginFragment()
+
+        fun newInstance(param1: String, param2: String) =
+            ResetPasswordFragment().apply {
+                arguments = Bundle().apply {
+                    putString("email", param1)
+                }
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        addTextChangeListener(
-            etEmail = binding.etLoginEmail,
-            etPassword = binding.etLoginPassword,
-            textFieldEmail = binding.emailTextLayout,
-            textFieldPassword = binding.passwordTextLayout,
+        addTextChangesListener(
+            etConfirmPassword = binding.edtConfirmPassword,
+            etPassword = binding.edtPassword,
+            textFieldPassword = binding.textPasswordLayout,
+            textFieldConfirmPassword = binding.textConfirmLayout,
         )
-        binding.tvSignup.setOnClickListener {
-            val email = binding.etLoginEmail.text.toString().trim()
-            val password = binding.etLoginPassword.text.toString().trim()
+        binding.btnResetPassword.setOnClickListener {
+            val password = binding.edtPassword.text.toString().trim()
+            val newPassword = binding.edtConfirmPassword.text.toString().trim()
 
             if (validateInputs(
                     email,
                     password,
-                    textFieldEmail = binding.emailTextLayout,
-                    textFieldPassword = binding.passwordTextLayout,
+                    textFieldEmail = binding.textPasswordLayout,
+                    textFieldPassword = binding.textConfirmLayout,
                 )
             ) {
-                viewModel.login(
-                    userName = email,
-                    password = password
+                viewModel.resetPassword(
+                    email = email,
+                    newPassword = password
                 )
             }
-        }
-
-        binding.tvSignup.setOnClickListener {
-            replaceFragment(RegisterFragment.newInstance())
-        }
-
-        binding.tvForgetPassword.setOnClickListener {
-
         }
 
         observerUiState()
@@ -79,7 +81,7 @@ class LoginFragment : Fragment() {
     private fun observeViewModelEvent() {
         viewModel.uiEvent.observe(viewLifecycleOwner) {
             when (it) {
-                is LoginViewModelEvent.Error -> {
+                is ResetPasswordViewModelEvent.Error -> {
                     Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -90,26 +92,18 @@ class LoginFragment : Fragment() {
     private fun observerUiState() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
-                LoginUiState.Loading -> {}
+                ResetPasswordUiState.Loading -> {}
 
-                LoginUiState.Idle -> {
-
-                }
-                LoginUiState.LoginSuccess -> {
+                ResetPasswordUiState.ResetSuccess -> {
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
                 }
 
-                LoginUiState.NewUser -> {
+                ResetPasswordUiState.NewUser -> {
                     Toast.makeText(context, "new user", Toast.LENGTH_SHORT)
                         .show()
                 }
 
-                LoginUiState.UserAlreadyLoggedIn -> {
-                    HomeActivity.newInstance(requireActivity()).also { intent ->
-                        startActivity(intent)
-                    }
-                }
             }
         }
     }

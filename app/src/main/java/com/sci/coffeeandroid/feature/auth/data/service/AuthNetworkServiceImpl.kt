@@ -6,6 +6,7 @@ import com.sci.coffeeandroid.feature.auth.data.model.request.LoginRequestModel
 import com.sci.coffeeandroid.feature.auth.data.model.request.RegisterRequestModel
 import com.sci.coffeeandroid.feature.auth.data.model.response.Data
 import com.sci.coffeeandroid.feature.auth.data.model.response.LoginResponseModel
+import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.RegisterResponse
 import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepository
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
@@ -58,4 +59,16 @@ class AuthNetworkServiceImpl(httpClient: HttpClient): AuthNetworkService {
            )
        )
    }
+
+    override suspend fun resetPassword(
+        email: String,
+        newPassword: String
+    ): Result<PasswordResetResponse> {
+        return Result.success(
+            PasswordResetResponse(
+                status = true,
+                message = "Successfully reset password"
+            )
+        )
+    }
 }
