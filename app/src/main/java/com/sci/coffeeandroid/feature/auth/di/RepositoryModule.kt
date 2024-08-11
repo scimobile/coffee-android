@@ -1,12 +1,14 @@
 package com.sci.coffeeandroid.feature.auth.di
 
-import com.sci.coffeeandroid.feature.auth.data.repository.RegisterRepository
+import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepository
+import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepositoryImpl
 import org.koin.dsl.module
 
-val registerRepositoryModule = module {
-    single {
-        RegisterRepository(
-            get()
+val repositoryModule = module {
+    single<AuthRepository> {
+        AuthRepositoryImpl(
+            authLocalDataSource =  get(),
+            authRemoteDataSource =  get()
         )
     }
 }

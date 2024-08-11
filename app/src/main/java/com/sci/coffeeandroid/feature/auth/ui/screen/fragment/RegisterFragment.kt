@@ -1,7 +1,5 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen
+package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
-import android.content.ClipData.newIntent
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModelEvent
 import com.sci.coffeeandroid.util.PhoneNumberInputFilter
 import com.sci.coffeeandroid.util.addTextChangeListener
 import com.sci.coffeeandroid.util.showSuccessDialog
@@ -34,6 +34,10 @@ class RegisterFragment : Fragment() {
         return binding.root
 
 
+    }
+
+    companion object {
+        fun newInstance(): RegisterFragment = RegisterFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,6 +86,16 @@ class RegisterFragment : Fragment() {
                 )
             }
         }
+        binding.tvLogin.setOnClickListener {
+            replaceFragment(LoginFragment.newInstance())
+        }
+
+        observerUiState()
+        observeViewModelEvent()
+
+    }
+
+    private fun observerUiState() {
         viewModel.registerUiState.observe(viewLifecycleOwner) {
             when (it) {
                 is RegisterUiState.Loading -> binding.pbRegister.visibility = View.VISIBLE
@@ -111,5 +125,24 @@ class RegisterFragment : Fragment() {
                 }
             }
         }
+
+    }
+
+    private fun observeViewModelEvent() {
+        viewModel.registerUiEvent.observe(viewLifecycleOwner) {
+            when (it) {
+                is RegisterViewModelEvent.Error -> {
+                    Toast.makeText(context, it.error, Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        requireActivity().supportFragmentManager.
+        beginTransaction().
+        replace(R.id.fragment_container,fragment, fragment.javaClass.name).
+        commit()
     }
 }

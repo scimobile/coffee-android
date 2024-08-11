@@ -104,6 +104,21 @@ fun addTextChangeListener(
     }
 }
 
+fun addTextChangeListener(
+    etEmail: EditText,
+    etPassword: EditText,
+    textFieldEmail : TextInputLayout,
+    textFieldPassword : TextInputLayout,
+) {
+    etPassword.doAfterTextChanged {
+        textFieldPassword.error = null
+    }
+
+    etEmail.doAfterTextChanged {
+        textFieldEmail.error = null
+    }
+    }
+
  fun validateInputs(
     username: String,
     email: String,
@@ -143,6 +158,29 @@ fun addTextChangeListener(
 
     if (confirmPassword.isEmpty() || confirmPassword != password) {
         textFieldConfirmPassword.error = "Passwords do not match"
+        isAllValidate = false
+    }
+
+    return isAllValidate
+}
+
+fun validateInputs(
+    email: String,
+    password: String,
+    textFieldEmail : TextInputLayout,
+    textFieldPassword : TextInputLayout,
+): Boolean {
+
+    var isAllValidate = true
+
+    if (email.isEmpty()) {
+        textFieldEmail.error = "Enter email"
+        isAllValidate = false
+    }
+
+    if (password.isEmpty() || password.length < 8) {
+        textFieldPassword.error =
+            "Enter password"
         isAllValidate = false
     }
 

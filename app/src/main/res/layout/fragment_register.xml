@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".feature.auth.ui.screen.RegisterFragment">
+    tools:context=".feature.auth.ui.screen.fragment.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        >
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_guide_line"
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_2"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/username"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -89,7 +89,7 @@
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/email"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -122,7 +122,7 @@
             android:id="@+id/tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/phone_number"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -156,7 +156,7 @@
             android:id="@+id/tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/password"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -190,7 +190,7 @@
             android:id="@+id/tv_confirm_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/confirm_password"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -224,9 +224,9 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_signup"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_medium_x_25"
+            android:layout_marginTop="@dimen/margin_medium_3"
             android:background="@drawable/button_shape"
             android:paddingHorizontal="@dimen/margin_medium"
             android:text="@string/sign_up"
@@ -239,13 +239,13 @@
 
         <View
             android:id="@+id/view1"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/margin_xxlarge"
             android:background="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/tv"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/btn_signup" />
 
         <TextView
@@ -253,6 +253,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/or_with"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_regular_2xx"
+            android:paddingHorizontal="@dimen/margin_card_medium"
             app:layout_constraintBottom_toBottomOf="@id/view1"
             app:layout_constraintEnd_toStartOf="@+id/view2"
             app:layout_constraintHorizontal_bias="0.5"
@@ -261,10 +264,10 @@
 
         <View
             android:id="@+id/view2"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tv"
             app:layout_constraintTop_toTopOf="@id/view1" />
@@ -273,8 +276,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_facebook"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="@dimen/margin_medium_x_25"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xxlarge"
             android:backgroundTint="#1877F2"
             android:insetTop="0dp"
             android:insetBottom="0dp"
@@ -291,7 +294,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_google"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_3"
             android:background="@drawable/edit_text_shape"
             android:drawableLeft="@drawable/ic_google"
@@ -309,9 +312,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_3"
             android:layout_marginBottom="@dimen/margin_large"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/text_regular_2x"
             android:text="@string/have_an_account_login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+            app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/btn_google" />
 
         <ProgressBar

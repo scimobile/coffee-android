@@ -35,6 +35,7 @@
     <dimen name="text_small">12sp</dimen>
     <dimen name="text_regular">14sp</dimen>
     <dimen name="text_regular_2x">16sp</dimen>
+    <dimen name="text_regular_2xx">18sp</dimen>
     <dimen name="text_regular_3x">20sp</dimen>
     <dimen name="text_heading_1x">24sp</dimen>
     <dimen name="text_heading_2x">32sp</dimen>
@@ -42,4 +43,5 @@
     <dimen name="text_big">40sp</dimen>
     <dimen name="text_big_2x">60sp</dimen>
     <dimen name="text_big_3x">80sp</dimen>
+    <dimen name="h_48dp">48dp</dimen>
 </resources>

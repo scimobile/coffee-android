@@ -5,7 +5,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.sci.coffeeandroid.R
+import com.sci.coffeeandroid.feature.auth.ui.screen.fragment.LoginFragment
+import com.sci.coffeeandroid.feature.auth.ui.screen.fragment.RegisterFragment
 
 class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,13 +22,14 @@ class AuthActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            // Create a new fragment instance
-            val fragment = RegisterFragment()
-
-            // Add the fragment to the activity
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment)
-                .commit()
+            val fragment = LoginFragment()
+            replaceFragment(fragment)
         }
+    }
+    private fun replaceFragment(fragment: Fragment){
+        supportFragmentManager.
+        beginTransaction().
+        replace(R.id.fragment_container,fragment, fragment.javaClass.name).
+        commit()
     }
 }

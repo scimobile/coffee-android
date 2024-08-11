@@ -4,5 +4,5 @@ data class UserModel(
     val email: String,
     val phoneNumber : String,
     val username: String,
-
+    val accessToken:String
 )
