@@ -72,13 +72,13 @@ class RegisterViewModel(
         }
     }
 
-    val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+    private val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
         .setFilterByAuthorizedAccounts(true)
         .setAutoSelectEnabled(true)
         .setNonce("")
         .build()
 
-    val request: GetCredentialRequest = GetCredentialRequest.Builder()
+    private val request: GetCredentialRequest = GetCredentialRequest.Builder()
         .addCredentialOption(googleIdOption)
         .build()
 

@@ -96,9 +96,9 @@ class LoginFragment : Fragment() {
 
         binding.btnLoginGoogle.setOnClickListener {
             viewModel.getCredential(requireContext())
-            HomeActivity.newInstance(requireActivity()).also { intent ->
-                startActivity(intent)
-            }
+//            HomeActivity.newInstance(requireActivity()).also { intent ->
+//                startActivity(intent)
+//            }
         }
 
         binding.btnLogin.setOnClickListener {

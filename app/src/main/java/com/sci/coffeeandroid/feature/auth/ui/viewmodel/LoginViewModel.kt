@@ -94,6 +94,7 @@ class LoginViewModel(
                 // Share responseJson such as a GetCredentialResponse on your server to
                 // validate and authenticate
                 val responseJson = credential.authenticationResponseJson
+                Log.d("HNA", "PublishKeyCredential: $responseJson")
             }
 
             // Password credential
@@ -101,6 +102,7 @@ class LoginViewModel(
                 // Send ID and password to your server to validate and authenticate.
                 val username = credential.id
                 val password = credential.password
+                Log.d("HNA", "PasswordCredential: $username, $password")
             }
 
             // GoogleIdToken credential
@@ -111,6 +113,7 @@ class LoginViewModel(
                             .createFrom(credential.data)
                         // Send ID token to your server to validate and authenticate.
                         googleIdTokenCredential.idToken
+                        Log.d("HNA", "GoogleIdTokenCredential: ${googleIdTokenCredential.idToken}")
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e("HNA", "Received an invalid google id token response", e)
                     }
@@ -119,7 +122,7 @@ class LoginViewModel(
                     Log.e("HNA", "Unexpected type of credential")
                 }
             }
-
+            
             else -> {
                 // Catch any unrecognized credential type here.
                 Log.e("HNA", "Unexpected type of credential")
