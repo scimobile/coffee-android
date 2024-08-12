@@ -9,6 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.FacebookSdk
+import com.facebook.GraphRequest
+import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
@@ -20,17 +27,21 @@ import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModelEvent
 import com.sci.coffeeandroid.util.addTextChangeListener
 import com.sci.coffeeandroid.util.validateInputs
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 class LoginFragment : Fragment() {
 
     private val viewModel: LoginViewModel by viewModel()
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var callbackManager: CallbackManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        FacebookSdk.sdkInitialize(applicationContext = requireActivity())
+
+        AppEventsLogger.activateApp(requireActivity().application)
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,6 +52,40 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callbackManager = CallbackManager.Factory.create()
+
+        binding.btnLoginFacebook.setPermissions("email", "public_profile")
+        binding.btnLoginFacebook.registerCallback(callbackManager, object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult)
+            {
+                // Handle successful login
+                val accessToken = result.accessToken
+                // Use accessToken to access user data or make API calls
+                // For example, to get user profile:
+                val request = GraphRequest.newMeRequest(
+                    result.accessToken
+                ) { _, graphResponse ->
+                    if (graphResponse != null) {
+                        val user = graphResponse.jsonObject
+                        // Access user data here
+                    }
+                }
+                val parameters = Bundle()
+                parameters.putString("fields", "id, name, email, picture.type(large)")
+                request.parameters = parameters
+                request.executeAsync()
+            }
+
+            override fun onCancel()
+            {
+                // Handle cancel
+            }
+
+            override fun onError(error: FacebookException) {
+                // Handle error
+            }
+        })
 
         addTextChangeListener(
             etEmail = binding.etLoginEmail,
@@ -86,7 +131,12 @@ class LoginFragment : Fragment() {
         observeViewModelEvent()
 
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode,
+        resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
 
+    }
     private fun observeViewModelEvent() {
         viewModel.uiEvent.observe(viewLifecycleOwner) {
             when (it) {

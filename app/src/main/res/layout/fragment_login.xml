@@ -172,22 +172,16 @@
             app:layout_constraintTop_toTopOf="@id/view1" />
 
 
-        <com.google.android.material.button.MaterialButton
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/btn_login_facebook"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xxlarge"
-            android:backgroundTint="#1877F2"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingHorizontal="@dimen/margin_medium"
             android:text="@string/login_with_facebook"
-            android:textColor="@color/white"
-            app:icon="@drawable/ic_facebook"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/view1"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
+            />
 
 
         <androidx.appcompat.widget.AppCompatButton
