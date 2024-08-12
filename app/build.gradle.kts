@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jetbrains.kotlin.plugin.serialization") version ("1.9.22")
+
 }
 
 android {
@@ -59,11 +60,9 @@ dependencies {
     implementation(libs.mmkv.android)
     implementation(libs.kotlinx.serialization)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation(libs.kotlinx.coroutines.android.v139)
 
-    implementation("androidx.credentials:credentials:1.2.2")
+    implementation(libs.androidx.credentials)
+    implementation (libs.googleid.v122)
 
-    // optional - needed for credentials support from play services, for devices running
-    // Android 13 and below.
-    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
 }

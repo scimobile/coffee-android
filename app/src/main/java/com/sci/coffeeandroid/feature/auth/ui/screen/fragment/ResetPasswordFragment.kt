@@ -1,34 +1,30 @@
 package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.sci.coffeeandroid.MainActivity
+import androidx.fragment.app.Fragment
 import com.sci.coffeeandroid.R
-import com.sci.coffeeandroid.databinding.FragmentLoginBinding
 import com.sci.coffeeandroid.databinding.FragmentResetPasswordBinding
-import com.sci.coffeeandroid.feature.auth.ui.screen.HomeActivity
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginUiState
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModelEvent
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModelEvent
-import com.sci.coffeeandroid.util.addTextChangeListener
 import com.sci.coffeeandroid.util.addTextChangesListener
+import com.sci.coffeeandroid.util.isMatchPassword
 import com.sci.coffeeandroid.util.validateInputs
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ResetPasswordFragment : Fragment() {
 
+    private val KEY = "email"
     private val viewModel: ResetPasswordViewModel by viewModel()
     private var _binding: FragmentResetPasswordBinding? = null
     private val binding get() = _binding!!
-    private var email:String = ""
+    private var email:String? = ""
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,16 +35,24 @@ class ResetPasswordFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(email: String) =
             ResetPasswordFragment().apply {
                 arguments = Bundle().apply {
-                    putString("email", param1)
+                    putString(KEY, email)
                 }
             }
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (arguments != null) {
+             email = requireArguments().getString(KEY)
+            // Use the value as needed
+        }
+
         addTextChangesListener(
             etConfirmPassword = binding.edtConfirmPassword,
             etPassword = binding.edtPassword,
@@ -59,18 +63,19 @@ class ResetPasswordFragment : Fragment() {
             val password = binding.edtPassword.text.toString().trim()
             val newPassword = binding.edtConfirmPassword.text.toString().trim()
 
-            if (validateInputs(
-                    email,
+            if (isMatchPassword(
                     password,
-                    textFieldEmail = binding.textPasswordLayout,
-                    textFieldPassword = binding.textConfirmLayout,
+                    newPassword,
+                    texFieldPassword = binding.textPasswordLayout,
+                    texFieldNewPassword = binding.textConfirmLayout,
                 )
             ) {
                 viewModel.resetPassword(
-                    email = email,
+                    email = email!!,
                     newPassword = password
                 )
             }
+
         }
 
         observerUiState()
@@ -95,8 +100,9 @@ class ResetPasswordFragment : Fragment() {
                 ResetPasswordUiState.Loading -> {}
 
                 ResetPasswordUiState.ResetSuccess -> {
-                    val intent = Intent(context, MainActivity::class.java)
-                    startActivity(intent)
+                    Toast.makeText(context, "Password reset success", Toast.LENGTH_SHORT)
+                        .show()
+                    replaceFragment(LoginFragment.newInstance())
                 }
 
                 ResetPasswordUiState.NewUser -> {

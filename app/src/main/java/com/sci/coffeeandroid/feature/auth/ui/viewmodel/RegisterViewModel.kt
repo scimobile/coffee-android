@@ -33,8 +33,7 @@ class RegisterViewModel(
     val registerUiEvent: LiveData<RegisterViewModelEvent> = _registerUiEvent
 
 
-
-     fun register(
+    fun register(
         username: String,
         email: String,
         phone: String,
@@ -49,19 +48,15 @@ class RegisterViewModel(
                         _registerUiState.value = RegisterUiState.Success
                     },
                     onFailure = { error ->
-                        when(error) {
+                        when (error) {
                             is ApiException -> handleApiException(error)
                             else -> _registerUiEvent.value = RegisterViewModelEvent.Error(
                                 error.message ?: "Something went wrong"
                             )
                         }
-
                     }
                 )
-
         }
-
-
     }
 
     private fun handleApiException(apiException: ApiException) {
@@ -102,11 +97,13 @@ class RegisterViewModel(
             }
         }
     }
-    private fun handleFailure(e: GetCredentialException){
+
+    private fun handleFailure(e: GetCredentialException) {
         _registerUiEvent.value = RegisterViewModelEvent.Error(
             error = e.message.orEmpty()
         )
     }
+
     private fun handleSignIn(result: GetCredentialResponse) {
         // Handle the successfully returned credential.
         when (val credential = result.credential) {

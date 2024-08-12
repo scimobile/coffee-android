@@ -1,7 +1,9 @@
 package com.sci.coffeeandroid.feature.auth.di
 
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
+import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -13,6 +15,16 @@ val viewModelModule = module {
     }
     viewModel {
         LoginViewModel(
+           authRepository =  get()
+        )
+    }
+    viewModel {
+        ResetPasswordViewModel(
+           authRepository =  get()
+        )
+    }
+    viewModel {
+        ForgotPasswordViewModel(
            authRepository =  get()
         )
     }

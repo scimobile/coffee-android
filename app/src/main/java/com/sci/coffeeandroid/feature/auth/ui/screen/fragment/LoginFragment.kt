@@ -1,12 +1,15 @@
 package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
 import android.content.Intent
+import android.credentials.CredentialManager
+import android.credentials.GetCredentialRequest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentLoginBinding
@@ -45,7 +48,15 @@ class LoginFragment : Fragment() {
             textFieldEmail = binding.emailTextLayout,
             textFieldPassword = binding.passwordTextLayout,
         )
-        binding.tvSignup.setOnClickListener {
+
+        binding.btnLoginGoogle.setOnClickListener {
+            viewModel.getCredential(requireContext())
+            HomeActivity.newInstance(requireActivity()).also { intent ->
+                startActivity(intent)
+            }
+        }
+
+        binding.btnLogin.setOnClickListener {
             val email = binding.etLoginEmail.text.toString().trim()
             val password = binding.etLoginPassword.text.toString().trim()
 
@@ -68,7 +79,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.tvForgetPassword.setOnClickListener {
-
+            replaceFragment(ForgotPasswordFragment.newInstance())
         }
 
         observerUiState()

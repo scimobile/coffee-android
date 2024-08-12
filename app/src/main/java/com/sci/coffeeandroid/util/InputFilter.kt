@@ -194,7 +194,7 @@ fun validateInputs(
         isAllValidate = false
     }
 
-    if (password.isEmpty() || password.length < 8) {
+    if (password.isEmpty()) {
         textFieldPassword.error =
             "Enter password"
         isAllValidate = false
@@ -202,4 +202,37 @@ fun validateInputs(
 
     return isAllValidate
 }
+
+fun isMatchPassword(
+    password: String,
+    newPassword: String,
+    texFieldPassword : TextInputLayout,
+    texFieldNewPassword : TextInputLayout,
+): Boolean {
+
+    var isAllValidate = true
+
+    if (password.isEmpty() ) {
+        texFieldPassword.error = "Enter email"
+        isAllValidate = false
+    }
+    if (!isValidPassword(password)){
+        texFieldPassword.error =
+            "Password must be at least 8 characters and contain a number and a special character"
+        isAllValidate = false
+    }
+    if(newPassword.isEmpty()){
+        texFieldNewPassword.error = "Enter new password"
+        isAllValidate = false
+    }
+    if(password != newPassword){
+        texFieldNewPassword.error = "Passwords do not match"
+        isAllValidate = false
+    }
+
+
+    return isAllValidate
+}
+
+
 

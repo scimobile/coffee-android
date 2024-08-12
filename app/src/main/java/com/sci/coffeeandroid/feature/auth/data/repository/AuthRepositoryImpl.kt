@@ -3,6 +3,7 @@ package com.sci.coffeeandroid.feature.auth.data.repository
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthLocalDataSource
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSource
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSourceImpl
+import com.sci.coffeeandroid.feature.auth.data.model.response.OTPResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 
@@ -43,5 +44,9 @@ class AuthRepositoryImpl(
 
     override fun removeAccessToken() {
         authLocalDataSource.removeAccessToken()
+    }
+
+    override suspend fun getOTP(email: String): Result<OTPResponse> {
+        return authRemoteDataSource.getOTP(email)
     }
 }

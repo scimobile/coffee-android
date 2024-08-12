@@ -1,5 +1,6 @@
 package com.sci.coffeeandroid.feature.auth.data.repository
 
+import com.sci.coffeeandroid.feature.auth.data.model.response.OTPResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 
@@ -19,5 +20,7 @@ interface AuthRepository {
     fun isUserLoggedIn(): Boolean
 
     fun removeAccessToken()
+
+    suspend fun getOTP(email: String): Result<OTPResponse>
 
 }
