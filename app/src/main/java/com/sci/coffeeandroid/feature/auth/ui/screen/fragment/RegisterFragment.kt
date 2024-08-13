@@ -1,14 +1,23 @@
 package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.FacebookSdk
+import com.facebook.GraphRequest
+import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginResult
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
+import com.sci.coffeeandroid.feature.CoffeeApplication
+import com.sci.coffeeandroid.feature.auth.ui.screen.HomeActivity
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModelEvent
@@ -25,10 +34,16 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
+    private var callbackManager: CallbackManager? = null
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        FacebookSdk.sdkInitialize(applicationContext = requireActivity())
+        AppEventsLogger.activateApp(requireActivity().application)
 
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
@@ -44,6 +59,47 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.etPhoneNumber.filters = arrayOf(PhoneNumberInputFilter())
+        callbackManager = CallbackManager.Factory.create()
+
+
+        binding.btnFacebook.setPermissions("email", "public_profile")
+        binding.btnFacebook.registerCallback(callbackManager!!, object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                // Handle successful login
+                val accessToken = result.accessToken
+                Toast.makeText(context, "Successfully Login", Toast.LENGTH_SHORT).show()
+                HomeActivity.newInstance(requireActivity()).also { intent ->
+                    startActivity(intent)
+                }
+
+                // Use accessToken to access user data or make API calls
+                // For example, to get user profile:
+                val request = GraphRequest.newMeRequest(
+                    result.accessToken
+                )
+
+
+                { _, graphResponse ->
+                    if (graphResponse != null) {
+                        val user = graphResponse.jsonObject
+                        // Access user data here
+                    }
+                }
+                val parameters = Bundle()
+                parameters.putString("fields", "id, name, email, picture.type(large)")
+                request.parameters = parameters
+                request.executeAsync()
+            }
+
+            override fun onCancel() {
+                // Handle cancel
+            }
+
+            override fun onError(error: FacebookException) {
+                // Handle error
+            }
+        })
 
         addTextChangeListener(
             etUsername = binding.etUsername,
@@ -89,6 +145,15 @@ class RegisterFragment : Fragment() {
         binding.tvLogin.setOnClickListener {
             replaceFragment(LoginFragment.newInstance())
         }
+        binding.btnGoogle.setOnClickListener {
+            viewModel.getCredential(requireContext())
+        }
+
+//        binding.btnFacebook.setOnClickListener {
+//            viewModel.loginWithFacebook(callbackManager,requireActivity())
+//        }
+
+
 
         observerUiState()
         observeViewModelEvent()
@@ -125,6 +190,15 @@ class RegisterFragment : Fragment() {
                 }
             }
         }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager!!.onActivityResult(
+            requestCode,
+            resultCode, data
+        )
+        super.onActivityResult(requestCode, resultCode, data)
 
     }
 

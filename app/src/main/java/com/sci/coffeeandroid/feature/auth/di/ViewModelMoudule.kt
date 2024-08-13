@@ -1,5 +1,6 @@
 package com.sci.coffeeandroid.feature.auth.di
 
+import com.facebook.CallbackManager
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
@@ -28,4 +29,5 @@ val viewModelModule = module {
            authRepository =  get()
         )
     }
+
 }
