@@ -1,6 +1,7 @@
 [versions]
 agp = "8.5.1"
 credentials = "1.2.2"
+facebookAndroidSdk = "17.0.1"
 googleidVersion = "1.1.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -23,6 +24,8 @@ googleid = "1.1.1"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
+facebook-android-sdk = { module = "com.facebook.android:facebook-android-sdk", version.ref = "facebookAndroidSdk" }
 googleid-v122 = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleidVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
