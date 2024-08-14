@@ -171,43 +171,43 @@
             app:layout_constraintStart_toEndOf="@+id/tv"
             app:layout_constraintTop_toTopOf="@id/view1" />
 
-        <FrameLayout
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login_facebook"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="@dimen/margin_xxlarge"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:insetBottom="1dp"
+            android:insetLeft="1dp"
+            android:insetRight="1dp"
+            android:insetTop="1dp"
+            android:drawableLeft="@drawable/ic_facebook"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:backgroundTint="@color/blue_color"
+            android:layout_marginTop="@dimen/margin_medium_3"
             app:layout_constraintTop_toBottomOf="@id/view1"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
-            android:background="@drawable/facebook_button_shape"
-            android:id="@+id/fl_login_button">
-
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/btn_login_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:text="@string/login_with_facebook"
              />
 
-        </FrameLayout>
 
 
 
-        <androidx.appcompat.widget.AppCompatButton
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login_google"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_3"
             android:background="@drawable/edit_text_shape"
             android:drawableLeft="@drawable/ic_google"
-            android:paddingHorizontal="@dimen/margin_medium"
             android:text="@string/login_with_google"
             android:textAllCaps="false"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
-            app:layout_constraintTop_toBottomOf="@id/fl_login_button" />
+            app:layout_constraintTop_toBottomOf="@id/btn_login_facebook" />
 
         <TextView
             android:id="@+id/tv_signup"

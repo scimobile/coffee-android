@@ -2,6 +2,7 @@ package com.sci.coffeeandroid.feature
 
 import android.app.Application
 import com.facebook.CallbackManager
+import com.facebook.appevents.AppEventsLogger
 import com.sci.coffeeandroid.feature.auth.di.networkModule
 import com.sci.coffeeandroid.feature.auth.di.repositoryModule
 import com.sci.coffeeandroid.feature.auth.di.datasourceModuleImpl
@@ -23,6 +24,9 @@ class CoffeeApplication : Application() {
             )
             androidContext(this@CoffeeApplication)
         }
+        AppEventsLogger.activateApp(this)
     }
+
+
 }
 

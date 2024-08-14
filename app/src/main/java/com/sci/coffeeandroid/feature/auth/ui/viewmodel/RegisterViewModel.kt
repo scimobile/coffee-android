@@ -1,17 +1,6 @@
 package com.sci.coffeeandroid.feature.auth.ui.viewmodel
 
 import android.content.Context
-import android.os.Bundle
-
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepository
-import com.sci.coffeeandroid.util.ApiException
-import com.sci.coffeeandroid.util.SingleLiveEvent
-import kotlinx.coroutines.launch
 import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -20,16 +9,17 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.PasswordCredential
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
-import androidx.fragment.app.FragmentActivity
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.GraphRequest
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.sci.coffeeandroid.feature.auth.ui.screen.HomeActivity
+import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepository
+import com.sci.coffeeandroid.util.ApiException
+import com.sci.coffeeandroid.util.SingleLiveEvent
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class RegisterViewModel(
@@ -52,12 +42,12 @@ class RegisterViewModel(
         password: String
     ) {
 
-        _registerUiState.value = RegisterUiState.Loading
+        _registerUiEvent.value = RegisterViewModelEvent.Loading
         viewModelScope.launch {
             authRepository.register(username, email, phone, password)
                 .fold(
                     onSuccess = {
-                        _registerUiState.value = RegisterUiState.Success
+                        _registerUiEvent.value = RegisterViewModelEvent.Success
                     },
                     onFailure = { error ->
                         when (error) {
@@ -74,7 +64,7 @@ class RegisterViewModel(
     private fun handleApiException(apiException: ApiException) {
         when (apiException.code) {
             404 -> {
-                _registerUiState.value = RegisterUiState.NewUser
+                _registerUiEvent.value = RegisterViewModelEvent.NewUser
             }
 
             else -> {
@@ -87,7 +77,7 @@ class RegisterViewModel(
 //        val callback = object : FacebookCallback<LoginResult> {
 //
 //            override fun onSuccess(result: LoginResult) {
-//                _registerUiState.value = RegisterUiState.Success
+//                _registerUiState.value = RegisterViewModelEvent.Success
 //                val accessToken = result.accessToken
 //
 //                Log.d("HNA", "Successfully Login")
@@ -127,7 +117,7 @@ class RegisterViewModel(
         .setFilterByAuthorizedAccounts(false)
         .setAutoSelectEnabled(true)
         .setNonce(nonce)
-        .setServerClientId(serverClientId = "992963912793-komghl2ue9rku5lkie3uovmrmhclas30.apps.googleusercontent.com")
+        .setServerClientId(serverClientId = "992963912793-u2k81a65ms3s9j22lajrm3m2vdlr01dq.apps.googleusercontent.com")
         .build()
 
     private val request: GetCredentialRequest = GetCredentialRequest.Builder()
@@ -156,6 +146,8 @@ class RegisterViewModel(
         )
     }
 
+
+
     private fun handleSignIn(result: GetCredentialResponse) {
         // Handle the successfully returned credential.
         when (val credential = result.credential) {
@@ -166,6 +158,7 @@ class RegisterViewModel(
                 // validate and authenticate
                 val responseJson = credential.authenticationResponseJson
                 Log.d("HNA", "PublishKeyCredential: $responseJson")
+                updateData(RegisterViewModelEvent.Success)
             }
 
             // Password credential
@@ -185,6 +178,8 @@ class RegisterViewModel(
                         // Send ID token to your server to validate and authenticate.
                         googleIdTokenCredential.idToken
                         Log.d("HNA", "GoogleIdTokenCredential: ${googleIdTokenCredential.idToken}")
+                        updateData(RegisterViewModelEvent.SocialSuccess)
+
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e("HNA", "Received an invalid google id token response", e)
                     }
@@ -201,19 +196,24 @@ class RegisterViewModel(
             }
         }
     }
+    fun updateData(newValue: RegisterViewModelEvent) {
+        _registerUiEvent.value = newValue
+    }
+
 
 }
 
 sealed class RegisterViewModelEvent {
     data class Error(val error: String) : RegisterViewModelEvent()
-
+    data object NewUser : RegisterViewModelEvent()
+    data object Success : RegisterViewModelEvent()
+    data object SocialSuccess : RegisterViewModelEvent()
+    data object Loading : RegisterViewModelEvent()
+    data object UserAlreadyExit : RegisterViewModelEvent()
 }
 
 sealed class RegisterUiState {
-    data object Loading : RegisterUiState()
-    data object Success : RegisterUiState()
-    data object NewUser : RegisterUiState()
-    data object UserAlreadyExit : RegisterUiState()
+    data object Idel : RegisterUiState()
 }
 
 

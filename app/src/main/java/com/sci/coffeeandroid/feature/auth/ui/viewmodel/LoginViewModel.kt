@@ -13,9 +13,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -29,7 +26,7 @@ class LoginViewModel(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    val nonce: String = UUID.randomUUID().toString()
+    private val nonce: String = UUID.randomUUID().toString()
 
     private val _uiState: MutableLiveData<LoginUiState> = MutableLiveData()
     val uiState: LiveData<LoginUiState> = _uiState
@@ -45,7 +42,7 @@ class LoginViewModel(
     private fun handleApiException(apiException: ApiException) {
         when (apiException.code) {
             404 -> {
-                _uiState.value = LoginUiState.NewUser
+                _uiEvent.value = LoginViewModelEvent.NewUser
             }
 
             else -> {
@@ -55,11 +52,13 @@ class LoginViewModel(
         }
     }
 
+
+
     private val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
         .setFilterByAuthorizedAccounts(false)
         .setAutoSelectEnabled(true)
         .setNonce(nonce)
-        .setServerClientId(serverClientId = "992963912793-komghl2ue9rku5lkie3uovmrmhclas30.apps.googleusercontent.com")
+        .setServerClientId(serverClientId = "992963912793-u2k81a65ms3s9j22lajrm3m2vdlr01dq.apps.googleusercontent.com")
         .build()
 
     private val request: GetCredentialRequest = GetCredentialRequest.Builder()
@@ -82,6 +81,7 @@ class LoginViewModel(
         }
     }
 
+
     private fun handleFailure(e: GetCredentialException) {
         _uiEvent.value = LoginViewModelEvent.Error(
             error = e.message.orEmpty()
@@ -91,13 +91,13 @@ class LoginViewModel(
     private fun handleSignIn(result: GetCredentialResponse) {
         // Handle the successfully returned credential.
         when (val credential = result.credential) {
-
             // Passkey credential
             is PublicKeyCredential -> {
                 // Share responseJson such as a GetCredentialResponse on your server to
                 // validate and authenticate
                 val responseJson = credential.authenticationResponseJson
                 Log.d("HNA", "PublishKeyCredential: $responseJson")
+
             }
 
             // Password credential
@@ -106,6 +106,7 @@ class LoginViewModel(
                 val username = credential.id
                 val password = credential.password
                 Log.d("HNA", "PasswordCredential: $username, $password")
+
             }
 
             // GoogleIdToken credential
@@ -117,7 +118,10 @@ class LoginViewModel(
                         // Send ID token to your server to validate and authenticate.
                         googleIdTokenCredential.idToken
                         Log.d("HNA", "GoogleIdTokenCredential: ${googleIdTokenCredential.idToken}")
-                    } catch (e: GoogleIdTokenParsingException) {
+                        updateData(LoginViewModelEvent.LoginSuccess)
+
+                    }
+                    catch (e: GoogleIdTokenParsingException) {
                         Log.e("HNA", "Received an invalid google id token response", e)
                     }
                 } else {
@@ -134,9 +138,13 @@ class LoginViewModel(
         }
     }
 
+    fun updateData(newValue: LoginViewModelEvent) {
+        _uiEvent.value = newValue
+    }
+
    fun login(userName: String, password: String) {
 
-        _uiState.value = LoginUiState.Loading
+        _uiEvent.value = LoginViewModelEvent.Loading
         viewModelScope.launch {
             authRepository
                 .login(
@@ -145,7 +153,7 @@ class LoginViewModel(
                 )
                 .fold(
                     onSuccess = {
-                        _uiState.value = LoginUiState.LoginSuccess
+                        _uiEvent.value = LoginViewModelEvent.LoginSuccess
                     },
 
                     onFailure = { error ->
@@ -165,25 +173,18 @@ class LoginViewModel(
 
     }
 
-
-
-
 }
 
 sealed class LoginUiState {
     data object Idle : LoginUiState()
-
-    data object Loading : LoginUiState()
-
-    data object LoginSuccess : LoginUiState()
-
-    data object NewUser : LoginUiState()
-
-    data object UserAlreadyLoggedIn : LoginUiState()
 
 }
 
 sealed class LoginViewModelEvent {
 
     data class Error(val error: String) : LoginViewModelEvent()
+    data object Loading : LoginViewModelEvent()
+    data object LoginSuccess : LoginViewModelEvent()
+    data object NewUser : LoginViewModelEvent()
+    data object UserAlreadyLoggedIn : LoginViewModelEvent()
 }

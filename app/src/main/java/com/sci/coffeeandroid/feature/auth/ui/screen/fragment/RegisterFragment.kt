@@ -1,22 +1,19 @@
 package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.FacebookSdk
 import com.facebook.GraphRequest
-import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
-import com.sci.coffeeandroid.feature.CoffeeApplication
 import com.sci.coffeeandroid.feature.auth.ui.screen.HomeActivity
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
@@ -42,8 +39,7 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        FacebookSdk.sdkInitialize(applicationContext = requireActivity())
-        AppEventsLogger.activateApp(requireActivity().application)
+
 
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
@@ -62,8 +58,14 @@ class RegisterFragment : Fragment() {
         callbackManager = CallbackManager.Factory.create()
 
 
-        binding.btnFacebook.setPermissions("email", "public_profile")
-        binding.btnFacebook.registerCallback(callbackManager!!, object :
+        binding.btnFacebook.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                callbackManager!!,
+                listOf("email", "public_profile")
+            )
+        }
+        LoginManager.getInstance().registerCallback(callbackManager!!, object :
             FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 // Handle successful login
@@ -149,25 +151,26 @@ class RegisterFragment : Fragment() {
             viewModel.getCredential(requireContext())
         }
 
-//        binding.btnFacebook.setOnClickListener {
-//            viewModel.loginWithFacebook(callbackManager,requireActivity())
-//        }
-
-
-
         observerUiState()
         observeViewModelEvent()
 
+
     }
 
-    private fun observerUiState() {
-        viewModel.registerUiState.observe(viewLifecycleOwner) {
+    override fun onDestroyView() {
+        _binding = null
+        callbackManager = null
+        super.onDestroyView()
+    }
+
+    private fun observeViewModelEvent() {
+        viewModel.registerUiEvent.observe(viewLifecycleOwner) {
             when (it) {
-                is RegisterUiState.Loading -> binding.pbRegister.visibility = View.VISIBLE
-                RegisterUiState.NewUser -> Toast.makeText(context, "New User", Toast.LENGTH_LONG)
+                is RegisterViewModelEvent.Loading -> binding.pbRegister.visibility = View.VISIBLE
+                RegisterViewModelEvent.NewUser -> Toast.makeText(context, "New User", Toast.LENGTH_LONG)
                     .show()
 
-                RegisterUiState.Success -> {
+                RegisterViewModelEvent.Success -> {
                     binding.pbRegister.visibility = View.GONE
                     showSuccessDialog(
                         context = requireContext(),
@@ -185,38 +188,36 @@ class RegisterFragment : Fragment() {
                 }
 
 
-                RegisterUiState.UserAlreadyExit -> {
+                RegisterViewModelEvent.UserAlreadyExit -> {
                     binding.pbRegister.visibility = View.GONE
                 }
-            }
-        }
 
-    }
+                RegisterViewModelEvent.SocialSuccess -> {
+                    Toast.makeText(context, "Successfully Login", Toast.LENGTH_SHORT).show()
+                    HomeActivity.newInstance(requireActivity()).also { intent ->
+                        startActivity(intent)
+                    }
+                }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager!!.onActivityResult(
-            requestCode,
-            resultCode, data
-        )
-        super.onActivityResult(requestCode, resultCode, data)
-
-    }
-
-    private fun observeViewModelEvent() {
-        viewModel.registerUiEvent.observe(viewLifecycleOwner) {
-            when (it) {
                 is RegisterViewModelEvent.Error -> {
                     Toast.makeText(context, it.error, Toast.LENGTH_LONG)
                         .show()
                 }
             }
         }
+
+    }
+    
+    private fun observerUiState() {
+        viewModel.registerUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                RegisterUiState.Idel -> TODO()
+            }
+        }
     }
 
-    private fun replaceFragment(fragment: Fragment){
-        requireActivity().supportFragmentManager.
-        beginTransaction().
-        replace(R.id.fragment_container,fragment, fragment.javaClass.name).
-        commit()
+    private fun replaceFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment, fragment.javaClass.name).commit()
     }
 }

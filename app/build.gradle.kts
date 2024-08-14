@@ -19,8 +19,19 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = "coffee-android"
+            keyPassword = "android"
+            storeFile = rootProject.file("keystore/debug-keystore.jks")
+            storePassword = "android"
+        }
+    }
 
     buildTypes {
+        debug{
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(

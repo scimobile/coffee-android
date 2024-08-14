@@ -1,6 +1,5 @@
 package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,9 +10,8 @@ import androidx.fragment.app.Fragment
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.FacebookSdk
 import com.facebook.GraphRequest
-import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentLoginBinding
@@ -37,8 +35,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        FacebookSdk.sdkInitialize(applicationContext = requireActivity())
-        AppEventsLogger.activateApp(requireActivity().application)
+
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,8 +49,16 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         callbackManager = CallbackManager.Factory.create()
 
-        binding.btnLoginFacebook.setPermissions("email", "public_profile")
-        binding.btnLoginFacebook.registerCallback(callbackManager!!, object :
+//        binding.btnLoginFacebook.setPermissions("email", "public_profile")
+        binding.btnLoginFacebook.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                callbackManager!!,
+                listOf("email", "public_profile")
+            )
+        }
+
+        LoginManager.getInstance().registerCallback(callbackManager!!, object :
             FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 // Handle successful login
@@ -68,7 +73,6 @@ class LoginFragment : Fragment() {
                 val request = GraphRequest.newMeRequest(
                     result.accessToken
                 )
-
 
                 { _, graphResponse ->
                     if (graphResponse != null) {
@@ -133,48 +137,47 @@ class LoginFragment : Fragment() {
         observeViewModelEvent()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager!!.onActivityResult(
-            requestCode,
-            resultCode, data
-        )
-        super.onActivityResult(requestCode, resultCode, data)
 
 
+    override fun onDestroyView() {
+        _binding = null
+        callbackManager = null
+        super.onDestroyView()
     }
 
     private fun observeViewModelEvent() {
-        viewModel.uiEvent.observe(viewLifecycleOwner) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
-                is LoginViewModelEvent.Error -> {
-                    Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
-                        .show()
+
+                LoginUiState.Idle -> {
+
                 }
             }
         }
     }
 
     private fun observerUiState() {
-        viewModel.uiState.observe(viewLifecycleOwner) {
+        viewModel.uiEvent.observe(viewLifecycleOwner) {
             when (it) {
-                LoginUiState.Loading -> {}
+                LoginViewModelEvent.Loading -> {}
 
-                LoginUiState.Idle -> {
-
+                is LoginViewModelEvent.Error -> {
+                    Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
+                        .show()
                 }
 
-                LoginUiState.LoginSuccess -> {
+                LoginViewModelEvent.LoginSuccess -> {
                     HomeActivity.newInstance(requireActivity()).also { intent ->
                         startActivity(intent)
                     }
                 }
 
-                LoginUiState.NewUser -> {
+                LoginViewModelEvent.NewUser -> {
                     Toast.makeText(context, "new user", Toast.LENGTH_SHORT)
                         .show()
                 }
 
-                LoginUiState.UserAlreadyLoggedIn -> {
+                LoginViewModelEvent.UserAlreadyLoggedIn -> {
                     HomeActivity.newInstance(requireActivity()).also { intent ->
                         startActivity(intent)
                     }

@@ -8,7 +8,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.feature.auth.ui.screen.fragment.LoginFragment
-import com.sci.coffeeandroid.feature.auth.ui.screen.fragment.RegisterFragment
 
 class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,16 +19,18 @@ class AuthActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         if (savedInstanceState == null) {
             val fragment = LoginFragment()
             replaceFragment(fragment)
         }
     }
-    private fun replaceFragment(fragment: Fragment){
-        supportFragmentManager.
-        beginTransaction().
-        replace(R.id.fragment_container,fragment, fragment.javaClass.name).
-        commit()
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment, fragment.javaClass.name).commit()
+    }
+
+    companion object{
+        fun newInstance() : AuthActivity = AuthActivity()
     }
 }
