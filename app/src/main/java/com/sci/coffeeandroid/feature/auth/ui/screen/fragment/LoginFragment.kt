@@ -57,44 +57,9 @@ class LoginFragment : Fragment() {
                 listOf("email", "public_profile")
             )
         }
-
-        LoginManager.getInstance().registerCallback(callbackManager!!, object :
-            FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult) {
-                // Handle successful login
-                val accessToken = result.accessToken
-                Toast.makeText(context, "Successfully Login", Toast.LENGTH_SHORT).show()
-                HomeActivity.newInstance(requireActivity()).also { intent ->
-                    startActivity(intent)
-                }
-
-                // Use accessToken to access user data or make API calls
-                // For example, to get user profile:
-                val request = GraphRequest.newMeRequest(
-                    result.accessToken
-                )
-
-                { _, graphResponse ->
-                    if (graphResponse != null) {
-                        val user = graphResponse.jsonObject
-                        // Access user data here
-                    }
-                }
-                val parameters = Bundle()
-                parameters.putString("fields", "id, name, email, picture.type(large)")
-                request.parameters = parameters
-                request.executeAsync()
-            }
+        viewModel.registerCallback(callbackManager!!)
 
 
-            override fun onCancel() {
-                Log.d("FacebookLoginFragment", "Login canceled")
-            }
-
-            override fun onError(error: FacebookException) {
-                Log.d("FacebookLoginFragment", "Error: $error")
-            }
-        })
 
         addTextChangeListener(
             etEmail = binding.etLoginEmail,

@@ -13,6 +13,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -73,6 +78,25 @@ class RegisterViewModel(
             }
         }
     }
+
+    fun registerCallback(callbackManager: CallbackManager) {
+        LoginManager.getInstance().registerCallback(callbackManager, object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                val accessToken = result.accessToken
+                _registerUiEvent.value = RegisterViewModelEvent.Success
+            }
+
+            override fun onCancel() {
+                _registerUiEvent.value = RegisterViewModelEvent.Error("Login canceled")
+            }
+
+            override fun onError(error: FacebookException) {
+                _registerUiEvent.value = RegisterViewModelEvent.Error("Login failed: ${error.message}")
+            }
+        })
+    }
+
 
 //        val callback = object : FacebookCallback<LoginResult> {
 //

@@ -13,6 +13,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -140,6 +145,24 @@ class LoginViewModel(
 
     fun updateData(newValue: LoginViewModelEvent) {
         _uiEvent.value = newValue
+    }
+
+    fun registerCallback(callbackManager: CallbackManager) {
+        LoginManager.getInstance().registerCallback(callbackManager, object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                val accessToken = result.accessToken
+                _uiEvent.value = LoginViewModelEvent.LoginSuccess
+            }
+
+            override fun onCancel() {
+                _uiEvent.value = LoginViewModelEvent.Error("Login canceled")
+            }
+
+            override fun onError(error: FacebookException) {
+                _uiEvent.value = LoginViewModelEvent.Error("Login failed: ${error.message}")
+            }
+        })
     }
 
    fun login(userName: String, password: String) {
