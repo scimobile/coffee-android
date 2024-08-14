@@ -1,7 +1,5 @@
 package com.sci.coffeeandroid.feature.auth.data.service
 
-import com.sci.coffeeandroid.feature.auth.data.mapper.toModel
-import com.sci.coffeeandroid.feature.auth.data.mapper.toUserModel
 import com.sci.coffeeandroid.feature.auth.data.model.request.LoginRequestModel
 import com.sci.coffeeandroid.feature.auth.data.model.request.RegisterRequestModel
 import com.sci.coffeeandroid.feature.auth.data.model.response.Data
@@ -9,9 +7,9 @@ import com.sci.coffeeandroid.feature.auth.data.model.response.LoginResponseModel
 import com.sci.coffeeandroid.feature.auth.data.model.response.OTPResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.RegisterResponse
-import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepository
-import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class AuthNetworkServiceImpl(httpClient: HttpClient) : AuthNetworkService {
     override suspend fun register(
@@ -26,6 +24,9 @@ class AuthNetworkServiceImpl(httpClient: HttpClient) : AuthNetworkService {
             phoneNumber = phone,
             password = password
         )
+        withContext(Dispatchers.IO) {
+            Thread.sleep(2000)
+        }
         return Result.success(
             RegisterResponse(
                 data = Data(
@@ -47,7 +48,11 @@ class AuthNetworkServiceImpl(httpClient: HttpClient) : AuthNetworkService {
             email = email,
             password = password
         )
+        withContext(Dispatchers.IO) {
+            Thread.sleep(2000)
+        }
         if (email == "example@gmail.com" && password == "password") {
+
             return Result.success(
                 LoginResponseModel(
                     data = LoginResponseModel.User(

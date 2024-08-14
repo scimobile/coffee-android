@@ -156,6 +156,7 @@ class RegisterFragment : Fragment() {
                 }
 
                 RegisterViewModelEvent.SocialSuccess -> {
+                    binding.pbRegister.visibility = View.GONE
                     Toast.makeText(context, "Successfully Login", Toast.LENGTH_SHORT).show()
                     HomeActivity.newInstance(requireActivity()).also { intent ->
                         startActivity(intent)
@@ -163,6 +164,7 @@ class RegisterFragment : Fragment() {
                 }
 
                 is RegisterViewModelEvent.Error -> {
+                    binding.pbRegister.visibility = View.GONE
                     Toast.makeText(context, it.error, Toast.LENGTH_LONG)
                         .show()
                 }
@@ -174,7 +176,7 @@ class RegisterFragment : Fragment() {
     private fun observerUiState() {
         viewModel.registerUiState.observe(viewLifecycleOwner) {
             when (it) {
-                RegisterUiState.Idel -> TODO()
+                RegisterUiState.Idel -> binding.pbRegister.visibility = View.GONE
             }
         }
     }

@@ -31,6 +31,8 @@ class LoginFragment : Fragment() {
 
     private var callbackManager: CallbackManager? = null
 
+    private var isButtonEnabled = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,11 +53,14 @@ class LoginFragment : Fragment() {
 
 //        binding.btnLoginFacebook.setPermissions("email", "public_profile")
         binding.btnLoginFacebook.setOnClickListener {
-            LoginManager.getInstance().logInWithReadPermissions(
-                this,
-                callbackManager!!,
-                listOf("email", "public_profile")
-            )
+            if (isButtonEnabled) {
+                isButtonEnabled = false
+                LoginManager.getInstance().logInWithReadPermissions(
+                    this,
+                    callbackManager!!,
+                    listOf("email", "public_profile")
+                )
+            }
         }
         viewModel.registerCallback(callbackManager!!)
 
@@ -69,24 +74,30 @@ class LoginFragment : Fragment() {
         )
 
         binding.btnLoginGoogle.setOnClickListener {
-            viewModel.getCredential(requireContext())
+            if (isButtonEnabled) {
+                isButtonEnabled = false
+                viewModel.getCredential(requireContext())
+            }
         }
 
         binding.btnLogin.setOnClickListener {
-            val email = binding.etLoginEmail.text.toString().trim()
-            val password = binding.etLoginPassword.text.toString().trim()
+            if (isButtonEnabled) {
+                isButtonEnabled = false
+                val email = binding.etLoginEmail.text.toString().trim()
+                val password = binding.etLoginPassword.text.toString().trim()
 
-            if (validateInputs(
-                    email,
-                    password,
-                    textFieldEmail = binding.emailTextLayout,
-                    textFieldPassword = binding.passwordTextLayout,
-                )
-            ) {
-                viewModel.login(
-                    userName = email,
-                    password = password
-                )
+                if (validateInputs(
+                        email,
+                        password,
+                        textFieldEmail = binding.emailTextLayout,
+                        textFieldPassword = binding.passwordTextLayout,
+                    )
+                ) {
+                    viewModel.login(
+                        userName = email,
+                        password = password
+                    )
+                }
             }
         }
 
@@ -112,10 +123,10 @@ class LoginFragment : Fragment() {
 
     private fun observeViewModelEvent() {
         viewModel.uiState.observe(viewLifecycleOwner) {
+            isButtonEnabled = true
             when (it) {
-
                 LoginUiState.Idle -> {
-
+                    binding.pbLogin.visibility = View.GONE
                 }
             }
         }
@@ -123,26 +134,33 @@ class LoginFragment : Fragment() {
 
     private fun observerUiState() {
         viewModel.uiEvent.observe(viewLifecycleOwner) {
+            isButtonEnabled = true
             when (it) {
-                LoginViewModelEvent.Loading -> {}
+                LoginViewModelEvent.Loading -> {
+                    binding.pbLogin.visibility = View.VISIBLE
+                }
 
                 is LoginViewModelEvent.Error -> {
+                    binding.pbLogin.visibility = View.GONE
                     Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
                         .show()
                 }
 
                 LoginViewModelEvent.LoginSuccess -> {
+                    binding.pbLogin.visibility = View.GONE
                     HomeActivity.newInstance(requireActivity()).also { intent ->
                         startActivity(intent)
                     }
                 }
 
                 LoginViewModelEvent.NewUser -> {
+                    binding.pbLogin.visibility = View.GONE
                     Toast.makeText(context, "new user", Toast.LENGTH_SHORT)
                         .show()
                 }
 
                 LoginViewModelEvent.UserAlreadyLoggedIn -> {
+                    binding.pbLogin.visibility = View.GONE
                     HomeActivity.newInstance(requireActivity()).also { intent ->
                         startActivity(intent)
                     }
