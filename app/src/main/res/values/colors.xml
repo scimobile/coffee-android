@@ -11,5 +11,6 @@
     <color name="color_icon_inactive">#6B7280</color>
     <color name="color_onboarding_text">#4B2E2B</color>
     <color name="color_coffee_brown">#A67B5B</color>
+    <color name="transparent">@android:color/transparent</color>
 
 </resources>

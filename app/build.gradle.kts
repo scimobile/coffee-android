@@ -60,8 +60,4 @@ dependencies {
 
     implementation(libs.androidx.viewpager2)
     implementation(libs.dotsindicator)
-
-    //Koin
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
 }
