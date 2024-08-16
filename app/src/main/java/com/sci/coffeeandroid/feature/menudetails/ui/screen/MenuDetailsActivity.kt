@@ -1,13 +1,16 @@
 package com.sci.coffeeandroid.feature.menudetails.ui.screen
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.ActivityMenuDetailsBinding
 import com.sci.coffeeandroid.feature.menudetails.ui.viewmodel.CoffeeDetailViewModel
@@ -43,6 +46,14 @@ class MenuDetailsActivity() : AppCompatActivity() {
                     binding.collapsingToolBarLayout.title = it.coffee.name
                     binding.tvDetailDescription.text = it.coffee.description
 
+                    val checkedChipId = binding.chipGroupSize.checkedChipId
+
+                    binding.chipGroupSize.setOnCheckedStateChangeListener { group, checkedIds ->
+
+                    }
+
+                    coffeeDetailViewModel.onSizeSelected((binding.chipGroupSize.checkedChipId).toString())
+
                     Glide.with(this)
                         .load(it.coffee.image)
                         .into(binding.ivCoffeeDetail)
@@ -67,25 +78,40 @@ class MenuDetailsActivity() : AppCompatActivity() {
             }
         }
 
-        binding.btnAddToCart.setOnClickListener {
-            binding.chipGroupSize.checkedChipId
+        binding.btnFav.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if (isChecked){
+                Toast.makeText(this,"Added to favourite",Toast.LENGTH_SHORT).show()
+            }else
+            {
+                Toast.makeText(this,"Removed from favourite",Toast.LENGTH_SHORT).show()
+            }
         }
 
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.milk_array,
-            R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            binding.spinnerMilk.adapter = adapter
+        coffeeDetailViewModel.quantityLiveData.observe(this){
+            binding.tvQuantity.text = coffeeDetailViewModel.quantityLiveData.value.toString()
         }
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.coffee_toppings,
-            R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            binding.spinnerToppings.adapter = adapter
+
+        binding.btnBack.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
+
+        binding.bottomAppBar.setOnClickListener {
+
+        }
+
+        binding.btnAddToCart.setOnClickListener {
+
+        }
+
+        binding.btnMinus.setOnClickListener {
+            coffeeDetailViewModel.decreaseQuantity()
+        }
+
+        binding.btnPlus.setOnClickListener {
+            coffeeDetailViewModel.increaseQuantity()
+        }
+
     }
 }

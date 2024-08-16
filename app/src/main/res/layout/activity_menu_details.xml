@@ -22,10 +22,8 @@
             android:id="@+id/collapsing_tool_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/TextAppearance.Poppins.Medium.Bold"
             app:contentScrim="@color/white"
-            app:expandedTitleMarginStart="@dimen/margin_medium_x_12"
             app:expandedTitleTextAppearance="@style/TextAppearance.Poppins.Medium.Bold"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="Vanilla Latte">
@@ -37,8 +35,8 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/coffee_detail_image"
                 android:scaleType="centerCrop"
-                tools:src="@tools:sample/backgrounds/scenic"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
             <Toolbar
                 android:id="@+id/toolbar"
@@ -49,10 +47,10 @@
 
                 <ImageView
                     android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="start|center_vertical"
-                    android:layout_marginHorizontal="@dimen/margin_medium_x_12"
+                    android:layout_marginHorizontal="@dimen/margin_medium_x_20"
                     android:layout_marginTop="@dimen/margin_medium_x_12"
                     android:background="@drawable/shape_btn_back"
                     android:contentDescription="@string/back"
@@ -62,17 +60,21 @@
                     android:src="@drawable/ic_back"
                     app:tint="@color/white" />
 
-                <ImageView
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/btn_fav"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="end|center_vertical"
-                    android:layout_marginHorizontal="@dimen/margin_medium_x_12"
+                    android:layout_marginHorizontal="@dimen/margin_medium_x_20"
                     android:layout_marginTop="@dimen/margin_medium_x_12"
+                    android:background="@color/transparent"
+                    android:checked="false"
                     android:contentDescription="@string/favourite"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_fav"
-                    app:tint="@color/color_coffee_brown" />
+                    app:buttonIcon="@drawable/selector_fav_btn"
+                    app:buttonIconTint="@color/color_coffee_brown"
+                    app:buttonTint="@color/white"
+                    app:centerIfNoTextEnabled="true"
+                    app:useMaterialThemeColors="false" />
 
             </Toolbar>
 
@@ -83,7 +85,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="80dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +94,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/margin_medium_x_12">
+            android:layout_marginHorizontal="@dimen/margin_medium_x_20">
 
             <TextView
                 android:id="@+id/tv_price"
@@ -445,11 +447,9 @@
                 app:layout_constraintTop_toBottomOf="@id/spinner_toppings_card_view" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_layout"
-                android:layout_width="match_parent"
+                style="@style/CustomEditTextBackground"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium_x_12"
-                app:boxBackgroundColor="@color/white"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -458,12 +458,14 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_special_instructions"
                     android:layout_width="match_parent"
-                    android:layout_height="86dp"
-                    android:background="@drawable/shape_edt_background"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_medium_x_16"
                     android:fontFamily="@font/poppins_regular"
                     android:gravity="top"
                     android:hint="@string/hint_special_instruction"
-                    android:inputType="text" />
+                    android:inputType="textMultiLine"
+                    android:minLines="3" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -496,18 +498,18 @@
 
         <TextView
             android:id="@+id/tv_quantity"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_medium_x_16"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/poppins_regular"
-            android:text="@string/quantity"
+            android:gravity="center_horizontal"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="4dp"
             app:layout_constraintBottom_toBottomOf="@id/btn_plus"
             app:layout_constraintEnd_toStartOf="@+id/btn_plus"
             app:layout_constraintStart_toEndOf="@+id/btn_minus"
-            app:layout_constraintTop_toTopOf="@id/btn_plus" />
+            app:layout_constraintTop_toTopOf="@id/btn_plus"
+            tools:text="1" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/btn_plus"
@@ -527,7 +529,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginHorizontal="@dimen/margin_medium_x_30"
-            android:backgroundTint="@color/color_coffee_brown"
+            android:enabled="true"
             android:fontFamily="@font/poppins_regular"
             android:text="@string/add_to_cart"
             app:layout_constraintBottom_toBottomOf="parent"

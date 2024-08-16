@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Back"
-        android:icon="@drawable/ic_fav"
+        android:icon="@drawable/ic_heart_outlined"
         android:iconTint="@color/color_coffee_brown"
         app:showAsAction="ifRoom"
         tools:ignore="UnusedAttribute" />

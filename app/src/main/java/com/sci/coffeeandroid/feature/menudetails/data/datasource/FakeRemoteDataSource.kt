@@ -8,10 +8,14 @@ class FakeRemoteDataSource() : CoffeeDetailRemoteDataSource {
             CoffeeModel(
                 id = 1,
                 name = "Vanilla Latte",
-                price = 19.09f,
+                price = 13.90f,
                 image = "https://static.vecteezy.com/system/resources/previews/036/159/545/original/ai-generated-vanilla-latte-latte-with-vanilla-syrup-on-transparent-background-free-png.png",
                 description = "A brief yet enticing description of the coffee, highlighting its flavor profile, ingredients, and any unique features",
+//                size = "small",
+//                variation = "hot",
+//                sugar = "30%",
                 milk = listOf(
+                    "None",
                     "Almond Milk",
                     "Soy Milk",
                     "Oat Milk",
@@ -22,10 +26,12 @@ class FakeRemoteDataSource() : CoffeeDetailRemoteDataSource {
                     "2% Milk"
                 ),
                 toppings = listOf(
+                    "None",
                     "Whipped Cream",
                     "Cinnamon",
                     "Cocoa Powder",
                     "Chocolate Shavings",
+                    "Nutmeg",
                     "Vanilla Extract",
                     "Caramel Drizzle",
                     "Chocolate Syrup",
@@ -36,11 +42,13 @@ class FakeRemoteDataSource() : CoffeeDetailRemoteDataSource {
                     "Sugar Crystals",
                     "Edible Glitter",
                     "Sea Salt",
+                    "Lavender",
                     "Toasted Coconut Flakes",
                     "Chopped Nuts",
                     "Marshmallows",
                     "Gingerbread Crumbs"
-                )
+                ),
+                specialInstructions = ""
             )
         )
     }
