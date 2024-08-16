@@ -21,7 +21,7 @@ android {
     }
     signingConfigs {
         getByName("debug") {
-            keyAlias = "coffee-android"
+            keyAlias = "key0"
             keyPassword = "android"
             storeFile = rootProject.file("keystore/coffee_app_key.keystore")
             storePassword = "android"
