@@ -23,7 +23,7 @@ android {
         getByName("debug") {
             keyAlias = "coffee-android"
             keyPassword = "android"
-            storeFile = rootProject.file("keystore/coffee-app_key.keystore")
+            storeFile = rootProject.file("keystore/coffee_app_key.keystore")
             storePassword = "android"
         }
     }
