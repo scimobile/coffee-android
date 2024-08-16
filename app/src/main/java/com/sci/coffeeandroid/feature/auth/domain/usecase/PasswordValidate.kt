@@ -4,18 +4,19 @@ import android.util.Patterns
 import com.sci.coffeeandroid.util.use_case.ValidateUsecase
 import com.sci.coffeeandroid.util.use_case.ValidationResult
 
-class EmailValidate : ValidateUsecase<String> {
-    override fun execute(email: String): ValidationResult {
-        if(email.isBlank()){
+class PasswordValidate : ValidateUsecase<String> {
+    override fun execute(password: String): ValidationResult {
+        if(password.length <8){
             return ValidationResult(
                 isSuccess = false,
-                errorMessage = "The email can't be blank"
+                errorMessage = "The password must be at least 8 characters"
             )
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        val containLettersAndDigits = password.any {it.isDigit() } && password.any { it.isLetter() }
+        if (!containLettersAndDigits){
             return ValidationResult(
                 isSuccess = false,
-                errorMessage = "That's not a valid email"
+                errorMessage = "The password needs to contain letter and digit"
             )
         }
 
