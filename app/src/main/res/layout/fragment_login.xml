@@ -68,6 +68,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_login_email"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/poppins_regular"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_your_email"
                 android:inputType="textEmailAddress" />
@@ -103,6 +104,7 @@
                 android:id="@+id/et_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
                 android:hint="@string/enter_your_password"
                 android:inputType="textPassword" />
 
@@ -116,6 +118,7 @@
             android:textColor="@color/primary_color"
             android:textSize="@dimen/text_regular_2x"
             android:textStyle="normal"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintTop_toBottomOf="@id/password_text_layout" />
 
@@ -130,6 +133,7 @@
             android:paddingHorizontal="@dimen/margin_medium"
             android:text="@string/login"
             android:textAllCaps="false"
+            android:fontFamily="@font/poppins_semi_bold"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -155,6 +159,7 @@
             android:text="@string/or_with"
             android:textColor="@color/black"
             android:textSize="@dimen/text_regular_2xx"
+            android:fontFamily="@font/poppins_semi_bold"
             app:layout_constraintBottom_toBottomOf="@id/view1"
             app:layout_constraintEnd_toStartOf="@+id/view2"
             app:layout_constraintHorizontal_bias="0.5"
@@ -185,6 +190,7 @@
             app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
             android:backgroundTint="@color/blue_color"
             android:layout_marginTop="@dimen/margin_xxlarge"
+            android:fontFamily="@font/poppins_semi_bold"
             app:layout_constraintTop_toBottomOf="@id/view1"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
@@ -200,10 +206,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_3"
-            android:background="@drawable/edit_text_shape"
+            app:strokeWidth="1dp"
+            android:insetBottom="1dp"
+            android:insetLeft="1dp"
+            android:insetRight="1dp"
+            android:insetTop="1dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
             android:drawableLeft="@drawable/ic_google"
             android:text="@string/login_with_google"
             android:textAllCaps="false"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/poppins_semi_bold"
+            app:strokeColor="@color/color_secondary_text"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"

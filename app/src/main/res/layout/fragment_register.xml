@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/connect_with_friends"
             android:textSize="@dimen/text_regular"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_2"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_semi_bold"
             android:text="@string/username"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -79,6 +80,7 @@
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:hint="@string/enter_your_username" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +90,7 @@
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_semi_bold"
             android:text="@string/email"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -111,6 +113,7 @@
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:hint="@string/enter_your_email"
                 android:inputType="textEmailAddress" />
 
@@ -121,7 +124,7 @@
             android:id="@+id/tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_semi_bold"
             android:text="@string/phone_number"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -144,6 +147,7 @@
                 android:id="@+id/et_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:hint="@string/enter_your_phone_number"
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -152,7 +156,7 @@
             android:id="@+id/tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_semi_bold"
             android:text="@string/password"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -176,6 +180,7 @@
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:hint="@string/enter_your_password"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -184,7 +189,7 @@
             android:id="@+id/tv_confirm_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_semi_bold"
             android:text="@string/confirm_password"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -207,6 +212,7 @@
                 android:id="@+id/et_confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword" />
 
@@ -219,6 +225,7 @@
             android:layout_marginHorizontal="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_medium_3"
             android:background="@drawable/button_shape"
+            android:fontFamily="@font/poppins_semi_bold"
             android:paddingHorizontal="@dimen/margin_medium"
             android:text="@string/sign_up"
             android:textAllCaps="false"
@@ -243,6 +250,7 @@
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
             android:paddingHorizontal="@dimen/margin_card_medium"
             android:text="@string/or_with"
             android:textColor="@color/black"
@@ -264,40 +272,46 @@
             app:layout_constraintTop_toTopOf="@id/view1" />
 
 
-
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_facebook"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:insetBottom="1dp"
-                android:insetLeft="1dp"
-                android:insetRight="1dp"
-                android:insetTop="1dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_medium_x_30"
-                android:drawableLeft="@drawable/ic_facebook"
-                android:backgroundTint="@color/blue_color"
-                app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
-                app:layout_constraintEnd_toEndOf="@id/end_guide_line"
-                app:layout_constraintStart_toStartOf="@id/start_guide_line"
-                app:layout_constraintTop_toBottomOf="@id/view1"
-                android:text="@string/signup_with_facebook" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_facebook"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_medium_x_30"
+            android:backgroundTint="@color/blue_color"
+            android:drawableLeft="@drawable/ic_facebook"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:insetLeft="1dp"
+            android:insetTop="1dp"
+            android:insetRight="1dp"
+            android:insetBottom="1dp"
+            android:text="@string/signup_with_facebook"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_line"
+            app:layout_constraintStart_toStartOf="@id/start_guide_line"
+            app:layout_constraintTop_toBottomOf="@id/view1"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_google"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_3"
-            android:background="@drawable/edit_text_shape"
+            android:backgroundTint="@color/white"
             android:drawableLeft="@drawable/ic_google"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:insetLeft="1dp"
+            android:insetTop="1dp"
+            android:insetRight="1dp"
+            android:insetBottom="1dp"
             android:text="@string/signup_with_google"
             android:textAllCaps="false"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
-            app:layout_constraintTop_toBottomOf="@id/btn_facebook" />
+            app:layout_constraintTop_toBottomOf="@id/btn_facebook"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
+            app:strokeColor="@color/color_secondary_text"
+            app:strokeWidth="1dp" />
 
         <TextView
             android:id="@+id/tv_login"
