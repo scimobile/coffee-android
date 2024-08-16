@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.sci.coffeeandroid.feature.home.ui.screen.HomeActivity
 import com.sci.coffeeandroid.feature.onboarding.ui.screen.OnboardingActivity
 import org.koin.android.ext.android.inject
 
@@ -17,10 +18,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         enableEdgeToEdge()
 
-        if (!sharePref.getBoolean(getString(R.string.is_onboarding_shown), false)) {
-            val intent = Intent(this, OnboardingActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+//        if (!sharePref.getBoolean(getString(R.string.is_onboarding_shown), false)) {
+//            val intent = Intent(this, OnboardingActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
+
+        startActivity(Intent(this, HomeActivity::class.java))
+
     }
 }

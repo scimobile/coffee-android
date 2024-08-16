@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Coffee Android</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="first_slide_header">Welcome To \nCaffeine Corner</string>
     <string name="onboarding_first_slide_description">Discover your favorite coffee, order with ease, and enjoy exclusive perks.</string>
     <string name="onboarding_second_slide_description">Collect points with every purchase and redeem them for free coffee and exclusive rewards.</string>
@@ -12,4 +10,7 @@
     <string name="onboarding_third_slide_button_text">Get Started</string>
     <string name="preference_file_key">com.sci.coffeeandroid.PREFERENCE_FILE_KEY</string>
     <string name="is_onboarding_shown">isOnboardingShown</string>
+    <string name="menu">Menu</string>
+    <string name="search">Search...</string>
+    <string name="add_to_cart">Add to cart</string>
 </resources>

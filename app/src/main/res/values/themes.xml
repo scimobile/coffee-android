@@ -6,4 +6,25 @@
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
     <style name="Theme.CoffeeAndroid" parent="Base.Theme.CoffeeAndroid" />
+
+    <style name="Widget.CoffeeAndroid.HomeTitle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:textSize">@dimen/text_heading_1x</item>
+    </style>
+    
+    <style name="Widget.CoffeeAndroid.MenuAddBtn" parent="Widget.Material3.Button.IconButton.Filled">
+        <item name="shapeAppearance">@style/ShapeAppearance.CoffeeAndroid.MenuAddBtn</item>
+        <item name="backgroundTint">@color/color_onboarding_text</item>
+    </style>
+
+    <style name="ShapeAppearance.CoffeeAndroid.MenuAddBtn" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="ShapeAppearance.CoffeeAndroid.MenuItemPhoto" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
 </resources>
