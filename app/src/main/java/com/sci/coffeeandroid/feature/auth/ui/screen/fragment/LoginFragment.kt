@@ -148,9 +148,11 @@ class LoginFragment : Fragment() {
 
                 LoginViewModelEvent.LoginSuccess -> {
                     binding.pbLogin.visibility = View.GONE
+
                     HomeActivity.newInstance(requireActivity()).also { intent ->
                         startActivity(intent)
                     }
+                    Toast.makeText(context, "login success", Toast.LENGTH_SHORT).show()
                 }
 
                 LoginViewModelEvent.NewUser -> {
