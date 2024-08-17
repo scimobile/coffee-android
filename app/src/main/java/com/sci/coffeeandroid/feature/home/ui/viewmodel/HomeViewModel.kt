@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sci.coffeeandroid.feature.home.data.repository.HomeMenuRepository
+import com.sci.coffeeandroid.feature.home.ui.model.CategoryFiltersSectionData
 import com.sci.coffeeandroid.feature.home.ui.model.GridSectionData
 import com.sci.coffeeandroid.feature.home.ui.model.HomeMenuData
 
@@ -39,7 +40,7 @@ class HomeViewModel(private val repository: HomeMenuRepository) : ViewModel() {
             val homeSections = (_homeMenuSectionsLive.value as HomeMenuUIState.Success).data
             _homeMenuSectionsLive.value = HomeMenuUIState.Success(
                 homeSections.map { section ->
-                    if (section is GridSectionData) {
+                    if (section is CategoryFiltersSectionData) {
                         section.copy(
                             categories = section.categories.map { category ->
                                 category.copy(isSelected = category.id == id)

@@ -15,13 +15,21 @@ data class CarouselSectionData(
     val menuItems: List<MenuDrink>
 ) : HomeMenuData
 
+data class CategoryFiltersSectionData(
+    val categories: List<MenuCategory>
+) : HomeMenuData {
+
+    fun toJson(): String {
+        return Json.encodeToString(categories)
+    }
+}
+
 data class GridSectionData(
-    val categories: List<MenuCategory>,
     val menuItems: List<MenuDrink>
 ) : HomeMenuData {
 
     fun toJson(): String {
-        return Json.encodeToString(categories) + Json.encodeToString(menuItems)
+        return Json.encodeToString(menuItems)
     }
 
 }

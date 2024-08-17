@@ -9,17 +9,15 @@ import com.sci.coffeeandroid.feature.home.ui.model.PromotionSectionData
 class BannerContainerVH(private val binding: BannerContainerBinding) : HomeSectionVH(binding.root) {
 
     private val adapter = PromotionsAdapter()
+    private val snapHelper = PagerSnapHelper()
 
     override fun bind(data: HomeMenuData) {
         if (data is PromotionSectionData) {
             binding.tvPromotionTitle.text = data.title
             binding.rvBanner.adapter = adapter
-            val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(binding.rvBanner)
-
             adapter.submitList(data.promotions)
         }
-
     }
 
 }

@@ -1,6 +1,7 @@
 package com.sci.coffeeandroid.feature.home.data.datasource
 
 import com.sci.coffeeandroid.feature.home.ui.model.CarouselSectionData
+import com.sci.coffeeandroid.feature.home.ui.model.CategoryFiltersSectionData
 import com.sci.coffeeandroid.feature.home.ui.model.GridSectionData
 import com.sci.coffeeandroid.feature.home.ui.model.HomeMenuData
 import com.sci.coffeeandroid.feature.home.ui.model.MenuCategory
@@ -94,7 +95,7 @@ class MockHomeMenuDataSourceImpl : HomeMenuDataSource {
                         )
                     )
                 ),
-                GridSectionData(
+                CategoryFiltersSectionData(
                     listOf(
                         MenuCategory(
                             id = 0L,
@@ -127,6 +128,8 @@ class MockHomeMenuDataSourceImpl : HomeMenuDataSource {
                             isSelected = false
                         ),
                     ),
+                ),
+                GridSectionData(
                     listOf(
                         MenuDrink(
                             0L,
