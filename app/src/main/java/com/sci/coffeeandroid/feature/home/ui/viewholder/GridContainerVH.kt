@@ -5,6 +5,7 @@ import com.sci.coffeeandroid.feature.home.ui.adapter.GridMenuItemsAdapter
 import com.sci.coffeeandroid.feature.home.ui.adapter.MenuCategoriesAdapter
 import com.sci.coffeeandroid.feature.home.ui.model.GridSectionData
 import com.sci.coffeeandroid.feature.home.ui.model.HomeMenuData
+import com.sci.coffeeandroid.feature.home.ui.util.ItemOffsetDecoration
 
 class GridContainerVH(
     private val binding: GridContainerBinding,
@@ -21,6 +22,8 @@ class GridContainerVH(
 
             binding.rvMenuItems.adapter = menuItemsAdapter
             menuItemsAdapter.submitList(data.menuItems)
+            val itemDecoration = ItemOffsetDecoration(16)
+            binding.rvMenuItems.addItemDecoration(itemDecoration)
         }
 
     }
