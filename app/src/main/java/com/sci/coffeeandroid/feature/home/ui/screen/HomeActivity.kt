@@ -44,7 +44,7 @@ class HomeActivity : AppCompatActivity() {
             when (it) {
                 HomeMenuUIState.Loading -> {}
                 is HomeMenuUIState.Success -> {
-                    adapter.updateList(it.data)
+                    adapter.submitList(it.data)
                 }
 
                 is HomeMenuUIState.Error -> {}

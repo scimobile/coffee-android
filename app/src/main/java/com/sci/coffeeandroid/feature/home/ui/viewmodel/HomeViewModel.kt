@@ -37,11 +37,11 @@ class HomeViewModel(private val repository: HomeMenuRepository) : ViewModel() {
             _homeMenuSectionsLive.value = HomeMenuUIState.Success(
                 homeSections.map { section ->
                     if (section is GridSectionData) {
-                        section.categories.map { category ->
-                            category.isSelected = category.id == id
-                            category
-                        }
-                        section
+                        section.copy(
+                            categories = section.categories.map { category ->
+                                category.copy(isSelected = category.id == id)
+                            }
+                        )
                     } else {
                         section
                     }

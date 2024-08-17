@@ -13,4 +13,8 @@
     <string name="menu">Menu</string>
     <string name="search">Search...</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="favorite">Favorite</string>
+    <string name="order">Order</string>
 </resources>

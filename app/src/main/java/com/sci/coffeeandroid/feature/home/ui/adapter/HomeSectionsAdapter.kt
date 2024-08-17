@@ -2,7 +2,8 @@ package com.sci.coffeeandroid.feature.home.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.sci.coffeeandroid.databinding.BannerContainerBinding
 import com.sci.coffeeandroid.databinding.CarouselContainerBinding
 import com.sci.coffeeandroid.databinding.GridContainerBinding
@@ -19,14 +20,8 @@ const val BANNER_TYPE = 0
 const val CAROUSEL_TYPE = 1
 const val GRID_TYPE = 2
 
-class HomeSectionsAdapter(private val onCategoryClick: (Long) -> Unit) : Adapter<HomeSectionVH>() {
-
-    private var homeSections: List<HomeMenuData> = emptyList()
-
-    fun updateList(dataList: List<HomeMenuData>) {
-        homeSections = dataList
-        notifyDataSetChanged()
-    }
+class HomeSectionsAdapter(private val onCategoryClick: (Long) -> Unit) :
+    ListAdapter<HomeMenuData, HomeSectionVH>(HomeSectionsDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeSectionVH {
         return when (viewType) {
@@ -57,10 +52,8 @@ class HomeSectionsAdapter(private val onCategoryClick: (Long) -> Unit) : Adapter
         }
     }
 
-    override fun getItemCount() = homeSections.size
-
     override fun getItemViewType(position: Int): Int {
-        return when (homeSections[position]) {
+        return when (getItem(position)) {
             is PromotionSectionData -> BANNER_TYPE
             is CarouselSectionData -> CAROUSEL_TYPE
             is GridSectionData -> GRID_TYPE
@@ -69,6 +62,34 @@ class HomeSectionsAdapter(private val onCategoryClick: (Long) -> Unit) : Adapter
     }
 
     override fun onBindViewHolder(holder: HomeSectionVH, position: Int) {
-        holder.bind(homeSections[position])
+        holder.bind(getItem(position))
     }
+}
+
+object HomeSectionsDiffUtil : DiffUtil.ItemCallback<HomeMenuData>() {
+
+    override fun areItemsTheSame(oldItem: HomeMenuData, newItem: HomeMenuData): Boolean {
+        return if (oldItem is PromotionSectionData && newItem is PromotionSectionData) {
+            oldItem.title == newItem.title
+        } else if (oldItem is CarouselSectionData && newItem is CarouselSectionData) {
+            oldItem.title == newItem.title
+        } else if (oldItem is GridSectionData && newItem is GridSectionData) {
+            oldItem.toJson() == newItem.toJson()
+        } else {
+            false
+        }
+    }
+
+    override fun areContentsTheSame(oldItem: HomeMenuData, newItem: HomeMenuData): Boolean {
+        return if (oldItem is PromotionSectionData && newItem is PromotionSectionData) {
+            oldItem == newItem
+        } else if (oldItem is CarouselSectionData && newItem is CarouselSectionData) {
+            oldItem == newItem
+        } else if (oldItem is GridSectionData && newItem is GridSectionData) {
+            oldItem.toJson() == newItem.toJson()
+        } else {
+            false
+        }
+    }
+
 }

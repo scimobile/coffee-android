@@ -1,17 +1,19 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.CoffeeAndroid" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowTranslucentNavigation">false</item>
+        <item name="bottomNavigationStyle">@style/Widget.CoffeeAndroid.BottomNavigationView</item>
     </style>
+
     <style name="Theme.CoffeeAndroid" parent="Base.Theme.CoffeeAndroid" />
 
     <style name="Widget.CoffeeAndroid.HomeTitle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/poppins_semi_bold</item>
         <item name="android:textSize">@dimen/text_heading_1x</item>
     </style>
-    
+
     <style name="Widget.CoffeeAndroid.MenuAddBtn" parent="Widget.Material3.Button.IconButton.Filled">
         <item name="shapeAppearance">@style/ShapeAppearance.CoffeeAndroid.MenuAddBtn</item>
         <item name="backgroundTint">@color/color_onboarding_text</item>
@@ -25,6 +27,19 @@
     <style name="ShapeAppearance.CoffeeAndroid.MenuItemPhoto" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="Widget.CoffeeAndroid.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.CoffeeAndroid.BottomNavigationView
+        </item>
+    </style>
+
+    <style name="ThemeOverlay.CoffeeAndroid.BottomNavigationView" parent="">
+        <item name="colorSurfaceContainer">@color/white1</item>
+        <item name="colorOnSurfaceVariant">@color/color_onboarding_text</item>
+        <item name="colorOnSecondaryContainer">@color/color_onboarding_text</item>
+        <item name="colorOnSurface">@color/color_onboarding_text</item>
+        <item name="colorSecondaryContainer">@color/color_brown_50</item>
     </style>
 
 </resources>
