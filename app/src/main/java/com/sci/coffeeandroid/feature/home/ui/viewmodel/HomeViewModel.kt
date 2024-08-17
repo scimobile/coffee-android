@@ -31,6 +31,9 @@ class HomeViewModel(private val repository: HomeMenuRepository) : ViewModel() {
         )
     }
 
+    private val _cartQtyLive: MutableLiveData<Int> = MutableLiveData(0)
+    val cartQtyLive: LiveData<Int> = _cartQtyLive
+
     fun onCategorySelected(id: Long) {
         if (_homeMenuSectionsLive.value is HomeMenuUIState.Success) {
             val homeSections = (_homeMenuSectionsLive.value as HomeMenuUIState.Success).data

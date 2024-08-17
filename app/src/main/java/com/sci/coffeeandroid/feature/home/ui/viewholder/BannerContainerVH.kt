@@ -1,5 +1,6 @@
 package com.sci.coffeeandroid.feature.home.ui.viewholder
 
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.sci.coffeeandroid.databinding.BannerContainerBinding
 import com.sci.coffeeandroid.feature.home.ui.adapter.PromotionsAdapter
 import com.sci.coffeeandroid.feature.home.ui.model.HomeMenuData
@@ -13,6 +14,9 @@ class BannerContainerVH(private val binding: BannerContainerBinding) : HomeSecti
         if (data is PromotionSectionData) {
             binding.tvPromotionTitle.text = data.title
             binding.rvBanner.adapter = adapter
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(binding.rvBanner)
+
             adapter.submitList(data.promotions)
         }
 

@@ -41,5 +41,10 @@
         <item name="colorOnSurface">@color/color_onboarding_text</item>
         <item name="colorSecondaryContainer">@color/color_brown_50</item>
     </style>
+    
+    <style name="Widget.CoffeeAndroid.FAB" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/white1</item>
+        <item name="tint">@color/color_onboarding_text</item>
+    </style>
 
 </resources>
