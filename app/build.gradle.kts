@@ -21,9 +21,9 @@ android {
     }
     signingConfigs {
         getByName("debug") {
-            keyAlias = "key0"
+            keyAlias = "coffee-android"
             keyPassword = "android"
-            storeFile = rootProject.file("keystore/coffee_app_key.keystore")
+            storeFile = rootProject.file("keystore/coffee.jks")
             storePassword = "android"
         }
     }
@@ -74,7 +74,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android.v139)
 
     implementation(libs.androidx.credentials)
-    implementation (libs.googleid.v122)
     implementation (libs.androidx.credentials.play.services.auth)
 
     implementation (libs.facebook.android.sdk)
