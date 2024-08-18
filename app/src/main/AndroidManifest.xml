@@ -15,10 +15,10 @@
         android:theme="@style/Theme.CoffeeAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".feature.auth.ui.screen.activity.HomeActivity"
+            android:name=".feature.home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.auth.ui.screen.activity.AuthActivity"
+            android:name=".feature.auth.ui.screen.AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

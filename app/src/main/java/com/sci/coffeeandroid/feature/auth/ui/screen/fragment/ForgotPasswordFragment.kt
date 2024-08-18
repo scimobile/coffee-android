@@ -1,4 +1,4 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment.auth
+package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

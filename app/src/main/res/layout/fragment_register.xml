@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".feature.auth.ui.screen.fragment.auth.RegisterFragment">
+    tools:context=".feature.auth.ui.screen.fragment.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -80,6 +80,7 @@
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/enter_your_username" />
 

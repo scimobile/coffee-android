@@ -1,4 +1,4 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment.auth
+package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentLoginBinding
-import com.sci.coffeeandroid.feature.auth.ui.screen.activity.HomeActivity
+import com.sci.coffeeandroid.feature.home.HomeActivity
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModelEvent

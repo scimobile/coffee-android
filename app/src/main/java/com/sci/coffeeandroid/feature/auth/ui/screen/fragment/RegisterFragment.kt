@@ -1,7 +1,6 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment.auth
+package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import com.facebook.login.LoginManager
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
 import com.sci.coffeeandroid.feature.auth.ui.RegistrationFormEvent
-import com.sci.coffeeandroid.feature.auth.ui.screen.activity.HomeActivity
+import com.sci.coffeeandroid.feature.home.HomeActivity
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModelState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModelEvent
