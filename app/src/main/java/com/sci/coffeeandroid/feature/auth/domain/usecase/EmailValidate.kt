@@ -1,11 +1,10 @@
 package com.sci.coffeeandroid.feature.auth.domain.usecase
 
 import android.util.Patterns
-import com.sci.coffeeandroid.util.use_case.ValidateUsecase
 import com.sci.coffeeandroid.util.use_case.ValidationResult
 
-class EmailValidate : ValidateUsecase<String> {
-    override fun execute(email: String): ValidationResult {
+class EmailValidate  {
+     fun execute(email: String): ValidationResult {
         if(email.isBlank()){
             return ValidationResult(
                 isSuccess = false,

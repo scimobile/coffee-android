@@ -22,34 +22,100 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepository
+import com.sci.coffeeandroid.feature.auth.domain.usecase.EmailValidate
+import com.sci.coffeeandroid.feature.auth.domain.usecase.PasswordValidate
+import com.sci.coffeeandroid.feature.auth.domain.usecase.PhoneValidate
+import com.sci.coffeeandroid.feature.auth.domain.usecase.RepeatedPasswordValidate
+import com.sci.coffeeandroid.feature.auth.domain.usecase.UsernameValidate
+import com.sci.coffeeandroid.feature.auth.ui.RegistrationFormEvent
+import com.sci.coffeeandroid.feature.auth.ui.RegistrationFormState
 import com.sci.coffeeandroid.util.ApiException
 import com.sci.coffeeandroid.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 import java.util.UUID
 
 class RegisterViewModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val usernameValidate: UsernameValidate,
+    private val emailValidate: EmailValidate,
+    private val phoneValidate: PhoneValidate,
+    private val passwordValidate: PasswordValidate,
+    private val repeatedPasswordValidate: RepeatedPasswordValidate
 ) : ViewModel() {
 
-    val nonce: String = UUID.randomUUID().toString()
+    private val nonce: String = UUID.randomUUID().toString()
 
-    private val _registerUiState: MutableLiveData<RegisterUiState> = MutableLiveData()
-    val registerUiState: MutableLiveData<RegisterUiState> = _registerUiState
+    private val _registerUIState: MutableLiveData<RegistrationFormState> = MutableLiveData()
+    val registerUIState: LiveData<RegistrationFormState> = _registerUIState
+
+    init {
+        _registerUIState.value = RegistrationFormState()
+    }
+    fun onEvent(event: RegistrationFormEvent){
+
+        when (event){
+            is RegistrationFormEvent.UsernameChangedEvent -> {
+                _registerUIState.value = _registerUIState.value?.copy(username = event.username)
+            }
+            is RegistrationFormEvent.EmailChangedEvent -> {
+                _registerUIState.value = _registerUIState.value?.copy(email = event.email)
+            }
+            is RegistrationFormEvent.PasswordChangedEvent -> {
+                _registerUIState.value = _registerUIState.value?.copy(password = event.password)
+            }
+            is RegistrationFormEvent.PhoneChangedEvent -> {
+                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone)
+            }
+            is RegistrationFormEvent.RepeatedPasswordChangedEvent -> {
+                _registerUIState.value = _registerUIState.value?.copy(repeatedPassword = event.repeatedPassword)
+            }
+            RegistrationFormEvent.Submit -> register()
+        }
+    }
+
+    private val _registerViewModelState: MutableLiveData<RegisterViewModelState> = MutableLiveData()
+    val registerViewModelState: LiveData<RegisterViewModelState> = _registerViewModelState
 
     private val _registerUiEvent: SingleLiveEvent<RegisterViewModelEvent> = SingleLiveEvent()
     val registerUiEvent: LiveData<RegisterViewModelEvent> = _registerUiEvent
 
 
-    fun register(
-        username: String,
-        email: String,
-        phone: String,
-        password: String
-    ) {
+    private fun register() {
+        val username = _registerUIState.value?.username;
+        val email = _registerUIState.value?.email;
+        val password = _registerUIState.value?.password;
+        val repeatedPassword = _registerUIState.value?.repeatedPassword;
+        val phone = _registerUIState.value?.phone;
+
+        val usernameResult = usernameValidate.execute(username?:"")
+        val emailResult = emailValidate.execute(email?:"")
+        val passwordResult = passwordValidate.execute(password?:"")
+        val repeatedPasswordResult = repeatedPasswordValidate.execute(password?:"",repeatedPassword?:"")
+        val phoneResult = phoneValidate.execute(phone?:"")
+
+        val isHasError = listOf(
+            usernameResult,
+            emailResult,
+            passwordResult,
+            repeatedPasswordResult,
+            phoneResult
+        ).any { !it.isSuccess }
+
+        if(isHasError){
+            _registerUIState.value = _registerUIState.value?.copy(
+                usernameError = usernameResult.errorMessage,
+                emailError = emailResult.errorMessage,
+                passwordError = passwordResult.errorMessage,
+                repeatedPasswordError = repeatedPasswordResult.errorMessage,
+                phoneError = phoneResult.errorMessage
+            )
+
+            return
+        }
 
         _registerUiEvent.value = RegisterViewModelEvent.Loading
         viewModelScope.launch {
-            authRepository.register(username, email, phone, password)
+            authRepository.register(username!!, email!!, phone!!, password!!)
                 .fold(
                     onSuccess = {
                         _registerUiEvent.value = RegisterViewModelEvent.Success
@@ -96,46 +162,6 @@ class RegisterViewModel(
             }
         })
     }
-
-
-//        val callback = object : FacebookCallback<LoginResult> {
-//
-//            override fun onSuccess(result: LoginResult) {
-//                _registerUiState.value = RegisterViewModelEvent.Success
-//                val accessToken = result.accessToken
-//
-//                Log.d("HNA", "Successfully Login")
-//
-//
-//                // Example to fetch user profile data
-////                val request = GraphRequest.newMeRequest(result.accessToken) { user, graphResponse ->
-////                    if (graphResponse != null && user != null) {
-////                        _userProfile.postValue(user)
-////                    } else {
-////                        _loginError.postValue(graphResponse?.error?.errorMessage)
-////                    }
-////                }
-////                val parameters = Bundle()
-////                parameters.putString("fields", "id, name, email, picture.type(large)")
-////                request.parameters = parameters
-////                request.executeAsync()
-//
-//
-//            }
-//
-//            override fun onCancel() {
-//                _registerUiEvent.value = RegisterViewModelEvent.Error("Login canceled")
-//                Log.d("HNA", "Login canceled")
-//            }
-//
-//            override fun onError(error: FacebookException) {
-//                _registerUiEvent.value =
-//                    RegisterViewModelEvent.Error("Login failed: ${error.message}")
-//                Log.d("HNA", "Login failed: ${error.message}")
-//            }
-//        }
-////        LoginManager.getInstance().registerCallback(callbackManager, callback)
-//
 
     private val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
         .setFilterByAuthorizedAccounts(false)
@@ -220,7 +246,7 @@ class RegisterViewModel(
             }
         }
     }
-    fun updateData(newValue: RegisterViewModelEvent) {
+    private fun updateData(newValue: RegisterViewModelEvent) {
         _registerUiEvent.value = newValue
     }
 
@@ -236,8 +262,8 @@ sealed class RegisterViewModelEvent {
     data object UserAlreadyExit : RegisterViewModelEvent()
 }
 
-sealed class RegisterUiState {
-    data object Idel : RegisterUiState()
+sealed class RegisterViewModelState {
+    data object Idel : RegisterViewModelState()
 }
 
 

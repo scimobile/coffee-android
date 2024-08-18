@@ -11,7 +11,12 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel {
         RegisterViewModel(
-           authRepository =  get()
+           authRepository =  get(),
+            usernameValidate = get(),
+            emailValidate = get(),
+            passwordValidate = get(),
+            repeatedPasswordValidate = get(),
+            phoneValidate = get()
         )
     }
     viewModel {

@@ -1,21 +1,16 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
+package com.sci.coffeeandroid.feature.auth.ui.screen.fragment.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentLoginBinding
-import com.sci.coffeeandroid.feature.auth.ui.screen.HomeActivity
+import com.sci.coffeeandroid.feature.auth.ui.screen.activity.HomeActivity
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModelEvent
