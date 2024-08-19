@@ -6,6 +6,7 @@ import com.facebook.appevents.AppEventsLogger
 import com.sci.coffeeandroid.feature.auth.di.networkModule
 import com.sci.coffeeandroid.feature.auth.di.repositoryModule
 import com.sci.coffeeandroid.feature.auth.di.datasourceModuleImpl
+import com.sci.coffeeandroid.feature.auth.di.validateModelue
 import com.sci.coffeeandroid.feature.auth.di.viewModelModule
 import com.tencent.mmkv.MMKV
 import org.koin.android.ext.koin.androidContext
@@ -17,6 +18,7 @@ class CoffeeApplication : Application() {
         MMKV.initialize(this)
         startKoin {
             modules(
+                validateModelue,
                 networkModule,
                 datasourceModuleImpl,
                 repositoryModule,

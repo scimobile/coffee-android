@@ -1,20 +1,16 @@
 package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentForgotPasswordBinding
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordViewModelEvent
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordUiState
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModelEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ForgotPasswordFragment : Fragment() {

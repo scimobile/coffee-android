@@ -1,4 +1,4 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen
+package com.sci.coffeeandroid.feature.home
 
 import android.content.Context
 import android.content.Intent

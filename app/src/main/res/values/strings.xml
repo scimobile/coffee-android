@@ -31,5 +31,6 @@
     <string name="hi_welcome_back">Hi, Welcome Back!👋</string>
     <string name="please_enter_your_registered_email">Please enter your registered email</string>
     <string name="forgot_password_title">Forgot Password?</string>
+    <string name="next">Next</string>
 
 </resources>

@@ -13,7 +13,6 @@ import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModelEvent
 import com.sci.coffeeandroid.util.addTextChangesListener
 import com.sci.coffeeandroid.util.isMatchPassword
-import com.sci.coffeeandroid.util.validateInputs
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ResetPasswordFragment : Fragment() {
