@@ -7,11 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.sci.coffeeandroid.feature.menudetails.data.repository.CoffeeDetailRepository
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CoffeeModel
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CustomOrderModel
+import com.sci.coffeeandroid.feature.menudetails.domain.model.Size
+import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
+import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
 import kotlinx.coroutines.launch
 
 class CoffeeDetailViewModel constructor(
     private val coffeeDetailRepository: CoffeeDetailRepository
 ) : ViewModel() {
+
     private val _coffeeDetailLiveData: MutableLiveData<CoffeeDetailUiState> = MutableLiveData()
     val coffeeDetailLiveData: LiveData<CoffeeDetailUiState> = _coffeeDetailLiveData
 
@@ -21,43 +25,56 @@ class CoffeeDetailViewModel constructor(
     private var _customOrderLiveData: MutableLiveData<CustomOrderModel> =
         MutableLiveData(
             CustomOrderModel(
-                size = "",
-                variation = "",
-                sugar = "",
+                size = Size.SMALL,
+                variation = Variation.HOT,
+                sugar = Sugar.NONE,
                 milk = "",
                 topping = "",
                 specialInstructions = ""
             )
         )
-    private val customOrderLiveData: LiveData<CustomOrderModel> = _customOrderLiveData
+    val customOrderLiveData: LiveData<CustomOrderModel> = _customOrderLiveData
 
-    fun onSizeSelected(size: String) {
+    fun onSizeSelected(size: Size) {
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
             size = size
         )
     }
 
-    fun onVariationSelected(variation: String) {
+    fun onVariationSelected(variation: Variation) {
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
             variation = variation
         )
     }
 
-    fun onSugarSelected(sugar: String) {
+    fun onSugarSelected(sugar: Sugar) {
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
             sugar = sugar
         )
     }
 
-    fun onMilkSelected(milk: String) {
+    var selectedMilkPosition = 0
+    fun onMilkSelected(milk: Int) {
+        selectedMilkPosition = milk
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
-            milk = milk
+            milk = (coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.milk[milk]
         )
     }
 
-    fun onToppingSelected(topping: String) {
+    var selectedToppingPosition = 0
+    fun onToppingSelected(topping: Int) {
+        selectedToppingPosition = topping
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
-            topping = topping
+            topping = (coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.toppings[topping]
+        )
+    }
+
+    fun onFavouriteClicked(){
+        isFavourite = !isFavourite
+        _coffeeDetailLiveData.value = CoffeeDetailUiState.Success(
+            (coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.copy(
+                isFavourite = !(coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.isFavourite
+            )
         )
     }
 
@@ -75,6 +92,8 @@ class CoffeeDetailViewModel constructor(
         _quantityLiveData.value = minOf(1000, (quantityLiveData.value!! + 1).toInt())
     }
 
+    var  isFavourite = false
+
     fun fetchCoffeeDetail(id: Int) {
         _coffeeDetailLiveData.value = CoffeeDetailUiState.Loading
         viewModelScope.launch {
@@ -83,6 +102,7 @@ class CoffeeDetailViewModel constructor(
             coffeeDetailModels.fold(
                 {
                     _coffeeDetailLiveData.value = CoffeeDetailUiState.Success(it)
+                    isFavourite = it.isFavourite
                 },
                 {
                     _coffeeDetailLiveData.value =

@@ -1,27 +1,34 @@
 package com.sci.coffeeandroid.feature.menudetails.ui.screen
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.ActivityMenuDetailsBinding
+import com.sci.coffeeandroid.feature.menudetails.domain.model.Size
+import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
+import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
 import com.sci.coffeeandroid.feature.menudetails.ui.viewmodel.CoffeeDetailViewModel
-import kotlinx.coroutines.delay
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MenuDetailsActivity() : AppCompatActivity() {
+class MenuDetailsActivity : AppCompatActivity() {
 
     private val coffeeDetailViewModel: CoffeeDetailViewModel by viewModel()
     private lateinit var binding: ActivityMenuDetailsBinding
 
+    @SuppressLint("DefaultLocale", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,24 +42,28 @@ class MenuDetailsActivity() : AppCompatActivity() {
 
         coffeeDetailViewModel.fetchCoffeeDetail(id = 1)
 
-        coffeeDetailViewModel.coffeeDetailLiveData.observe(this){
+        coffeeDetailViewModel.coffeeDetailLiveData.observe(this) {
             when (it) {
-                is CoffeeDetailViewModel.CoffeeDetailUiState.Error -> TODO()
+                is CoffeeDetailViewModel.CoffeeDetailUiState.Error -> {
+
+                }
+
                 CoffeeDetailViewModel.CoffeeDetailUiState.Loading -> {
 
                 }
+
                 is CoffeeDetailViewModel.CoffeeDetailUiState.Success -> {
-                    binding.tvPrice.text = ("$${it.coffee.price}").toString()
+                    val currency = "$"
+                    val price = String.format("%.2f", it.coffee.price)
+                    binding.tvPrice.text = currency + price
                     binding.collapsingToolBarLayout.title = it.coffee.name
                     binding.tvDetailDescription.text = it.coffee.description
+                    binding.btnFav.isChecked = it.coffee.isFavourite
 
-                    val checkedChipId = binding.chipGroupSize.checkedChipId
-
-                    binding.chipGroupSize.setOnCheckedStateChangeListener { group, checkedIds ->
-
-                    }
-
-                    coffeeDetailViewModel.onSizeSelected((binding.chipGroupSize.checkedChipId).toString())
+                    (binding.btnFav as MaterialButton).icon = AppCompatResources.getDrawable(
+                        binding.root.context,
+                        if (it.coffee.isFavourite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outlined
+                    )
 
                     Glide.with(this)
                         .load(it.coffee.image)
@@ -65,6 +76,11 @@ class MenuDetailsActivity() : AppCompatActivity() {
                     ).also { adapter ->
                         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                         binding.spinnerMilk.adapter = adapter
+                        coffeeDetailViewModel.customOrderLiveData.value?.milk.let {
+                            if (it?.isNotEmpty() == true) {
+                                binding.spinnerMilk.setSelection(coffeeDetailViewModel.selectedMilkPosition)
+                            }
+                        }
                     }
                     ArrayAdapter(
                         this,
@@ -73,22 +89,80 @@ class MenuDetailsActivity() : AppCompatActivity() {
                     ).also { adapter ->
                         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                         binding.spinnerToppings.adapter = adapter
+                        coffeeDetailViewModel.customOrderLiveData.value?.topping.let {
+                            if (it?.isNotEmpty() == true) {
+                                binding.spinnerToppings.setSelection(coffeeDetailViewModel.selectedToppingPosition)
+                            }
+                        }
                     }
                 }
             }
         }
 
-        binding.btnFav.setOnCheckedChangeListener { buttonView, isChecked ->
+        val checkedChipId = binding.chipGroupSize.checkedChipId
 
-            if (isChecked){
-                Toast.makeText(this,"Added to favourite",Toast.LENGTH_SHORT).show()
-            }else
-            {
-                Toast.makeText(this,"Removed from favourite",Toast.LENGTH_SHORT).show()
+        binding.chipGroupSize.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                when (checkedIds.first()) {
+                    R.id.btn_chip_small -> {
+                        coffeeDetailViewModel.onSizeSelected(Size.SMALL)
+                    }
+
+                    R.id.btn_chip_medium -> {
+                        coffeeDetailViewModel.onSizeSelected(Size.MEDIUM)
+                    }
+
+                    R.id.btn_radio_large -> {
+                        coffeeDetailViewModel.onSizeSelected(Size.LARGE)
+                    }
+                }
+            }
+
+        }
+
+        binding.chipGroupVariation.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                when (checkedIds.first()) {
+                    R.id.btn_chip_hot -> {
+                        coffeeDetailViewModel.onVariationSelected(Variation.HOT)
+                    }
+
+                    R.id.btn_chip_cold -> {
+                        coffeeDetailViewModel.onVariationSelected(Variation.COLD)
+                    }
+                }
             }
         }
 
-        coffeeDetailViewModel.quantityLiveData.observe(this){
+        binding.chipGroupSugar.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                when (checkedIds.first()) {
+                    R.id.btn_chip_sugar_none -> {
+                        coffeeDetailViewModel.onSugarSelected(Sugar.NONE)
+                    }
+
+                    R.id.btn_chip_sugar_30percent -> {
+                        coffeeDetailViewModel.onSugarSelected(Sugar.THIRTY_PERCENT)
+                    }
+
+                    R.id.btn_chip_sugar_50percent -> {
+                        coffeeDetailViewModel.onSugarSelected(Sugar.FIFTY_PERCENT)
+                    }
+                }
+            }
+        }
+
+
+        binding.btnFav.setOnClickListener{
+            if (coffeeDetailViewModel.isFavourite){
+                Toast.makeText(this,"Removed from favourites",Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this,"Added to favourites",Toast.LENGTH_SHORT).show()
+            }
+            coffeeDetailViewModel.onFavouriteClicked()
+        }
+
+        coffeeDetailViewModel.quantityLiveData.observe(this) {
             binding.tvQuantity.text = coffeeDetailViewModel.quantityLiveData.value.toString()
         }
 
@@ -97,13 +171,42 @@ class MenuDetailsActivity() : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.bottomAppBar.setOnClickListener {
+        binding.spinnerMilk.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                coffeeDetailViewModel.onMilkSelected(
+                    milk = position
+                )
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
 
         }
+        binding.spinnerToppings.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    coffeeDetailViewModel.onToppingSelected(
+                        topping = position
+                    )
+                }
 
-        binding.btnAddToCart.setOnClickListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
 
-        }
+            }
+
 
         binding.btnMinus.setOnClickListener {
             coffeeDetailViewModel.decreaseQuantity()
@@ -112,6 +215,5 @@ class MenuDetailsActivity() : AppCompatActivity() {
         binding.btnPlus.setOnClickListener {
             coffeeDetailViewModel.increaseQuantity()
         }
-
     }
 }

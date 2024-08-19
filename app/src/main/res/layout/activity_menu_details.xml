@@ -60,20 +60,19 @@
                     android:src="@drawable/ic_back"
                     app:tint="@color/white" />
 
-                <com.google.android.material.checkbox.MaterialCheckBox
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_fav"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    style="@style/Widget.Material3.Button.IconButton"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginHorizontal="@dimen/margin_medium_x_20"
                     android:layout_marginTop="@dimen/margin_medium_x_12"
-                    android:background="@color/transparent"
-                    android:checked="false"
                     android:contentDescription="@string/favourite"
-                    app:buttonIcon="@drawable/selector_fav_btn"
-                    app:buttonIconTint="@color/color_coffee_brown"
+                    app:icon="@drawable/ic_heart_outlined"
+                    app:iconTint="@color/color_coffee_brown"
                     app:buttonTint="@color/white"
-                    app:centerIfNoTextEnabled="true"
+                    app:iconGravity="textStart"
                     app:useMaterialThemeColors="false" />
 
             </Toolbar>
@@ -242,7 +241,7 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/btn_radio_hot"
+                    android:id="@+id/btn_chip_hot"
                     style="@style/CustomChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -263,7 +262,7 @@
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/btn_radio_cold"
+                    android:id="@+id/btn_chip_cold"
                     style="@style/CustomChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -347,7 +346,7 @@
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/btn_radio_sugar_50percent"
+                    android:id="@+id/btn_chip_sugar_50percent"
                     style="@style/CustomChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

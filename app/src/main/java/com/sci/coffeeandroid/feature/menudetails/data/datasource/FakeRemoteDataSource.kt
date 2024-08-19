@@ -9,11 +9,9 @@ class FakeRemoteDataSource() : CoffeeDetailRemoteDataSource {
                 id = 1,
                 name = "Vanilla Latte",
                 price = 13.90f,
+                isFavourite = true,
                 image = "https://static.vecteezy.com/system/resources/previews/036/159/545/original/ai-generated-vanilla-latte-latte-with-vanilla-syrup-on-transparent-background-free-png.png",
                 description = "A brief yet enticing description of the coffee, highlighting its flavor profile, ingredients, and any unique features",
-//                size = "small",
-//                variation = "hot",
-//                sugar = "30%",
                 milk = listOf(
                     "None",
                     "Almond Milk",
@@ -38,17 +36,8 @@ class FakeRemoteDataSource() : CoffeeDetailRemoteDataSource {
                     "Honey",
                     "Maple Syrup",
                     "Peppermint",
-                    "Nut Butter",
-                    "Sugar Crystals",
-                    "Edible Glitter",
-                    "Sea Salt",
-                    "Lavender",
-                    "Toasted Coconut Flakes",
-                    "Chopped Nuts",
-                    "Marshmallows",
-                    "Gingerbread Crumbs"
-                ),
-                specialInstructions = ""
+                    "Nut Butter"
+                )
             )
         )
     }

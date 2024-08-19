@@ -10,5 +10,4 @@ data class CoffeeRequest(
     val variation : String,
     val milk: String,
     val topping : String,
-    val specialInstructions : String?
 )
