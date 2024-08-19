@@ -189,7 +189,7 @@ fun validateInputs(
 
     var isAllValidate = true
 
-    if (email.isEmpty()) {
+    if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
         textFieldEmail.error = "Enter email"
         isAllValidate = false
     }

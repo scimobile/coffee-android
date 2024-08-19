@@ -45,6 +45,10 @@ class ForgotPasswordViewModel(
         }
     }
 
+    fun resetForgotPasswordUiState() {
+        _uiState.value = ForgotPasswordUiState.Loading
+    }
+
 
     private fun handleApiException(apiException: ApiException) {
         when (apiException.code) {

@@ -30,7 +30,6 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var callbackManager: CallbackManager? = null
-
     private var isButtonEnabled = true
 
     override fun onCreateView(

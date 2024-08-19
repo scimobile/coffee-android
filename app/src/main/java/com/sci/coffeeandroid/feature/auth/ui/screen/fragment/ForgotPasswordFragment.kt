@@ -67,12 +67,11 @@ class ForgotPasswordFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 ForgotPasswordUiState.Loading -> {
-
                 }
 
                 ForgotPasswordUiState.ResetSuccess -> {
                     replaceFragment(ResetPasswordFragment.newInstance(email = binding.etForgetEmail.text.toString()))
-
+                    viewModel.resetForgotPasswordUiState()
                 }
 
                 ForgotPasswordUiState.NewUser -> {
