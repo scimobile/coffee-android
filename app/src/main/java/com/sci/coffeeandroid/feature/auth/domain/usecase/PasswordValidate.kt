@@ -11,11 +11,14 @@ class PasswordValidate  {
                 errorMessage = "The password must be at least 8 characters"
             )
         }
-        val containLettersAndDigits = password.any {it.isDigit() } && password.any { it.isLetter() }
-        if (!containLettersAndDigits){
+         val specialCharacterRegex = Regex("[!@#$%^&*(),.?\":{}|<>]")
+         val containsSpecialChar = password.any { specialCharacterRegex.containsMatchIn(it.toString()) }
+
+         val containLettersAndDigits = password.any {it.isDigit() } && password.any { it.isLetter() }
+        if (!containLettersAndDigits || !containsSpecialChar){
             return ValidationResult(
                 isSuccess = false,
-                errorMessage = "The password needs to contain letter and digit"
+                errorMessage = "The password needs to contain letter, digit and special character"
             )
         }
 

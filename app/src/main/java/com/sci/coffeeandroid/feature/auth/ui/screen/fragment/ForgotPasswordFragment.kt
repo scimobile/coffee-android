@@ -5,7 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentForgotPasswordBinding
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordUiState
@@ -44,8 +48,29 @@ class ForgotPasswordFragment : Fragment() {
             )
         }
 
+        binding.etForgetEmail.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                binding.etForgetEmail.clearFocus()
+                if (binding.etForgetEmail.text.toString().isEmpty()) {
+                    binding.texFieldForgotPasswordEmail.error = "Email is required"
+
+                }else{
+                    viewModel.getOTP(
+                        email = binding.etForgetEmail.text.toString()
+                    )
+                }
+
+                true // Return true to indicate that you've handled the action
+            } else {
+                false
+            }
+        }
+
         observerUiState()
         observeViewModelEvent()
+        binding.etForgetEmail.doAfterTextChanged {
+            binding.texFieldForgotPasswordEmail.error=null
+        }
     }
 
     private fun observeViewModelEvent() {

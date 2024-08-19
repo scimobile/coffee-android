@@ -80,18 +80,20 @@ class LoginFragment : Fragment() {
                 val email = binding.etLoginEmail.text.toString().trim()
                 val password = binding.etLoginPassword.text.toString().trim()
 
-                if (validateInputs(
+                if (!validateInputs(
                         email,
                         password,
                         textFieldEmail = binding.emailTextLayout,
                         textFieldPassword = binding.passwordTextLayout,
                     )
                 ) {
-                    viewModel.login(
-                        userName = email,
-                        password = password
-                    )
+                    isButtonEnabled = true
+                    return@setOnClickListener
                 }
+                viewModel.login(
+                    userName = email,
+                    password = password
+                )
             }
         }
 
