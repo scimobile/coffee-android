@@ -4,14 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     tools:context=".feature.auth.ui.screen.fragment.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:paddingBottom="@dimen/margin_large"
+        >
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_guide_line"
@@ -36,8 +37,8 @@
             android:text="@string/hi_welcome_back"
             android:textColor="@color/black"
             android:textSize="@dimen/text_heading_1x"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_guide_line"
+            app:layout_constraintStart_toEndOf="@id/start_guide_line"
             app:layout_constraintTop_toTopOf="parent" />
 
 
