@@ -3,9 +3,11 @@ package com.sci.coffeeandroid.util
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Patterns
+import android.widget.Button
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputLayout
+import com.sci.coffeeandroid.R
 
 class PhoneNumberInputFilter : InputFilter {
     // Regex pattern to allow digits, spaces, dashes, plus sign, and parentheses
@@ -65,16 +67,52 @@ fun addTextChangeListener(
     etPassword: EditText,
     textFieldEmail : TextInputLayout,
     textFieldPassword : TextInputLayout,
+    btnLogin: Button,
+    enableTextColor:Int,
+    disableTextColor:Int
 ) {
     etPassword.doAfterTextChanged {
-        textFieldPassword.error = null
+        val isEnable = etEmail.text.isNotBlank() && etPassword.text.isNotBlank()
+        if(isEnable){
+            setBtnEnable(enableTextColor,btnLogin)
+        }else{
+           setBtnDisable(disableTextColor,btnLogin)
+        }
+        if (etPassword.text.isBlank()) {
+            textFieldPassword.error = "Enter password"
+        }else{
+            textFieldPassword.error = null
+        }
     }
 
     etEmail.doAfterTextChanged {
-        textFieldEmail.error = null
+        val isEnable = etEmail.text.isNotBlank() && etPassword.text.isNotBlank()
+        if(isEnable){
+            setBtnEnable(enableTextColor,btnLogin)
+        }else{
+            setBtnDisable(disableTextColor,btnLogin)
+        }
+        if (etEmail.text.isBlank()) {
+            textFieldEmail.error =
+                "Enter email"
+        }else{
+            textFieldEmail.error = null
+        }
+
     }
 }
 
+fun setBtnDisable(disableTextColor: Int, btnLogin: Button) {
+    btnLogin.isEnabled = false
+    btnLogin.setBackgroundResource(R.drawable.button_disable_shape)
+    btnLogin.setTextColor(disableTextColor)
+}
+
+fun setBtnEnable(enableTextColor: Int, btnLogin: Button) {
+    btnLogin.isEnabled = true
+    btnLogin.setBackgroundResource(R.drawable.button_enable_shape)
+    btnLogin.setTextColor(enableTextColor)
+}
 
 
 fun validateInputs(
@@ -86,11 +124,11 @@ fun validateInputs(
 
     var isAllValidate = true
 
-    if (email.isEmpty()) {
+    if (email.isBlank()) {
         textFieldEmail.error = "Enter email"
         isAllValidate = false
     }
-    if (password.isEmpty()) {
+    if (password.isBlank()) {
         textFieldPassword.error =
             "Enter password"
         isAllValidate = false
