@@ -51,36 +51,24 @@ class RegisterViewModel(
     init {
         _registerUIState.value = RegistrationFormState()
     }
+    fun onEvent(event: RegistrationFormEvent){
 
-    fun onEvent(event: RegistrationFormEvent) {
-        when (event) {
+        when (event){
             is RegistrationFormEvent.UsernameChangedEvent -> {
-                _registerUIState.value =
-                    _registerUIState.value?.copy(username = event.username, usernameError = null)
+                _registerUIState.value = _registerUIState.value?.copy(username = event.username)
             }
-
             is RegistrationFormEvent.EmailChangedEvent -> {
-                _registerUIState.value =
-                    _registerUIState.value?.copy(email = event.email, emailError = null)
+                _registerUIState.value = _registerUIState.value?.copy(email = event.email)
             }
-
             is RegistrationFormEvent.PasswordChangedEvent -> {
-                _registerUIState.value =
-                    _registerUIState.value?.copy(password = event.password, passwordError = null)
+                _registerUIState.value = _registerUIState.value?.copy(password = event.password)
             }
-
             is RegistrationFormEvent.PhoneChangedEvent -> {
-                _registerUIState.value =
-                    _registerUIState.value?.copy(phone = event.phone, phoneError = null)
+                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone)
             }
-
             is RegistrationFormEvent.RepeatedPasswordChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(
-                    repeatedPassword = event.repeatedPassword,
-                    repeatedPasswordError = null
-                )
+                _registerUIState.value = _registerUIState.value?.copy(repeatedPassword = event.repeatedPassword)
             }
-
             RegistrationFormEvent.Submit -> register()
         }
     }
@@ -99,12 +87,11 @@ class RegisterViewModel(
         val repeatedPassword = _registerUIState.value?.repeatedPassword;
         val phone = _registerUIState.value?.phone;
 
-        val usernameResult = usernameValidate.execute(username ?: "")
-        val emailResult = emailValidate.execute(email ?: "")
-        val passwordResult = passwordValidate.execute(password ?: "")
-        val repeatedPasswordResult =
-            repeatedPasswordValidate.execute(password ?: "", repeatedPassword ?: "")
-        val phoneResult = phoneValidate.execute(phone ?: "")
+        val usernameResult = usernameValidate.execute(username?:"")
+        val emailResult = emailValidate.execute(email?:"")
+        val passwordResult = passwordValidate.execute(password?:"")
+        val repeatedPasswordResult = repeatedPasswordValidate.execute(password?:"",repeatedPassword?:"")
+        val phoneResult = phoneValidate.execute(phone?:"")
 
         val isHasError = listOf(
             usernameResult,
@@ -114,7 +101,7 @@ class RegisterViewModel(
             phoneResult
         ).any { !it.isSuccess }
 
-        if (isHasError) {
+        if(isHasError){
             _registerUIState.value = _registerUIState.value?.copy(
                 usernameError = usernameResult.errorMessage,
                 emailError = emailResult.errorMessage,
@@ -171,8 +158,7 @@ class RegisterViewModel(
             }
 
             override fun onError(error: FacebookException) {
-                _registerUiEvent.value =
-                    RegisterViewModelEvent.Error("Login failed: ${error.message}")
+                _registerUiEvent.value = RegisterViewModelEvent.Error("Login failed: ${error.message}")
             }
         })
     }
@@ -209,6 +195,7 @@ class RegisterViewModel(
             error = e.message.orEmpty()
         )
     }
+
 
 
     private fun handleSignIn(result: GetCredentialResponse) {
@@ -259,7 +246,6 @@ class RegisterViewModel(
             }
         }
     }
-
     private fun updateData(newValue: RegisterViewModelEvent) {
         _registerUiEvent.value = newValue
     }

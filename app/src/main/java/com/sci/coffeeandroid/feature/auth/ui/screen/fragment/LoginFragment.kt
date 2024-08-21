@@ -76,6 +76,7 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             if (isButtonEnabled) {
+                isButtonEnabled = false
                 val email = binding.etLoginEmail.text.toString().trim()
                 val password = binding.etLoginPassword.text.toString().trim()
 

@@ -98,8 +98,28 @@ class RegisterFragment : Fragment() {
 //            textFieldConfirmPassword = binding.textFieldConfirmPassword
 //        )
         binding.btnSignup.setOnClickListener {
-            viewModel.onEvent(RegistrationFormEvent.Submit)
 
+//            val username = binding.etUsername.text.toString().trim()
+//            val email = binding.etEmail.text.toString().trim()
+//            val phone = binding.etPhoneNumber.text.toString().trim()
+//            val password = binding.etPassword.text.toString().trim()
+//            val confirmPassword = binding.etConfirmPassword.text.toString().trim()
+//
+//            if (validateInputs(
+//                    username,
+//                    email,
+//                    phone,
+//                    password,
+//                    confirmPassword,
+//                    textFieldUserName = binding.textFieldUsername,
+//                    textFieldEmail = binding.textFieldEmail,
+//                    textFieldPhoneNumber = binding.textFieldPhoneNumber,
+//                    textFieldPassword = binding.textFieldPassword,
+//                    textFieldConfirmPassword = binding.textFieldConfirmPassword
+//                )
+//            ) {
+            viewModel.onEvent(RegistrationFormEvent.Submit)
+//            }
         }
         binding.tvLogin.setOnClickListener {
             replaceFragment(LoginFragment.newInstance())

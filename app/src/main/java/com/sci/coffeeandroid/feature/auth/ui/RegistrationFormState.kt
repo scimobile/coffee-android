@@ -12,10 +12,3 @@ data class RegistrationFormState(
     var repeatedPassword : String = "",
     var repeatedPasswordError : String? =null
 )
-
-data class ResetPasswordFormState(
-    var password: String = "",
-    var passwordError: String? =null,
-    var repeatedPassword : String = "",
-    var repeatedPasswordError : String? =null
-)

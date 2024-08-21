@@ -9,11 +9,3 @@ sealed class RegistrationFormEvent {
 
     data object Submit: RegistrationFormEvent()
 }
-
-sealed class RestartPasswordFormEvent
-{
-    data class PasswordChangedEvent(val password:String): RestartPasswordFormEvent()
-    data class RepeatedPasswordChangedEvent(val repeatedPassword:String): RestartPasswordFormEvent()
-
-    data object Submit: RestartPasswordFormEvent()
-}

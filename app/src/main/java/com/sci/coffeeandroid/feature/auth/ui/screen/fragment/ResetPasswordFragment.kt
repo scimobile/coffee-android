@@ -5,13 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentResetPasswordBinding
-import com.sci.coffeeandroid.feature.auth.ui.RegistrationFormEvent
-import com.sci.coffeeandroid.feature.auth.ui.ResetPasswordFormState
-import com.sci.coffeeandroid.feature.auth.ui.RestartPasswordFormEvent
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModelEvent
@@ -56,8 +52,6 @@ class ResetPasswordFragment : Fragment() {
             // Use the value as needed
         }
 
-        setupTextWatchers()
-
         addTextChangesListener(
             etConfirmPassword = binding.edtConfirmPassword,
             etPassword = binding.edtPassword,
@@ -65,29 +59,27 @@ class ResetPasswordFragment : Fragment() {
             textFieldConfirmPassword = binding.textConfirmLayout,
         )
         binding.btnResetPassword.setOnClickListener {
-            viewModel.onEvent(RestartPasswordFormEvent.Submit)
+            val password = binding.edtPassword.text.toString().trim()
+            val newPassword = binding.edtConfirmPassword.text.toString().trim()
+
+            if (isMatchPassword(
+                    password,
+                    newPassword,
+                    texFieldPassword = binding.textPasswordLayout,
+                    texFieldNewPassword = binding.textConfirmLayout,
+                )
+            ) {
+                viewModel.resetPassword(
+                    email = email!!,
+                    newPassword = password
+                )
+            }
 
         }
 
-
-        observeUIState()
-        observerViewModelState()
+        observerUiState()
         observeViewModelEvent()
 
-    }
-
-    private fun setupTextWatchers() {
-        val fields = listOf(
-            binding.tvPassword to RestartPasswordFormEvent::PasswordChangedEvent,
-            binding.tvConfirmPassword to RestartPasswordFormEvent::RepeatedPasswordChangedEvent
-        )
-
-        fields.forEach { (editText, event) ->
-            editText.doAfterTextChanged {
-                val text = it.toString().trim()
-                viewModel.onEvent(event(text))
-            }
-        }
     }
 
     private fun observeViewModelEvent() {
@@ -101,7 +93,7 @@ class ResetPasswordFragment : Fragment() {
         }
     }
 
-    private fun observerViewModelState() {
+    private fun observerUiState() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 ResetPasswordUiState.Loading -> {}
@@ -119,16 +111,6 @@ class ResetPasswordFragment : Fragment() {
 
             }
         }
-    }
-
-
-
-    private fun observeUIState() {
-        viewModel.resetPasswordUiState.observe(viewLifecycleOwner) {
-            binding.textPasswordLayout.error = it.passwordError
-            binding.textConfirmLayout.error = it.repeatedPasswordError
-        }
-
     }
 
     private fun replaceFragment(fragment: Fragment){
