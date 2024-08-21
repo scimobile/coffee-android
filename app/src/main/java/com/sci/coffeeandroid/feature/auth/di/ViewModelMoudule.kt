@@ -26,7 +26,9 @@ val viewModelModule = module {
     }
     viewModel {
         ResetPasswordViewModel(
-           authRepository =  get()
+           authRepository =  get(),
+            repeatedPasswordValidate = get(),
+            passwordValidate = get()
         )
     }
     viewModel {
