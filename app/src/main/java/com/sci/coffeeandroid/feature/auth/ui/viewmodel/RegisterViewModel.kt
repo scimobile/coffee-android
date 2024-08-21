@@ -45,29 +45,37 @@ class RegisterViewModel(
 
     private val nonce: String = UUID.randomUUID().toString()
 
-    private val _registerUIState: MutableLiveData<RegistrationFormState> = MutableLiveData()
+    private val _registerUIState: MutableLiveData<RegistrationFormState> = MutableLiveData(RegistrationFormState())
     val registerUIState: LiveData<RegistrationFormState> = _registerUIState
 
-    init {
-        _registerUIState.value = RegistrationFormState()
-    }
+
     fun onEvent(event: RegistrationFormEvent){
 
         when (event){
             is RegistrationFormEvent.UsernameChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(username = event.username, usernameError = null)
+                val usernameResult = usernameValidate.execute(event.username)
+                val error = if (usernameResult.isSuccess) null else usernameResult.errorMessage
+                _registerUIState.value = _registerUIState.value?.copy(username = event.username, usernameError = error)
             }
             is RegistrationFormEvent.EmailChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(email = event.email, emailError = null)
+                val emailResult = emailValidate.execute(event.email)
+                val error = if (emailResult.isSuccess) null else emailResult.errorMessage
+                _registerUIState.value = _registerUIState.value?.copy(email = event.email, emailError = error)
             }
             is RegistrationFormEvent.PasswordChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(password = event.password, passwordError = null)
+                val passwordResult = passwordValidate.execute(event.password)
+                val error = if (passwordResult.isSuccess) null else passwordResult.errorMessage
+                _registerUIState.value = _registerUIState.value?.copy(password = event.password, passwordError = error)
             }
             is RegistrationFormEvent.PhoneChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone, phoneError = null)
+                val phoneResult = phoneValidate.execute(event.phone)
+                val error = if (phoneResult.isSuccess) null else phoneResult.errorMessage
+                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone, phoneError = error)
             }
             is RegistrationFormEvent.RepeatedPasswordChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(repeatedPassword = event.repeatedPassword, repeatedPasswordError = null)
+
+                val error = if (event.repeatedPassword.isEmpty()) "Password can't be blank" else null
+                _registerUIState.value = _registerUIState.value?.copy(repeatedPassword = event.repeatedPassword, repeatedPasswordError = error)
             }
             RegistrationFormEvent.Submit -> register()
         }

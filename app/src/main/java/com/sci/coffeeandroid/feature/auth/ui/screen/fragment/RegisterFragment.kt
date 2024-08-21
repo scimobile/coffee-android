@@ -163,11 +163,11 @@ class RegisterFragment : Fragment() {
 
     private fun observeUIState() {
         viewModel.registerUIState.observe(viewLifecycleOwner) {
-            binding.textFieldUsername.error = it.usernameError
-            binding.textFieldEmail.error = it.emailError
-            binding.textFieldPassword.error = it.passwordError
-            binding.textFieldConfirmPassword.error = it.repeatedPasswordError
-            binding.textFieldPhoneNumber.error = it.phoneError
+            binding.textFieldUsername.error = it.usernameError.orEmpty()
+            binding.textFieldEmail.error = it.emailError.orEmpty()
+            binding.textFieldPassword.error = it.passwordError.orEmpty()
+            binding.textFieldConfirmPassword.error = it.repeatedPasswordError.orEmpty()
+            binding.textFieldPhoneNumber.error = it.phoneError.orEmpty()
         }
     }
 
