@@ -29,16 +29,13 @@ class RegisterFragment : Fragment() {
 
     private var callbackManager: CallbackManager? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
-
 
     }
 
@@ -64,62 +61,10 @@ class RegisterFragment : Fragment() {
 
         setupTextWatchers()
 
-//        binding.etUsername.doAfterTextChanged {
-//            val username = binding.etUsername.text.toString().trim()
-//            viewModel.onEvent(RegistrationFormEvent.UsernameChangedEvent(username))
-//        }
-//        binding.etEmail.doAfterTextChanged {
-//            val email = binding.etEmail.text.toString().trim()
-//            viewModel.onEvent(RegistrationFormEvent.EmailChangedEvent(email))
-//        }
-//        binding.etPassword.doAfterTextChanged {
-//            val password = binding.etPassword.text.toString().trim()
-//            viewModel.onEvent(RegistrationFormEvent.PasswordChangedEvent(password))
-//        }
-//        binding.etConfirmPassword.doAfterTextChanged {
-//            val confirmPassword = binding.etConfirmPassword.text.toString().trim()
-//            viewModel.onEvent(RegistrationFormEvent.RepeatedPasswordChangedEvent(confirmPassword))
-//        }
-//        binding.etPhoneNumber.doAfterTextChanged {
-//            val phone = binding.etPhoneNumber.text.toString().trim()
-//            viewModel.onEvent(RegistrationFormEvent.PhoneChangedEvent(phone))
-//        }
-
-//        addTextChangeListener(
-//            etUsername = binding.etUsername,
-//            etEmail = binding.etEmail,
-//            etPhone = binding.etPhoneNumber,
-//            etPassword = binding.etPassword,
-//            etConfirmPassword = binding.etConfirmPassword,
-//            textFieldUsername = binding.textFieldUsername,
-//            textFieldEmail = binding.textFieldEmail,
-//            textFieldPhoneNumber = binding.textFieldPhoneNumber,
-//            textFieldPassword = binding.textFieldPassword,
-//            textFieldConfirmPassword = binding.textFieldConfirmPassword
-//        )
         binding.btnSignup.setOnClickListener {
 
-//            val username = binding.etUsername.text.toString().trim()
-//            val email = binding.etEmail.text.toString().trim()
-//            val phone = binding.etPhoneNumber.text.toString().trim()
-//            val password = binding.etPassword.text.toString().trim()
-//            val confirmPassword = binding.etConfirmPassword.text.toString().trim()
-//
-//            if (validateInputs(
-//                    username,
-//                    email,
-//                    phone,
-//                    password,
-//                    confirmPassword,
-//                    textFieldUserName = binding.textFieldUsername,
-//                    textFieldEmail = binding.textFieldEmail,
-//                    textFieldPhoneNumber = binding.textFieldPhoneNumber,
-//                    textFieldPassword = binding.textFieldPassword,
-//                    textFieldConfirmPassword = binding.textFieldConfirmPassword
-//                )
-//            ) {
             viewModel.onEvent(RegistrationFormEvent.Submit)
-//            }
+
         }
         binding.tvLogin.setOnClickListener {
             replaceFragment(LoginFragment.newInstance())

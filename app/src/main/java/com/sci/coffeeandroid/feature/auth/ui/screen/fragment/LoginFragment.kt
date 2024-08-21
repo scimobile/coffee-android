@@ -15,7 +15,8 @@ import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginUiState
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
 import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModelEvent
 import com.sci.coffeeandroid.util.addTextChangeListener
-import com.sci.coffeeandroid.util.validateInputs
+import com.sci.coffeeandroid.util.setBtnDisable
+import com.sci.coffeeandroid.util.setBtnEnable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -25,7 +26,9 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var callbackManager: CallbackManager? = null
-    private var isButtonEnabled = true
+
+    private var enableTextColor : Int? = null
+    private var disableTextColor : Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,54 +48,44 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         callbackManager = CallbackManager.Factory.create()
 
-//        binding.btnLoginFacebook.setPermissions("email", "public_profile")
+        enableTextColor = resources.getColor(R.color.white,null)
+        disableTextColor = resources.getColor(R.color.black,null)
+
         binding.btnLoginFacebook.setOnClickListener {
-            if (isButtonEnabled) {
-                isButtonEnabled = false
-                LoginManager.getInstance().logInWithReadPermissions(
-                    this,
-                    callbackManager!!,
-                    listOf("email", "public_profile")
-                )
-            }
+            binding.btnLoginFacebook.isEnabled = false
+            LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                callbackManager!!,
+                listOf("email", "public_profile")
+            )
         }
         viewModel.registerCallback(callbackManager!!)
-
-
+        setBtnDisable(disableTextColor!!,binding.btnLogin)
 
         addTextChangeListener(
             etEmail = binding.etLoginEmail,
             etPassword = binding.etLoginPassword,
             textFieldEmail = binding.emailTextLayout,
             textFieldPassword = binding.passwordTextLayout,
+            btnLogin = binding.btnLogin,
+            enableTextColor = enableTextColor!!,
+            disableTextColor = disableTextColor!!
         )
 
         binding.btnLoginGoogle.setOnClickListener {
-            if (isButtonEnabled) {
-                isButtonEnabled = false
-                viewModel.getCredential(requireContext())
-            }
+            viewModel.getCredential(requireContext())
         }
 
         binding.btnLogin.setOnClickListener {
-            if (isButtonEnabled) {
-                isButtonEnabled = false
-                val email = binding.etLoginEmail.text.toString().trim()
-                val password = binding.etLoginPassword.text.toString().trim()
+            if(!binding.btnLogin.isEnabled)return@setOnClickListener
+            binding.btnLogin.isEnabled=false
+            val email = binding.etLoginEmail.text.toString().trim()
+            val password = binding.etLoginPassword.text.toString().trim()
 
-                if (validateInputs(
-                        email,
-                        password,
-                        textFieldEmail = binding.emailTextLayout,
-                        textFieldPassword = binding.passwordTextLayout,
-                    )
-                ) {
-                    viewModel.login(
-                        userName = email,
-                        password = password
-                    )
-                }
-            }
+            viewModel.login(
+                userName = email,
+                password = password
+            )
         }
 
         binding.tvSignup.setOnClickListener {
@@ -117,7 +110,8 @@ class LoginFragment : Fragment() {
 
     private fun observeViewModelEvent() {
         viewModel.uiState.observe(viewLifecycleOwner) {
-            isButtonEnabled = true
+//            isButtonEnabled = true
+            setBtnEnable(enableTextColor!!,binding.btnLogin)
             when (it) {
                 LoginUiState.Idle -> {
                     binding.pbLogin.visibility = View.GONE
@@ -128,7 +122,8 @@ class LoginFragment : Fragment() {
 
     private fun observerUiState() {
         viewModel.uiEvent.observe(viewLifecycleOwner) {
-            isButtonEnabled = true
+//            isButtonEnabled = true
+            setBtnEnable(enableTextColor!!,binding.btnLogin)
             when (it) {
                 LoginViewModelEvent.Loading -> {
                     binding.pbLogin.visibility = View.VISIBLE

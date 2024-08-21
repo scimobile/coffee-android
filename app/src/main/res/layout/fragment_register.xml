@@ -10,7 +10,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_large"
+        >
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_guide_line"
@@ -65,7 +67,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_field_username"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            style="@style/CustomTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_card_medium"
@@ -105,6 +107,7 @@
             android:layout_marginTop="@dimen/margin_card_medium"
             app:errorEnabled="true"
             app:hintEnabled="false"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/tv_email"
@@ -139,6 +142,7 @@
             android:layout_marginTop="@dimen/margin_card_medium"
             app:errorEnabled="true"
             app:hintEnabled="false"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/tv_phone_number"
@@ -170,8 +174,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_card_medium"
             app:endIconMode="password_toggle"
+            app:endIconDrawable="@drawable/password_toggle"
             app:errorEnabled="true"
             app:hintEnabled="false"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/tv_password"
@@ -202,8 +208,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_card_medium"
             app:endIconMode="password_toggle"
+            app:endIconDrawable="@drawable/password_toggle"
             app:errorEnabled="true"
             app:hintEnabled="false"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/tv_confirm_password"
@@ -225,7 +233,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_medium_3"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_enable_shape"
             android:fontFamily="@font/poppins_semi_bold"
             android:paddingHorizontal="@dimen/margin_medium"
             android:text="@string/sign_up"

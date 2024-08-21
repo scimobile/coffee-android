@@ -55,19 +55,19 @@ class RegisterViewModel(
 
         when (event){
             is RegistrationFormEvent.UsernameChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(username = event.username)
+                _registerUIState.value = _registerUIState.value?.copy(username = event.username, usernameError = null)
             }
             is RegistrationFormEvent.EmailChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(email = event.email)
+                _registerUIState.value = _registerUIState.value?.copy(email = event.email, emailError = null)
             }
             is RegistrationFormEvent.PasswordChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(password = event.password)
+                _registerUIState.value = _registerUIState.value?.copy(password = event.password, passwordError = null)
             }
             is RegistrationFormEvent.PhoneChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone)
+                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone, phoneError = null)
             }
             is RegistrationFormEvent.RepeatedPasswordChangedEvent -> {
-                _registerUIState.value = _registerUIState.value?.copy(repeatedPassword = event.repeatedPassword)
+                _registerUIState.value = _registerUIState.value?.copy(repeatedPassword = event.repeatedPassword, repeatedPasswordError = null)
             }
             RegistrationFormEvent.Submit -> register()
         }

@@ -3,7 +3,17 @@
     <style name="Base.Theme.CoffeeAndroid" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
     <style name="Theme.CoffeeAndroid" parent="Base.Theme.CoffeeAndroid" />
+
+    <style name="CustomTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <!-- Remove the active indicator by setting these attributes to transparent -->
+        <item name="boxStrokeColor">@android:color/transparent</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxBackgroundColor">@color/gray</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
 </resources>

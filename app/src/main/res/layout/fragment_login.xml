@@ -4,14 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     tools:context=".feature.auth.ui.screen.fragment.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:paddingBottom="@dimen/margin_large"
+        >
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_guide_line"
@@ -36,8 +37,8 @@
             android:text="@string/hi_welcome_back"
             android:textColor="@color/black"
             android:textSize="@dimen/text_heading_1x"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_guide_line"
+            app:layout_constraintStart_toEndOf="@id/start_guide_line"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -60,6 +61,7 @@
             android:layout_marginTop="@dimen/margin_card_medium"
             app:errorEnabled="true"
             app:hintEnabled="false"
+            style="@style/CustomTextInputLayout"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
             app:layout_constraintTop_toBottomOf="@id/tv_email"
@@ -92,7 +94,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_card_medium"
             app:endIconMode="password_toggle"
-            app:errorEnabled="true"
+            app:endIconDrawable="@drawable/password_toggle"
+            style="@style/CustomTextInputLayout"
+            app:errorEnabled="false"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintStart_toStartOf="@id/start_guide_line"
@@ -118,6 +122,7 @@
             android:textColor="@color/primary_color"
             android:textSize="@dimen/text_regular_2x"
             android:textStyle="normal"
+            android:layout_marginTop="@dimen/margin_medium"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintEnd_toEndOf="@id/end_guide_line"
             app:layout_constraintTop_toBottomOf="@id/password_text_layout" />
@@ -129,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_medium_x_30"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_enable_shape"
             android:paddingHorizontal="@dimen/margin_medium"
             android:text="@string/login"
             android:textAllCaps="false"

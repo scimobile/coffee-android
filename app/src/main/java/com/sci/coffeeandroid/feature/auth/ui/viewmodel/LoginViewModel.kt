@@ -41,7 +41,7 @@ class LoginViewModel(
 
     init {
         if (authRepository.isUserLoggedIn()) {
-//            _uiEvent.value = LoginViewModelEvent.UserAlreadyLoggedIn
+            _uiEvent.value = LoginViewModelEvent.UserAlreadyLoggedIn
         }
     }
     private fun handleApiException(apiException: ApiException) {
@@ -96,10 +96,7 @@ class LoginViewModel(
     private fun handleSignIn(result: GetCredentialResponse) {
         // Handle the successfully returned credential.
         when (val credential = result.credential) {
-            // Passkey credential
             is PublicKeyCredential -> {
-                // Share responseJson such as a GetCredentialResponse on your server to
-                // validate and authenticate
                 val responseJson = credential.authenticationResponseJson
                 Log.d("HNA", "PublishKeyCredential: $responseJson")
 
