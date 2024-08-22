@@ -1,4 +1,4 @@
-package com.sci.coffeeandroid.feature.auth.ui
+package com.sci.coffeeandroid.feature.auth.ui.register
 
 sealed class RegistrationFormEvent {
     data class UsernameChangedEvent(val username:String): RegistrationFormEvent()

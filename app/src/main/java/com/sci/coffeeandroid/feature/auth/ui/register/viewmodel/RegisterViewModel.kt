@@ -1,4 +1,4 @@
-package com.sci.coffeeandroid.feature.auth.ui.viewmodel
+package com.sci.coffeeandroid.feature.auth.ui.register.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -27,8 +27,8 @@ import com.sci.coffeeandroid.feature.auth.domain.usecase.PasswordValidate
 import com.sci.coffeeandroid.feature.auth.domain.usecase.PhoneValidate
 import com.sci.coffeeandroid.feature.auth.domain.usecase.RepeatedPasswordValidate
 import com.sci.coffeeandroid.feature.auth.domain.usecase.UsernameValidate
-import com.sci.coffeeandroid.feature.auth.ui.RegistrationFormEvent
-import com.sci.coffeeandroid.feature.auth.ui.RegistrationFormState
+import com.sci.coffeeandroid.feature.auth.ui.register.RegistrationFormEvent
+import com.sci.coffeeandroid.feature.auth.ui.register.RegistrationFormState
 import com.sci.coffeeandroid.util.ApiException
 import com.sci.coffeeandroid.util.SingleLiveEvent
 import kotlinx.coroutines.launch
@@ -149,8 +149,8 @@ class RegisterViewModel(
             }
 
             else -> {
-                _registerUiEvent.value = RegisterViewModelEvent
-                    .Error(apiException.message ?: "Something went wrong")
+                _registerUiEvent.value =
+                    RegisterViewModelEvent.Error(apiException.message ?: "Something went wrong")
             }
         }
     }
@@ -168,7 +168,8 @@ class RegisterViewModel(
             }
 
             override fun onError(error: FacebookException) {
-                _registerUiEvent.value = RegisterViewModelEvent.Error("Login failed: ${error.message}")
+                _registerUiEvent.value =
+                    RegisterViewModelEvent.Error("Login failed: ${error.message}")
             }
         })
     }

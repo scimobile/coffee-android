@@ -1,7 +1,6 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
+package com.sci.coffeeandroid.feature.auth.ui.register
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,11 @@ import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentRegisterBinding
-import com.sci.coffeeandroid.feature.auth.ui.RegistrationFormEvent
+import com.sci.coffeeandroid.feature.auth.ui.login.LoginFragment
+import com.sci.coffeeandroid.feature.auth.ui.register.viewmodel.RegisterViewModel
+import com.sci.coffeeandroid.feature.auth.ui.register.viewmodel.RegisterViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.register.viewmodel.RegisterViewModelState
 import com.sci.coffeeandroid.feature.home.HomeActivity
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModelState
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModelEvent
 import com.sci.coffeeandroid.util.PhoneNumberInputFilter
 import com.sci.coffeeandroid.util.showSuccessDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel

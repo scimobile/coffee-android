@@ -18,7 +18,7 @@
             android:name=".feature.home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.auth.ui.screen.AuthActivity"
+            android:name=".feature.auth.ui.AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen
+package com.sci.coffeeandroid.feature.auth.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.sci.coffeeandroid.R
-import com.sci.coffeeandroid.feature.auth.ui.screen.fragment.LoginFragment
+import com.sci.coffeeandroid.feature.auth.ui.login.LoginFragment
 
 class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.sci.coffeeandroid.feature.auth.ui
+package com.sci.coffeeandroid.feature.auth.ui.register
 
 data class RegistrationFormState(
     var phone: String ="",

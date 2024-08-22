@@ -1,16 +1,19 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
+package com.sci.coffeeandroid.feature.auth.ui.forgetpassword
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentResetPasswordBinding
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordUiState
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordUiState
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordViewModel
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.login.LoginFormEvent
+import com.sci.coffeeandroid.feature.auth.ui.login.LoginFragment
 import com.sci.coffeeandroid.util.addTextChangesListener
 import com.sci.coffeeandroid.util.isMatchPassword
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,48 +45,39 @@ class ResetPasswordFragment : Fragment() {
             }
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if (arguments != null) {
              email = requireArguments().getString(KEY)
-            // Use the value as needed
         }
 
-        addTextChangesListener(
-            etConfirmPassword = binding.edtConfirmPassword,
-            etPassword = binding.edtPassword,
-            textFieldPassword = binding.textPasswordLayout,
-            textFieldConfirmPassword = binding.textConfirmLayout,
-        )
         binding.btnResetPassword.setOnClickListener {
-            val password = binding.edtPassword.text.toString().trim()
-            val newPassword = binding.edtConfirmPassword.text.toString().trim()
-
-            if (isMatchPassword(
-                    password,
-                    newPassword,
-                    texFieldPassword = binding.textPasswordLayout,
-                    texFieldNewPassword = binding.textConfirmLayout,
-                )
-            ) {
-                viewModel.resetPassword(
-                    email = email!!,
-                    newPassword = password
-                )
-            }
-
+            viewModel.onEvent(ResetPasswordFormEvent.Reset(email!!))
+        }
+        binding.edtPassword.doAfterTextChanged {
+            val text = it.toString().trim()
+            viewModel.onEvent( ResetPasswordFormEvent.PasswordChangedEvent(text) )
         }
 
-        observerUiState()
+        binding.edtConfirmPassword.doAfterTextChanged {
+            val text = it.toString().trim()
+            viewModel.onEvent( ResetPasswordFormEvent.RepeatedChangedEvent(text) )
+        }
+
+        observeViewModelUiState()
         observeViewModelEvent()
+        observeUIState()
 
     }
-
+    private fun observeUIState() {
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            binding.textPasswordLayout.error = it.passwordError.orEmpty()
+            binding.textConfirmLayout.error = it.repeatedPasswordError.orEmpty()
+        }
+    }
     private fun observeViewModelEvent() {
-        viewModel.uiEvent.observe(viewLifecycleOwner) {
+        viewModel.viewmodelUIEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is ResetPasswordViewModelEvent.Error -> {
                     Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
@@ -93,11 +87,10 @@ class ResetPasswordFragment : Fragment() {
         }
     }
 
-    private fun observerUiState() {
-        viewModel.uiState.observe(viewLifecycleOwner) {
+    private fun observeViewModelUiState() {
+        viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
             when (it) {
                 ResetPasswordUiState.Loading -> {}
-
                 ResetPasswordUiState.ResetSuccess -> {
                     Toast.makeText(context, "Password reset success", Toast.LENGTH_SHORT)
                         .show()

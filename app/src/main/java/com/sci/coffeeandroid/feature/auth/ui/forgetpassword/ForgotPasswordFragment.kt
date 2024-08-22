@@ -1,20 +1,20 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
+package com.sci.coffeeandroid.feature.auth.ui.forgetpassword
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentForgotPasswordBinding
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordUiState
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelUiState
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ForgotPasswordViewModel
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.login.LoginFormEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ForgotPasswordFragment : Fragment() {
@@ -37,46 +37,48 @@ class ForgotPasswordFragment : Fragment() {
 
 
         binding.btnSubmit.setOnClickListener {
-
-
-            if (binding.etForgetEmail.text.toString().isEmpty()) {
-                binding.texFieldForgotPasswordEmail.error = "Email is required"
-                return@setOnClickListener
-            }
-            viewModel.getOTP(
-                email = binding.etForgetEmail.text.toString()
-            )
+            viewModel.onEvent(ForgetPasswordFormEvent.Next)
         }
 
-        binding.etForgetEmail.setOnEditorActionListener { v, actionId, event ->
+        binding.etForgetEmail.doAfterTextChanged {
+            val text = it.toString().trim()
+            viewModel.onEvent( ForgetPasswordFormEvent.EmailChangedEvent(text) )
+        }
+
+        binding.etForgetEmail.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 binding.etForgetEmail.clearFocus()
                 if (binding.etForgetEmail.text.toString().isEmpty()) {
                     binding.texFieldForgotPasswordEmail.error = "Email is required"
 
                 }else{
-                    viewModel.getOTP(
-                        email = binding.etForgetEmail.text.toString()
-                    )
+                    viewModel.onEvent(ForgetPasswordFormEvent.Next)
                 }
 
-                true // Return true to indicate that you've handled the action
+                true
             } else {
                 false
             }
         }
 
-        observerUiState()
+        observeViewModelUiState()
         observeViewModelEvent()
+        observeUIState()
         binding.etForgetEmail.doAfterTextChanged {
             binding.texFieldForgotPasswordEmail.error=null
+        }
+    }
+
+    private fun observeUIState() {
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            binding.texFieldForgotPasswordEmail.error = it.emailError.orEmpty()
         }
     }
 
     private fun observeViewModelEvent() {
         viewModel.uiEvent.observe(viewLifecycleOwner) {
             when (it) {
-                is ForgotPasswordViewModelEvent.Error -> {
+                is ViewModelEvent.Error -> {
                     Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -84,18 +86,18 @@ class ForgotPasswordFragment : Fragment() {
         }
     }
 
-    private fun observerUiState() {
-        viewModel.uiState.observe(viewLifecycleOwner) {
+    private fun observeViewModelUiState() {
+        viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
             when (it) {
-                ForgotPasswordUiState.Loading -> {
+                ViewModelUiState.Loading -> {
                 }
 
-                ForgotPasswordUiState.ResetSuccess -> {
+                ViewModelUiState.ResetSuccess -> {
                     replaceFragment(ResetPasswordFragment.newInstance(email = binding.etForgetEmail.text.toString()))
                     viewModel.resetForgotPasswordUiState()
                 }
 
-                ForgotPasswordUiState.NewUser -> {
+                ViewModelUiState.NewUser -> {
                     Toast.makeText(context, "new user", Toast.LENGTH_SHORT)
                         .show()
                 }

@@ -1,22 +1,22 @@
-package com.sci.coffeeandroid.feature.auth.ui.screen.fragment
-
+package com.sci.coffeeandroid.feature.auth.ui.login
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentLoginBinding
 import com.sci.coffeeandroid.feature.home.HomeActivity
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginUiState
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModelEvent
-import com.sci.coffeeandroid.util.addTextChangeListener
-import com.sci.coffeeandroid.util.setBtnDisable
-import com.sci.coffeeandroid.util.setBtnEnable
+import com.sci.coffeeandroid.feature.auth.ui.login.viewmodel.LoginViewModel
+import com.sci.coffeeandroid.feature.auth.ui.login.viewmodel.LoginViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.ForgotPasswordFragment
+import com.sci.coffeeandroid.feature.auth.ui.login.viewmodel.ViewModelUIState
+import com.sci.coffeeandroid.feature.auth.ui.register.RegisterFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -41,7 +41,6 @@ class LoginFragment : Fragment() {
 
     companion object {
         fun newInstance(): LoginFragment = LoginFragment()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,25 +51,26 @@ class LoginFragment : Fragment() {
         disableTextColor = resources.getColor(R.color.black,null)
 
         binding.btnLoginFacebook.setOnClickListener {
-            binding.btnLoginFacebook.isEnabled = false
             LoginManager.getInstance().logInWithReadPermissions(
                 this,
                 callbackManager!!,
                 listOf("email", "public_profile")
             )
         }
-        viewModel.registerCallback(callbackManager!!)
-        setBtnDisable(disableTextColor!!,binding.btnLogin)
 
-        addTextChangeListener(
-            etEmail = binding.etLoginEmail,
-            etPassword = binding.etLoginPassword,
-            textFieldEmail = binding.emailTextLayout,
-            textFieldPassword = binding.passwordTextLayout,
-            btnLogin = binding.btnLogin,
-            enableTextColor = enableTextColor!!,
-            disableTextColor = disableTextColor!!
-        )
+        viewModel.registerCallback(callbackManager!!)
+
+        setBtnDisable(disableTextColor!!)
+
+        binding.etLoginEmail.doAfterTextChanged {
+            val text = it.toString().trim()
+            viewModel.onEvent( LoginFormEvent.EmailChangedEvent(text) )
+        }
+        binding.etLoginPassword.doAfterTextChanged {
+
+            val text = it.toString().trim()
+            viewModel.onEvent( LoginFormEvent.PasswordChangedEvent(text) )
+        }
 
         binding.btnLoginGoogle.setOnClickListener {
             viewModel.getCredential(requireContext())
@@ -79,13 +79,7 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             if(!binding.btnLogin.isEnabled)return@setOnClickListener
             binding.btnLogin.isEnabled=false
-            val email = binding.etLoginEmail.text.toString().trim()
-            val password = binding.etLoginPassword.text.toString().trim()
-
-            viewModel.login(
-                userName = email,
-                password = password
-            )
+            viewModel.onEvent(LoginFormEvent.Login)
         }
 
         binding.tvSignup.setOnClickListener {
@@ -98,9 +92,20 @@ class LoginFragment : Fragment() {
 
         observerUiState()
         observeViewModelEvent()
+        observeUIState()
     }
 
-
+    private fun observeUIState() {
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            binding.emailTextLayout.error = it.emailError.orEmpty()
+            binding.passwordTextLayout.error = it.passwordError.orEmpty()
+            if (it.isButtonEnable){
+                setBtnEnable(enableTextColor!!)
+            }else{
+                setBtnDisable(disableTextColor!!)
+            }
+        }
+    }
 
     override fun onDestroyView() {
         _binding = null
@@ -109,11 +114,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun observeViewModelEvent() {
-        viewModel.uiState.observe(viewLifecycleOwner) {
-//            isButtonEnabled = true
-            setBtnEnable(enableTextColor!!,binding.btnLogin)
+        viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
             when (it) {
-                LoginUiState.Idle -> {
+                ViewModelUIState.Idle -> {
                     binding.pbLogin.visibility = View.GONE
                 }
             }
@@ -121,9 +124,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun observerUiState() {
-        viewModel.uiEvent.observe(viewLifecycleOwner) {
-//            isButtonEnabled = true
-            setBtnEnable(enableTextColor!!,binding.btnLogin)
+        viewModel.viewmodelUIEvent.observe(viewLifecycleOwner) {
             when (it) {
                 LoginViewModelEvent.Loading -> {
                     binding.pbLogin.visibility = View.VISIBLE
@@ -158,6 +159,18 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setBtnDisable(disableTextColor: Int) {
+        binding.btnLogin.isEnabled = false
+        binding.btnLogin.setBackgroundResource(R.drawable.button_disable_shape)
+        binding.btnLogin.setTextColor(disableTextColor)
+    }
+
+    private fun setBtnEnable(enableTextColor: Int) {
+        binding.btnLogin.isEnabled = true
+        binding.btnLogin.setBackgroundResource(R.drawable.button_enable_shape)
+        binding.btnLogin.setTextColor(enableTextColor)
     }
 
     private fun replaceFragment(fragment: Fragment) {

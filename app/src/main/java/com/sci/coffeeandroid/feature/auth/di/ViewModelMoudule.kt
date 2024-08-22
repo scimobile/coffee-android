@@ -1,10 +1,9 @@
 package com.sci.coffeeandroid.feature.auth.di
 
-import com.facebook.CallbackManager
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ForgotPasswordViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.LoginViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.RegisterViewModel
-import com.sci.coffeeandroid.feature.auth.ui.viewmodel.ResetPasswordViewModel
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ForgotPasswordViewModel
+import com.sci.coffeeandroid.feature.auth.ui.login.viewmodel.LoginViewModel
+import com.sci.coffeeandroid.feature.auth.ui.register.viewmodel.RegisterViewModel
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -26,7 +25,9 @@ val viewModelModule = module {
     }
     viewModel {
         ResetPasswordViewModel(
-           authRepository =  get()
+           authRepository =  get(),
+            passwordValidate = get(),
+            repeatedPasswordValidate = get()
         )
     }
     viewModel {
