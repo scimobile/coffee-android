@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentResetPasswordBinding
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordUiState
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordViewModel
-import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordViewModelEvent
-import com.sci.coffeeandroid.feature.auth.ui.login.LoginFormEvent
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelEvent
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelUIEvent
 import com.sci.coffeeandroid.feature.auth.ui.login.LoginFragment
-import com.sci.coffeeandroid.util.addTextChangesListener
-import com.sci.coffeeandroid.util.isMatchPassword
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ResetPasswordFragment : Fragment() {
@@ -79,25 +78,18 @@ class ResetPasswordFragment : Fragment() {
     private fun observeViewModelEvent() {
         viewModel.viewmodelUIEvent.observe(viewLifecycleOwner) {
             when (it) {
-                is ResetPasswordViewModelEvent.Error -> {
+                is ViewModelUIEvent.Error -> {
                     Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
                         .show()
                 }
-            }
-        }
-    }
-
-    private fun observeViewModelUiState() {
-        viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
-            when (it) {
-                ResetPasswordUiState.Loading -> {}
-                ResetPasswordUiState.ResetSuccess -> {
+                ViewModelUIEvent.Loading -> {}
+                ViewModelUIEvent.ResetSuccess -> {
                     Toast.makeText(context, "Password reset success", Toast.LENGTH_SHORT)
                         .show()
                     replaceFragment(LoginFragment.newInstance())
                 }
 
-                ResetPasswordUiState.NewUser -> {
+                ViewModelUIEvent.NewUser -> {
                     Toast.makeText(context, "new user", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -106,11 +98,21 @@ class ResetPasswordFragment : Fragment() {
         }
     }
 
+    private fun observeViewModelUiState() {
+        viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
+            when (it) {
+                ResetPasswordUiState.Idle -> TODO()
+            }
+        }
+    }
+
     private fun replaceFragment(fragment: Fragment){
-        requireActivity().supportFragmentManager.
-        beginTransaction().
-        addToBackStack(null).
-        replace(R.id.fragment_container,fragment, fragment.javaClass.name).
-        commit()
+        val fragmentManager = requireActivity().supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.replace(R.id.fragment_container,fragment)
+        fragmentManager. popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        fragmentTransaction.commit()
     }
 }

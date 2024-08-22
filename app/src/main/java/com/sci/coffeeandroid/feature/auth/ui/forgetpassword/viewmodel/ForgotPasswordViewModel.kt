@@ -34,8 +34,8 @@ class ForgotPasswordViewModel(
     private val _viewmodelUIState: MutableLiveData<ViewModelUiState> = MutableLiveData()
     val viewmodelUIState: LiveData<ViewModelUiState> = _viewmodelUIState
 
-    private val _uiEvent: SingleLiveEvent<ViewModelEvent> = SingleLiveEvent()
-    val uiEvent: LiveData<ViewModelEvent> = _uiEvent
+    private val _viewmodelUIEvent: SingleLiveEvent<ViewModelEvent> = SingleLiveEvent()
+    val viewmodelUIEvent: LiveData<ViewModelEvent> = _viewmodelUIEvent
 
 
     private fun getOTP() {
@@ -45,19 +45,19 @@ class ForgotPasswordViewModel(
             _uiState.value = _uiState.value?.copy(emailError = "Enter email")
             return
         }
-        _viewmodelUIState.value = ViewModelUiState.Loading
+        _viewmodelUIEvent.value = ViewModelEvent.Loading
         viewModelScope.launch {
             authRepository.getOTP(email = userEmail)
                 .fold(
                     onSuccess = {
-                        _viewmodelUIState.value = ViewModelUiState.ResetSuccess
+                        _viewmodelUIEvent.value = ViewModelEvent.ResetSuccess
                     },
                     onFailure = { error ->
                         when (error) {
                             is ApiException -> handleApiException(error)
 
                             else -> {
-                                _uiEvent.value =
+                                _viewmodelUIEvent.value =
                                     ViewModelEvent.Error(
                                         error.message ?: "Something went wrong"
                                     )
@@ -69,18 +69,18 @@ class ForgotPasswordViewModel(
     }
 
     fun resetForgotPasswordUiState() {
-        _viewmodelUIState.value = ViewModelUiState.Loading
+        _viewmodelUIEvent.value = ViewModelEvent.Loading
     }
 
 
     private fun handleApiException(apiException: ApiException) {
         when (apiException.code) {
             404 -> {
-                _viewmodelUIState.value = ViewModelUiState.NewUser
+                _viewmodelUIEvent.value = ViewModelEvent.NewUser
             }
 
             else -> {
-                _uiEvent.value = ViewModelEvent.Error(
+                _viewmodelUIEvent.value = ViewModelEvent.Error(
                     apiException.message ?: "Something went wrong"
                 )
             }
@@ -89,11 +89,12 @@ class ForgotPasswordViewModel(
 }
 
 sealed class ViewModelUiState {
-    data object Loading : ViewModelUiState()
-    data object NewUser : ViewModelUiState()
-    data object ResetSuccess : ViewModelUiState()
+    data object Idle : ViewModelUiState()
 }
 
 sealed class ViewModelEvent {
     data class Error(val error: String) : ViewModelEvent()
+    data object Loading : ViewModelEvent()
+    data object NewUser : ViewModelEvent()
+    data object ResetSuccess : ViewModelEvent()
 }

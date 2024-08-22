@@ -13,6 +13,7 @@ import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentForgotPasswordBinding
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelUiState
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ForgotPasswordViewModel
+import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordUiState
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelEvent
 import com.sci.coffeeandroid.feature.auth.ui.login.LoginFormEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -76,10 +77,23 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     private fun observeViewModelEvent() {
-        viewModel.uiEvent.observe(viewLifecycleOwner) {
+        viewModel.viewmodelUIEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelEvent.Error -> {
                     Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                ViewModelEvent.Loading -> {
+                }
+
+                ViewModelEvent.ResetSuccess -> {
+                    replaceFragment(ResetPasswordFragment.newInstance(email = binding.etForgetEmail.text.toString()))
+                    viewModel.resetForgotPasswordUiState()
+                }
+
+                ViewModelEvent.NewUser -> {
+                    Toast.makeText(context, "new user", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -89,19 +103,7 @@ class ForgotPasswordFragment : Fragment() {
     private fun observeViewModelUiState() {
         viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
             when (it) {
-                ViewModelUiState.Loading -> {
-                }
-
-                ViewModelUiState.ResetSuccess -> {
-                    replaceFragment(ResetPasswordFragment.newInstance(email = binding.etForgetEmail.text.toString()))
-                    viewModel.resetForgotPasswordUiState()
-                }
-
-                ViewModelUiState.NewUser -> {
-                    Toast.makeText(context, "new user", Toast.LENGTH_SHORT)
-                        .show()
-                }
-
+                ViewModelUiState.Idle -> TODO()
             }
         }
     }
@@ -113,8 +115,9 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
-            .replace(R.id.fragment_container, fragment, fragment.javaClass.name).commit()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.fragment_container, fragment).commit()
     }
 
 
