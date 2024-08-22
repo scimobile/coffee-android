@@ -8,4 +8,6 @@ sealed class RegistrationFormEvent {
     data class RepeatedPasswordChangedEvent(val repeatedPassword:String): RegistrationFormEvent()
 
     data object Submit: RegistrationFormEvent()
+
+    
 }
