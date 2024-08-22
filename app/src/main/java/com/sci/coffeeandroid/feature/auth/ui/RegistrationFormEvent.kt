@@ -9,5 +9,5 @@ sealed class RegistrationFormEvent {
 
     data object Submit: RegistrationFormEvent()
 
-    
+
 }
