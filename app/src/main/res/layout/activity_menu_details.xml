@@ -8,6 +8,38 @@
     android:background="@color/white"
     tools:context=".feature.menudetails.ui.screen.MenuDetailsActivity">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_loading"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:elevation="8dp"
+        app:lottie_rawRes="@raw/coffee_loading"/>
+
+    <View
+        android:id="@+id/menu_detail_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:elevation="6dp"
+        tools:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="start|top"
+        android:layout_marginHorizontal="@dimen/margin_medium_x_20"
+        android:layout_marginTop="@dimen/margin_medium_x_16"
+        android:background="@drawable/shape_btn_back"
+        android:contentDescription="@string/back"
+        android:elevation="6dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/white" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -22,11 +54,10 @@
             android:id="@+id/collapsing_tool_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.Poppins.Medium.Bold"
             app:contentScrim="@color/white"
             app:expandedTitleTextAppearance="@style/TextAppearance.Poppins.Medium.Bold"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="Vanilla Latte">
+            >
 
             <ImageView
                 android:id="@+id/iv_coffee_detail"
@@ -43,36 +74,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/transparent"
+                android:title="Coffee Name"
+                android:titleTextAppearance="@style/TextAppearance.Poppins.Medium.Bold"
+                android:titleMarginStart="48dp"
                 app:layout_collapseMode="pin">
-
-                <ImageView
-                    android:id="@+id/btn_back"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginHorizontal="@dimen/margin_medium_x_20"
-                    android:layout_marginTop="@dimen/margin_medium_x_12"
-                    android:background="@drawable/shape_btn_back"
-                    android:contentDescription="@string/back"
-                    android:paddingVertical="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingEnd="4dp"
-                    android:src="@drawable/ic_back"
-                    app:tint="@color/white" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_fav"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
                     style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_gravity="end|center_vertical"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|end"
                     android:layout_marginHorizontal="@dimen/margin_medium_x_20"
                     android:layout_marginTop="@dimen/margin_medium_x_12"
                     android:contentDescription="@string/favourite"
-                    app:icon="@drawable/ic_heart_outlined"
-                    app:iconTint="@color/color_coffee_brown"
                     app:buttonTint="@color/white"
+                    app:icon="@drawable/ic_heart_outlined"
                     app:iconGravity="textStart"
+                    app:iconSize="30dp"
+                    app:iconTint="@color/color_coffee_brown"
                     app:useMaterialThemeColors="false" />
 
             </Toolbar>
@@ -82,6 +102,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="80dp"
@@ -100,22 +121,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
-                android:text="@string/price"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/price" />
 
             <TextView
                 android:id="@+id/tv_description_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_regular"
                 android:text="@string/description_header"
+                android:fontFamily="@font/poppins_bold"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_price" />
@@ -125,13 +145,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_x_12"
-                android:fontFamily="@font/poppins_regular"
-                android:text="@string/detail_description"
+                android:fontFamily="@font/poppins_bold"
                 android:textColor="@color/color_secondary_text"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_header" />
+                app:layout_constraintTop_toBottomOf="@id/tv_description_header"
+                tools:text="@string/detail_description" />
 
             <TextView
                 android:id="@+id/tv_size"
@@ -450,6 +471,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:hintEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_special_instructions">

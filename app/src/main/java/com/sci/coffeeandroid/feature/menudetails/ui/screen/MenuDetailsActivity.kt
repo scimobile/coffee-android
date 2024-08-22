@@ -1,8 +1,10 @@
 package com.sci.coffeeandroid.feature.menudetails.ui.screen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,11 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.ActivityMenuDetailsBinding
+import com.sci.coffeeandroid.feature.home.HomeActivity
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Size
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
@@ -27,6 +31,9 @@ class MenuDetailsActivity : AppCompatActivity() {
 
     private val coffeeDetailViewModel: CoffeeDetailViewModel by viewModel()
     private lateinit var binding: ActivityMenuDetailsBinding
+    private val coffeeId: Int by lazy {
+        intent.getIntExtra("coffeeId", 0)
+    }
 
     @SuppressLint("DefaultLocale", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,19 +47,28 @@ class MenuDetailsActivity : AppCompatActivity() {
             insets
         }
 
-        coffeeDetailViewModel.fetchCoffeeDetail(id = 1)
+        if (coffeeId != 0) {
+            coffeeDetailViewModel.fetchCoffeeDetail(id = coffeeId)
+        } else {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+        }
 
         coffeeDetailViewModel.coffeeDetailLiveData.observe(this) {
             when (it) {
                 is CoffeeDetailViewModel.CoffeeDetailUiState.Error -> {
-
+                    binding.lottieLoading.visibility = View.GONE
+                    binding.menuDetailView.visibility = View.GONE
+                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 
                 CoffeeDetailViewModel.CoffeeDetailUiState.Loading -> {
-
+                    binding.lottieLoading.visibility = View.VISIBLE
+                    binding.menuDetailView.visibility = View.VISIBLE
                 }
 
                 is CoffeeDetailViewModel.CoffeeDetailUiState.Success -> {
+                    binding.lottieLoading.visibility = View.GONE
+                    binding.menuDetailView.visibility = View.GONE
                     val currency = "$"
                     val price = String.format("%.2f", it.coffee.price)
                     binding.tvPrice.text = currency + price
@@ -60,7 +76,7 @@ class MenuDetailsActivity : AppCompatActivity() {
                     binding.tvDetailDescription.text = it.coffee.description
                     binding.btnFav.isChecked = it.coffee.isFavourite
 
-                    (binding.btnFav as MaterialButton).icon = AppCompatResources.getDrawable(
+                    binding.btnFav.icon = AppCompatResources.getDrawable(
                         binding.root.context,
                         if (it.coffee.isFavourite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outlined
                     )
@@ -98,8 +114,6 @@ class MenuDetailsActivity : AppCompatActivity() {
                 }
             }
         }
-
-        val checkedChipId = binding.chipGroupSize.checkedChipId
 
         binding.chipGroupSize.setOnCheckedStateChangeListener { group, checkedIds ->
             if (checkedIds.isNotEmpty()) {
@@ -152,12 +166,11 @@ class MenuDetailsActivity : AppCompatActivity() {
             }
         }
 
-
-        binding.btnFav.setOnClickListener{
-            if (coffeeDetailViewModel.isFavourite){
-                Toast.makeText(this,"Removed from favourites",Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this,"Added to favourites",Toast.LENGTH_SHORT).show()
+        binding.btnFav.setOnClickListener {
+            if (coffeeDetailViewModel.isFavourite) {
+                Toast.makeText(this, "Removed from favourites", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Added to favourites", Toast.LENGTH_SHORT).show()
             }
             coffeeDetailViewModel.onFavouriteClicked()
         }
@@ -167,7 +180,9 @@ class MenuDetailsActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
             startActivity(intent)
         }
 
@@ -184,7 +199,7 @@ class MenuDetailsActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
 
         }
@@ -202,18 +217,44 @@ class MenuDetailsActivity : AppCompatActivity() {
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
+
                 }
-
             }
-
 
         binding.btnMinus.setOnClickListener {
             coffeeDetailViewModel.decreaseQuantity()
+            coffeeDetailViewModel.updateQuantity(quantity = coffeeDetailViewModel.quantityLiveData.value!!)
+            Log.d("QuantityD", coffeeDetailViewModel.customOrderLiveData.value.toString())
         }
 
         binding.btnPlus.setOnClickListener {
             coffeeDetailViewModel.increaseQuantity()
+            coffeeDetailViewModel.updateQuantity(quantity = coffeeDetailViewModel.quantityLiveData.value!!)
+            Log.d("QuantityD", coffeeDetailViewModel.customOrderLiveData.value.toString())
         }
+
+        binding.edtSpecialInstructions.addTextChangedListener {
+            coffeeDetailViewModel.onSpecialInstructionsAdded(
+                instruction = it.toString()
+            )
+        }
+
+        binding.btnAddToCart.setOnClickListener {
+            coffeeDetailViewModel.addToCart()
+            Toast.makeText(this, "Successfully added to cart", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.bottomAppBar.setOnClickListener {
+
+        }
+    }
+
+    companion object {
+        fun newIntent(context: Context, coffeeId: Int) =
+            Intent(context, MenuDetailsActivity::class.java).apply {
+                putExtra("coffeeId", coffeeId)
+            }
     }
 }

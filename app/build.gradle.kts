@@ -57,7 +57,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.mmkv.android)
     implementation(libs.kotlinx.serialization)
-
     implementation(libs.androidx.viewpager2)
     implementation(libs.dotsindicator)
+    implementation(libs.lottie)
 }

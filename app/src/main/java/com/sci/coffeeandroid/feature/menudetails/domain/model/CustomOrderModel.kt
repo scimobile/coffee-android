@@ -6,7 +6,8 @@ data class CustomOrderModel(
     val sugar: Sugar,
     val milk: String,
     val topping : String,
-    val specialInstructions : String
+    val specialInstructions : String,
+    val quantity : Int
 )
 
 enum class Sugar {
