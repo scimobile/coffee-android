@@ -53,31 +53,32 @@ class RegisterViewModel(
 
         when (event){
             is RegistrationFormEvent.UsernameChangedEvent -> {
-                val usernameResult = usernameValidate.execute(event.username)
-                val error = if (usernameResult.isSuccess) null else usernameResult.errorMessage
+                val currentUsername= _registerUIState.value?.username
+                val error = if (currentUsername!=event.username) null else _registerUIState.value?.usernameError
                 _registerUIState.value = _registerUIState.value?.copy(username = event.username, usernameError = error)
             }
             is RegistrationFormEvent.EmailChangedEvent -> {
-                val emailResult = emailValidate.execute(event.email)
-                val error = if (emailResult.isSuccess) null else emailResult.errorMessage
+                val currentEmail= _registerUIState.value?.email
+                val error = if (currentEmail!=event.email) null else _registerUIState.value?.emailError
                 _registerUIState.value = _registerUIState.value?.copy(email = event.email, emailError = error)
             }
             is RegistrationFormEvent.PasswordChangedEvent -> {
-                val passwordResult = passwordValidate.execute(event.password)
-                val error = if (passwordResult.isSuccess) null else passwordResult.errorMessage
+                val currentPassword= _registerUIState.value?.password
+                val error = if (currentPassword!=event.password) null else _registerUIState.value?.passwordError
                 _registerUIState.value = _registerUIState.value?.copy(password = event.password, passwordError = error)
             }
-            is RegistrationFormEvent.PhoneChangedEvent -> {
-                val phoneResult = phoneValidate.execute(event.phone)
-                val error = if (phoneResult.isSuccess) null else phoneResult.errorMessage
-                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone, phoneError = error)
-            }
             is RegistrationFormEvent.RepeatedPasswordChangedEvent -> {
-
-                val error = if (event.repeatedPassword.isEmpty()) "Password can't be blank" else null
+                val currentRepeatedPassword= _registerUIState.value?.repeatedPassword
+                val error = if (currentRepeatedPassword!=event.repeatedPassword) null else _registerUIState.value?.repeatedPasswordError
                 _registerUIState.value = _registerUIState.value?.copy(repeatedPassword = event.repeatedPassword, repeatedPasswordError = error)
             }
-            RegistrationFormEvent.Submit -> register()
+            is RegistrationFormEvent.PhoneChangedEvent -> {
+                val currentPhone= _registerUIState.value?.phone
+                val error = if (currentPhone!=event.phone) null else _registerUIState.value?.phoneError
+                _registerUIState.value = _registerUIState.value?.copy(phone = event.phone, phoneError = error)
+            }
+
+            is RegistrationFormEvent.Submit -> register()
         }
     }
 
@@ -89,6 +90,7 @@ class RegisterViewModel(
 
 
     private fun register() {
+
         val username = _registerUIState.value?.username;
         val email = _registerUIState.value?.email;
         val password = _registerUIState.value?.password;
