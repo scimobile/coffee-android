@@ -51,7 +51,7 @@ class AuthNetworkServiceImpl(httpClient: HttpClient) : AuthNetworkService {
         withContext(Dispatchers.IO) {
             Thread.sleep(2000)
         }
-        if (email == "example@gmail.com" && password == "password") {
+        if (email.contains("@") ) {
 
             return Result.success(
                 LoginResponseModel(
@@ -88,7 +88,7 @@ class AuthNetworkServiceImpl(httpClient: HttpClient) : AuthNetworkService {
 
     override suspend fun getOTP(email: String): Result<OTPResponse> {
 
-        if (email == "example@gmail.com") {
+        if (email .contains( "@")) {
             return Result.success(
                 OTPResponse(
                     status = true,
