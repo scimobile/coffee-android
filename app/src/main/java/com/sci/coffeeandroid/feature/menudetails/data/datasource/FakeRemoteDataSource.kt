@@ -2,8 +2,6 @@ package com.sci.coffeeandroid.feature.menudetails.data.datasource
 
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CoffeeModel
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CustomOrderModel
-import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
-import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
 
 class FakeRemoteDataSource() : CoffeeDetailRemoteDataSource {
     override suspend fun getCoffeeDetail(id: Int): Result<CoffeeModel> {

@@ -26,7 +26,5 @@ class HomeActivity : AppCompatActivity() {
             val intent = MenuDetailsActivity.newIntent(this, 1)
             startActivity(intent)
         }
-
-
     }
 }

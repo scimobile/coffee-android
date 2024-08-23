@@ -28,7 +28,7 @@ suspend inline fun <reified T> handle(
             HttpStatusCode.NotFound -> Result.failure(
                 ApiException(
                     code = httpResponse.status.value,
-                    message = "NEW USER"
+                    message = "Something went wrong"
                 )
             )
 

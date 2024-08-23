@@ -109,7 +109,6 @@ class CoffeeDetailViewModel constructor(
     fun fetchCoffeeDetail(id: Int) {
         _coffeeDetailLiveData.value = CoffeeDetailUiState.Loading
         viewModelScope.launch {
-            delay(1000)
             val coffeeDetailModels: Result<CoffeeModel> =
                 coffeeDetailRepository.getCoffeeDetail(id = id)
             coffeeDetailModels.fold(

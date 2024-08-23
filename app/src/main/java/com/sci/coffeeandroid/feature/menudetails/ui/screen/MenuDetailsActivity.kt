@@ -57,18 +57,18 @@ class MenuDetailsActivity : AppCompatActivity() {
             when (it) {
                 is CoffeeDetailViewModel.CoffeeDetailUiState.Error -> {
                     binding.lottieLoading.visibility = View.GONE
-                    binding.menuDetailView.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 
                 CoffeeDetailViewModel.CoffeeDetailUiState.Loading -> {
                     binding.lottieLoading.visibility = View.VISIBLE
-                    binding.menuDetailView.visibility = View.VISIBLE
+                    binding.loadingBackground.visibility = View.VISIBLE
                 }
 
                 is CoffeeDetailViewModel.CoffeeDetailUiState.Success -> {
                     binding.lottieLoading.visibility = View.GONE
-                    binding.menuDetailView.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
                     val currency = "$"
                     val price = String.format("%.2f", it.coffee.price)
                     binding.tvPrice.text = currency + price

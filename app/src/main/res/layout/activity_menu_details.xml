@@ -19,7 +19,7 @@
         app:lottie_rawRes="@raw/coffee_loading"/>
 
     <View
-        android:id="@+id/menu_detail_view"
+        android:id="@+id/loading_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
