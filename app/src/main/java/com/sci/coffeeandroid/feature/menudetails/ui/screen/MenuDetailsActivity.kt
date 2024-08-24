@@ -25,11 +25,13 @@ import com.sci.coffeeandroid.feature.menudetails.domain.model.Size
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
 import com.sci.coffeeandroid.feature.menudetails.ui.viewmodel.CoffeeDetailViewModel
+import io.ktor.http.parametersOf
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class MenuDetailsActivity : AppCompatActivity() {
 
-    private val coffeeDetailViewModel: CoffeeDetailViewModel by viewModel()
+    private val coffeeDetailViewModel: CoffeeDetailViewModel by viewModel() { parametersOf(coffeeId) }
     private lateinit var binding: ActivityMenuDetailsBinding
     private val coffeeId: Int by lazy {
         intent.getIntExtra("coffeeId", 0)
@@ -47,17 +49,14 @@ class MenuDetailsActivity : AppCompatActivity() {
             insets
         }
 
-        if (coffeeId != 0) {
-            coffeeDetailViewModel.fetchCoffeeDetail(id = coffeeId)
-        } else {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
-        }
-
         coffeeDetailViewModel.coffeeDetailLiveData.observe(this) {
             when (it) {
                 is CoffeeDetailViewModel.CoffeeDetailUiState.Error -> {
                     binding.lottieLoading.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
+
+                    onBackPressedDispatcher.onBackPressed()
+
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 

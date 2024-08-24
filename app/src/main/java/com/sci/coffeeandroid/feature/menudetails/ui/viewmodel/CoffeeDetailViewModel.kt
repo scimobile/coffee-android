@@ -1,6 +1,5 @@
 package com.sci.coffeeandroid.feature.menudetails.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,11 +10,11 @@ import com.sci.coffeeandroid.feature.menudetails.domain.model.CustomOrderModel
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Size
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class CoffeeDetailViewModel constructor(
-    private val coffeeDetailRepository: CoffeeDetailRepository
+class CoffeeDetailViewModel(
+    private val coffeeDetailRepository: CoffeeDetailRepository,
+    coffeeId: Int
 ) : ViewModel() {
 
     private var _coffeeDetailLiveData: MutableLiveData<CoffeeDetailUiState> = MutableLiveData()
@@ -36,6 +35,10 @@ class CoffeeDetailViewModel constructor(
                 quantity = 0
             )
         )
+
+    init {
+        fetchCoffeeDetail(id = coffeeId)
+    }
 
     fun updateQuantity(quantity: Int) {
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
@@ -106,7 +109,11 @@ class CoffeeDetailViewModel constructor(
         _quantityLiveData.value = minOf(1000, (customOrderLiveData.value?.quantity!! + 1).toInt())
     }
 
-    fun fetchCoffeeDetail(id: Int) {
+    private fun fetchCoffeeDetail(id: Int) {
+        if (id == 0) {
+            _coffeeDetailLiveData.value = CoffeeDetailUiState.Error("Something went wrong")
+            return
+        }
         _coffeeDetailLiveData.value = CoffeeDetailUiState.Loading
         viewModelScope.launch {
             val coffeeDetailModels: Result<CoffeeModel> =

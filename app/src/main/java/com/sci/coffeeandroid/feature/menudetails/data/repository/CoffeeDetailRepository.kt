@@ -6,14 +6,9 @@ import com.sci.coffeeandroid.feature.menudetails.domain.model.CoffeeModel
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CustomOrderModel
 import kotlinx.coroutines.delay
 
-class CoffeeDetailRepository(private val coffeeDetailRemoteDataSource: CoffeeDetailRemoteDataSource) {
+interface CoffeeDetailRepository {
 
-    suspend fun getCoffeeDetail(id: Int): Result<CoffeeModel>{
-        delay(600)
-        return coffeeDetailRemoteDataSource.getCoffeeDetail(id = id)
-    }
+    suspend fun getCoffeeDetail(id: Int): Result<CoffeeModel>
 
-    fun addToCart(customOrderModel: CustomOrderModel): Result<CustomOrderModel>{
-        return Result.success(customOrderModel)
-    }
+    suspend fun addToCart(customOrderModel: CustomOrderModel): Result<CustomOrderModel>
 }
