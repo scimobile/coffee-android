@@ -2,9 +2,11 @@ package com.sci.coffeeandroid.feature.menudetails.data.datasource
 
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CoffeeModel
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CustomOrderModel
+import kotlinx.coroutines.delay
 
-class FakeRemoteDataSource() : CoffeeDetailRemoteDataSource {
+class FakeCoffeeDetailsRemoteDataSource() : CoffeeDetailsRemoteDataSource {
     override suspend fun getCoffeeDetail(id: Int): Result<CoffeeModel> {
+        delay(3000)
         return Result.success(
             CoffeeModel(
                 id = 1,

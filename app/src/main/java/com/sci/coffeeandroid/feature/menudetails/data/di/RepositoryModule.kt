@@ -1,13 +1,13 @@
 package com.sci.coffeeandroid.feature.menudetails.data.di
 
-import com.sci.coffeeandroid.feature.menudetails.data.repository.CoffeeDetailRepository
-import com.sci.coffeeandroid.feature.menudetails.data.repository.CoffeeDetailRepositoryImpl
+import com.sci.coffeeandroid.feature.menudetails.data.repository.CoffeeDetailsRepository
+import com.sci.coffeeandroid.feature.menudetails.data.repository.CoffeeDetailsRepositoryImpl
 import org.koin.dsl.module
 
-val coffeeRepositoryModule = module {
+val coffeeDetailsRepositoryModule = module {
     single {
-        CoffeeDetailRepositoryImpl(
+        CoffeeDetailsRepositoryImpl(
             get()
-        ) as CoffeeDetailRepository
+        ) as CoffeeDetailsRepository
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sci.coffeeandroid.feature.menudetails.data.repository.CoffeeDetailRepository
+import com.sci.coffeeandroid.feature.menudetails.data.repository.CoffeeDetailsRepository
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CoffeeModel
 import com.sci.coffeeandroid.feature.menudetails.domain.model.CustomOrderModel
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Size
@@ -12,13 +12,13 @@ import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
 import kotlinx.coroutines.launch
 
-class CoffeeDetailViewModel(
-    private val coffeeDetailRepository: CoffeeDetailRepository,
+class MenuDetailsViewModel(
+    private val coffeeDetailsRepository: CoffeeDetailsRepository,
     coffeeId: Int
 ) : ViewModel() {
 
-    private var _coffeeDetailLiveData: MutableLiveData<CoffeeDetailUiState> = MutableLiveData()
-    val coffeeDetailLiveData: LiveData<CoffeeDetailUiState> = _coffeeDetailLiveData
+    private var _coffeeDetailsLiveData: MutableLiveData<CoffeeDetailUiState> = MutableLiveData()
+    val coffeeDetailsLiveData: LiveData<CoffeeDetailUiState> = _coffeeDetailsLiveData
 
     private var _quantityLiveData: MutableLiveData<Int> = MutableLiveData(0)
     val quantityLiveData: LiveData<Int> = _quantityLiveData
@@ -71,7 +71,7 @@ class CoffeeDetailViewModel(
     fun onMilkSelected(milk: Int) {
         selectedMilkPosition = milk
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
-            milk = (coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.milk[milk]
+            milk = (coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.milk[milk]
         )
     }
 
@@ -80,7 +80,7 @@ class CoffeeDetailViewModel(
     fun onToppingSelected(topping: Int) {
         selectedToppingPosition = topping
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
-            topping = (coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.toppings[topping]
+            topping = (coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.toppings[topping]
         )
     }
 
@@ -88,9 +88,9 @@ class CoffeeDetailViewModel(
 
     fun onFavouriteClicked() {
         isFavourite = !isFavourite
-        _coffeeDetailLiveData.value = CoffeeDetailUiState.Success(
-            (coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.copy(
-                isFavourite = !(coffeeDetailLiveData.value as CoffeeDetailUiState.Success).coffee.isFavourite
+        _coffeeDetailsLiveData.value = CoffeeDetailUiState.Success(
+            (coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.copy(
+                isFavourite = !(coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.isFavourite
             )
         )
     }
@@ -111,20 +111,20 @@ class CoffeeDetailViewModel(
 
     private fun fetchCoffeeDetail(id: Int) {
         if (id == 0) {
-            _coffeeDetailLiveData.value = CoffeeDetailUiState.Error("Something went wrong")
+            _coffeeDetailsLiveData.value = CoffeeDetailUiState.Error("Something went wrong")
             return
         }
-        _coffeeDetailLiveData.value = CoffeeDetailUiState.Loading
+        _coffeeDetailsLiveData.value = CoffeeDetailUiState.Loading
         viewModelScope.launch {
             val coffeeDetailModels: Result<CoffeeModel> =
-                coffeeDetailRepository.getCoffeeDetail(id = id)
+                coffeeDetailsRepository.getCoffeeDetail(id = id)
             coffeeDetailModels.fold(
                 {
-                    _coffeeDetailLiveData.value = CoffeeDetailUiState.Success(it)
+                    _coffeeDetailsLiveData.value = CoffeeDetailUiState.Success(it)
                     isFavourite = it.isFavourite
                 },
                 {
-                    _coffeeDetailLiveData.value =
+                    _coffeeDetailsLiveData.value =
                         CoffeeDetailUiState.Error(it.message ?: "something went wrong")
                 }
             )
@@ -133,7 +133,7 @@ class CoffeeDetailViewModel(
 
     fun addToCart() {
         viewModelScope.launch {
-            coffeeDetailRepository.addToCart(customOrderModel = customOrderLiveData.value!!)
+            coffeeDetailsRepository.addToCart(customOrderModel = customOrderLiveData.value!!)
         }
     }
 

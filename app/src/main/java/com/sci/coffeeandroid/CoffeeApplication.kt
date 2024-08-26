@@ -2,11 +2,10 @@ package com.sci.coffeeandroid
 
 import android.app.Application
 import com.sci.coffeeandroid.common.di.localStorageModule
-import com.sci.coffeeandroid.feature.menudetails.data.di.coffeeDetailViewModelModule
-import com.sci.coffeeandroid.feature.menudetails.data.di.coffeeRemoteDataSourceModule
-import com.sci.coffeeandroid.feature.menudetails.data.di.coffeeRepositoryModule
+import com.sci.coffeeandroid.feature.menudetails.data.di.menuDetailsViewModelModule
+import com.sci.coffeeandroid.feature.menudetails.data.di.coffeeDetailsRemoteDataSourceModule
+import com.sci.coffeeandroid.feature.menudetails.data.di.coffeeDetailsRepositoryModule
 import com.sci.coffeeandroid.feature.menudetails.data.di.networkModule
-import com.sci.coffeeandroid.feature.menudetails.ui.viewmodel.CoffeeDetailViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,9 +17,9 @@ class CoffeeApplication: Application() {
             androidContext(this@CoffeeApplication)
             modules(
                 localStorageModule,
-                coffeeDetailViewModelModule,
-                coffeeRemoteDataSourceModule,
-                coffeeRepositoryModule,
+                menuDetailsViewModelModule,
+                coffeeDetailsRemoteDataSourceModule,
+                coffeeDetailsRepositoryModule,
                 networkModule
                 )
         }

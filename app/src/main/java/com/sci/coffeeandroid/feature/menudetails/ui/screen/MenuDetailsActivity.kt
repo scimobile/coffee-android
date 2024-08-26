@@ -16,7 +16,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
-import com.google.android.material.button.MaterialButton
 import com.sci.coffeeandroid.MainActivity
 import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.ActivityMenuDetailsBinding
@@ -24,14 +23,17 @@ import com.sci.coffeeandroid.feature.home.HomeActivity
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Size
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Sugar
 import com.sci.coffeeandroid.feature.menudetails.domain.model.Variation
-import com.sci.coffeeandroid.feature.menudetails.ui.viewmodel.CoffeeDetailViewModel
-import io.ktor.http.parametersOf
+import com.sci.coffeeandroid.feature.menudetails.ui.viewmodel.MenuDetailsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class MenuDetailsActivity : AppCompatActivity() {
 
-    private val coffeeDetailViewModel: CoffeeDetailViewModel by viewModel() { parametersOf(coffeeId) }
+    private val menuDetailsViewModel: MenuDetailsViewModel by viewModel() {
+        parametersOf(
+            coffeeId
+        )
+    }
     private lateinit var binding: ActivityMenuDetailsBinding
     private val coffeeId: Int by lazy {
         intent.getIntExtra("coffeeId", 0)
@@ -49,9 +51,9 @@ class MenuDetailsActivity : AppCompatActivity() {
             insets
         }
 
-        coffeeDetailViewModel.coffeeDetailLiveData.observe(this) {
+        menuDetailsViewModel.coffeeDetailsLiveData.observe(this) {
             when (it) {
-                is CoffeeDetailViewModel.CoffeeDetailUiState.Error -> {
+                is MenuDetailsViewModel.CoffeeDetailUiState.Error -> {
                     binding.lottieLoading.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
 
@@ -60,12 +62,12 @@ class MenuDetailsActivity : AppCompatActivity() {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 
-                CoffeeDetailViewModel.CoffeeDetailUiState.Loading -> {
+                MenuDetailsViewModel.CoffeeDetailUiState.Loading -> {
                     binding.lottieLoading.visibility = View.VISIBLE
                     binding.loadingBackground.visibility = View.VISIBLE
                 }
 
-                is CoffeeDetailViewModel.CoffeeDetailUiState.Success -> {
+                is MenuDetailsViewModel.CoffeeDetailUiState.Success -> {
                     binding.lottieLoading.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
                     val currency = "$"
@@ -91,9 +93,9 @@ class MenuDetailsActivity : AppCompatActivity() {
                     ).also { adapter ->
                         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                         binding.spinnerMilk.adapter = adapter
-                        coffeeDetailViewModel.customOrderLiveData.value?.milk.let {
+                        menuDetailsViewModel.customOrderLiveData.value?.milk.let {
                             if (it?.isNotEmpty() == true) {
-                                binding.spinnerMilk.setSelection(coffeeDetailViewModel.selectedMilkPosition)
+                                binding.spinnerMilk.setSelection(menuDetailsViewModel.selectedMilkPosition)
                             }
                         }
                     }
@@ -104,9 +106,9 @@ class MenuDetailsActivity : AppCompatActivity() {
                     ).also { adapter ->
                         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                         binding.spinnerToppings.adapter = adapter
-                        coffeeDetailViewModel.customOrderLiveData.value?.topping.let {
+                        menuDetailsViewModel.customOrderLiveData.value?.topping.let {
                             if (it?.isNotEmpty() == true) {
-                                binding.spinnerToppings.setSelection(coffeeDetailViewModel.selectedToppingPosition)
+                                binding.spinnerToppings.setSelection(menuDetailsViewModel.selectedToppingPosition)
                             }
                         }
                     }
@@ -118,15 +120,15 @@ class MenuDetailsActivity : AppCompatActivity() {
             if (checkedIds.isNotEmpty()) {
                 when (checkedIds.first()) {
                     R.id.btn_chip_small -> {
-                        coffeeDetailViewModel.onSizeSelected(Size.SMALL)
+                        menuDetailsViewModel.onSizeSelected(Size.SMALL)
                     }
 
                     R.id.btn_chip_medium -> {
-                        coffeeDetailViewModel.onSizeSelected(Size.MEDIUM)
+                        menuDetailsViewModel.onSizeSelected(Size.MEDIUM)
                     }
 
                     R.id.btn_radio_large -> {
-                        coffeeDetailViewModel.onSizeSelected(Size.LARGE)
+                        menuDetailsViewModel.onSizeSelected(Size.LARGE)
                     }
                 }
             }
@@ -137,11 +139,11 @@ class MenuDetailsActivity : AppCompatActivity() {
             if (checkedIds.isNotEmpty()) {
                 when (checkedIds.first()) {
                     R.id.btn_chip_hot -> {
-                        coffeeDetailViewModel.onVariationSelected(Variation.HOT)
+                        menuDetailsViewModel.onVariationSelected(Variation.HOT)
                     }
 
                     R.id.btn_chip_cold -> {
-                        coffeeDetailViewModel.onVariationSelected(Variation.COLD)
+                        menuDetailsViewModel.onVariationSelected(Variation.COLD)
                     }
                 }
             }
@@ -151,31 +153,31 @@ class MenuDetailsActivity : AppCompatActivity() {
             if (checkedIds.isNotEmpty()) {
                 when (checkedIds.first()) {
                     R.id.btn_chip_sugar_none -> {
-                        coffeeDetailViewModel.onSugarSelected(Sugar.NONE)
+                        menuDetailsViewModel.onSugarSelected(Sugar.NONE)
                     }
 
                     R.id.btn_chip_sugar_30percent -> {
-                        coffeeDetailViewModel.onSugarSelected(Sugar.THIRTY_PERCENT)
+                        menuDetailsViewModel.onSugarSelected(Sugar.THIRTY_PERCENT)
                     }
 
                     R.id.btn_chip_sugar_50percent -> {
-                        coffeeDetailViewModel.onSugarSelected(Sugar.FIFTY_PERCENT)
+                        menuDetailsViewModel.onSugarSelected(Sugar.FIFTY_PERCENT)
                     }
                 }
             }
         }
 
         binding.btnFav.setOnClickListener {
-            if (coffeeDetailViewModel.isFavourite) {
+            if (menuDetailsViewModel.isFavourite) {
                 Toast.makeText(this, "Removed from favourites", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Added to favourites", Toast.LENGTH_SHORT).show()
             }
-            coffeeDetailViewModel.onFavouriteClicked()
+            menuDetailsViewModel.onFavouriteClicked()
         }
 
-        coffeeDetailViewModel.quantityLiveData.observe(this) {
-            binding.tvQuantity.text = coffeeDetailViewModel.quantityLiveData.value.toString()
+        menuDetailsViewModel.quantityLiveData.observe(this) {
+            binding.tvQuantity.text = menuDetailsViewModel.quantityLiveData.value.toString()
         }
 
         binding.btnBack.setOnClickListener {
@@ -192,7 +194,7 @@ class MenuDetailsActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                coffeeDetailViewModel.onMilkSelected(
+                menuDetailsViewModel.onMilkSelected(
                     milk = position
                 )
             }
@@ -210,7 +212,7 @@ class MenuDetailsActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    coffeeDetailViewModel.onToppingSelected(
+                    menuDetailsViewModel.onToppingSelected(
                         topping = position
                     )
                 }
@@ -221,25 +223,25 @@ class MenuDetailsActivity : AppCompatActivity() {
             }
 
         binding.btnMinus.setOnClickListener {
-            coffeeDetailViewModel.decreaseQuantity()
-            coffeeDetailViewModel.updateQuantity(quantity = coffeeDetailViewModel.quantityLiveData.value!!)
-            Log.d("QuantityD", coffeeDetailViewModel.customOrderLiveData.value.toString())
+            menuDetailsViewModel.decreaseQuantity()
+            menuDetailsViewModel.updateQuantity(quantity = menuDetailsViewModel.quantityLiveData.value!!)
+            Log.d("QuantityD", menuDetailsViewModel.customOrderLiveData.value.toString())
         }
 
         binding.btnPlus.setOnClickListener {
-            coffeeDetailViewModel.increaseQuantity()
-            coffeeDetailViewModel.updateQuantity(quantity = coffeeDetailViewModel.quantityLiveData.value!!)
-            Log.d("QuantityD", coffeeDetailViewModel.customOrderLiveData.value.toString())
+            menuDetailsViewModel.increaseQuantity()
+            menuDetailsViewModel.updateQuantity(quantity = menuDetailsViewModel.quantityLiveData.value!!)
+            Log.d("QuantityD", menuDetailsViewModel.customOrderLiveData.value.toString())
         }
 
         binding.edtSpecialInstructions.addTextChangedListener {
-            coffeeDetailViewModel.onSpecialInstructionsAdded(
+            menuDetailsViewModel.onSpecialInstructionsAdded(
                 instruction = it.toString()
             )
         }
 
         binding.btnAddToCart.setOnClickListener {
-            coffeeDetailViewModel.addToCart()
+            menuDetailsViewModel.addToCart()
             Toast.makeText(this, "Successfully added to cart", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

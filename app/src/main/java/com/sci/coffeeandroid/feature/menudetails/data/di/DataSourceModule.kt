@@ -1,12 +1,11 @@
 package com.sci.coffeeandroid.feature.menudetails.data.di
 
-import com.sci.coffeeandroid.feature.menudetails.data.datasource.CoffeeDetailRemoteDataSource
-import com.sci.coffeeandroid.feature.menudetails.data.datasource.CoffeeDetailRemoteDataSourceImpl
-import com.sci.coffeeandroid.feature.menudetails.data.datasource.FakeRemoteDataSource
+import com.sci.coffeeandroid.feature.menudetails.data.datasource.CoffeeDetailsRemoteDataSource
+import com.sci.coffeeandroid.feature.menudetails.data.datasource.FakeCoffeeDetailsRemoteDataSource
 import org.koin.dsl.module
 
-val coffeeRemoteDataSourceModule = module {
+val coffeeDetailsRemoteDataSourceModule = module {
     single {
-        FakeRemoteDataSource() as CoffeeDetailRemoteDataSource
+        FakeCoffeeDetailsRemoteDataSource() as CoffeeDetailsRemoteDataSource
     }
 }
