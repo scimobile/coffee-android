@@ -14,5 +14,6 @@ fun CoffeeDetailResponse.toCoffeeModel(): CoffeeModel =
         image = this.image.orEmpty(),
         milk = this.milk.orEmpty(),
         toppings = this.toppings.orEmpty(),
+        availableQuantity = this.availableQuantity ?: 0
     )
 

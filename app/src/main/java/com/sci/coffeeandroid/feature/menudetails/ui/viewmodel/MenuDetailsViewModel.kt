@@ -17,11 +17,10 @@ class MenuDetailsViewModel(
     coffeeId: Int
 ) : ViewModel() {
 
-    private var _coffeeDetailsLiveData: MutableLiveData<CoffeeDetailUiState> = MutableLiveData()
-    val coffeeDetailsLiveData: LiveData<CoffeeDetailUiState> = _coffeeDetailsLiveData
+    private var _menuDetailsUiState: MutableLiveData<CoffeeDetailsUiState> = MutableLiveData()
+    val menuDetailsUiState: LiveData<CoffeeDetailsUiState> = _menuDetailsUiState
 
-    private var _quantityLiveData: MutableLiveData<Int> = MutableLiveData(0)
-    val quantityLiveData: LiveData<Int> = _quantityLiveData
+
 
     private var _customOrderLiveData: MutableLiveData<CustomOrderModel> =
         MutableLiveData(
@@ -36,17 +35,18 @@ class MenuDetailsViewModel(
             )
         )
 
-    init {
-        fetchCoffeeDetail(id = coffeeId)
-    }
-
-    fun updateQuantity(quantity: Int) {
-        _customOrderLiveData.value = customOrderLiveData.value?.copy(
-            quantity = quantity
-        )
-    }
-
     val customOrderLiveData: LiveData<CustomOrderModel> = _customOrderLiveData
+
+    var placeHolderQuantity = 0
+    var selectedMilkPosition = 0
+    var selectedToppingPosition = 0
+    var isFavourite = false
+
+    init {
+        viewModelScope.launch {
+            fetchCoffeeDetail(id = coffeeId)
+        }
+    }
 
     fun onSizeSelected(size: Size) {
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
@@ -66,31 +66,26 @@ class MenuDetailsViewModel(
         )
     }
 
-    var selectedMilkPosition = 0
-
     fun onMilkSelected(milk: Int) {
         selectedMilkPosition = milk
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
-            milk = (coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.milk[milk]
+            milk = (menuDetailsUiState.value as CoffeeDetailsUiState.Success).data.milk[milk]
         )
     }
 
-    var selectedToppingPosition = 0
 
     fun onToppingSelected(topping: Int) {
         selectedToppingPosition = topping
         _customOrderLiveData.value = customOrderLiveData.value?.copy(
-            topping = (coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.toppings[topping]
+            topping = (menuDetailsUiState.value as CoffeeDetailsUiState.Success).data.toppings[topping]
         )
     }
 
-    var isFavourite = false
-
     fun onFavouriteClicked() {
         isFavourite = !isFavourite
-        _coffeeDetailsLiveData.value = CoffeeDetailUiState.Success(
-            (coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.copy(
-                isFavourite = !(coffeeDetailsLiveData.value as CoffeeDetailUiState.Success).coffee.isFavourite
+        _menuDetailsUiState.value = CoffeeDetailsUiState.Success(
+            (menuDetailsUiState.value as CoffeeDetailsUiState.Success).data.copy(
+                isFavourite = !(menuDetailsUiState.value as CoffeeDetailsUiState.Success).data.isFavourite,
             )
         )
     }
@@ -102,30 +97,39 @@ class MenuDetailsViewModel(
     }
 
     fun decreaseQuantity() {
-        _quantityLiveData.value = maxOf(0, (customOrderLiveData.value?.quantity!! - 1).toInt())
+        placeHolderQuantity = maxOf(0, placeHolderQuantity - 1)
+        _customOrderLiveData.value = customOrderLiveData.value?.copy(
+            quantity = placeHolderQuantity
+        )
     }
 
     fun increaseQuantity() {
-        _quantityLiveData.value = minOf(1000, (customOrderLiveData.value?.quantity!! + 1).toInt())
+        placeHolderQuantity = minOf(
+            (menuDetailsUiState.value as CoffeeDetailsUiState.Success)
+                .data.availableQuantity, placeHolderQuantity + 1
+        )
+        _customOrderLiveData.value = customOrderLiveData.value?.copy(
+            quantity = placeHolderQuantity
+        )
     }
 
     private fun fetchCoffeeDetail(id: Int) {
         if (id == 0) {
-            _coffeeDetailsLiveData.value = CoffeeDetailUiState.Error("Something went wrong")
+            _menuDetailsUiState.value = CoffeeDetailsUiState.Error("Something went wrong")
             return
         }
-        _coffeeDetailsLiveData.value = CoffeeDetailUiState.Loading
+        _menuDetailsUiState.value = CoffeeDetailsUiState.Loading
         viewModelScope.launch {
-            val coffeeDetailModels: Result<CoffeeModel> =
+            val coffeeDetailsModel: Result<CoffeeModel> =
                 coffeeDetailsRepository.getCoffeeDetail(id = id)
-            coffeeDetailModels.fold(
+            coffeeDetailsModel.fold(
                 {
-                    _coffeeDetailsLiveData.value = CoffeeDetailUiState.Success(it)
+                    _menuDetailsUiState.value = CoffeeDetailsUiState.Success(it)
                     isFavourite = it.isFavourite
                 },
                 {
-                    _coffeeDetailsLiveData.value =
-                        CoffeeDetailUiState.Error(it.message ?: "something went wrong")
+                    _menuDetailsUiState.value =
+                        CoffeeDetailsUiState.Error(it.message ?: "something went wrong")
                 }
             )
         }
@@ -137,9 +141,9 @@ class MenuDetailsViewModel(
         }
     }
 
-    sealed class CoffeeDetailUiState {
-        data object Loading : CoffeeDetailUiState()
-        data class Success(val coffee: CoffeeModel) : CoffeeDetailUiState()
-        data class Error(val message: String) : CoffeeDetailUiState()
+    sealed class CoffeeDetailsUiState {
+        data object Loading : CoffeeDetailsUiState()
+        data class Success(val data: CoffeeModel) : CoffeeDetailsUiState()
+        data class Error(val message: String) : CoffeeDetailsUiState()
     }
 }

@@ -40,7 +40,8 @@ class FakeCoffeeDetailsRemoteDataSource() : CoffeeDetailsRemoteDataSource {
                     "Maple Syrup",
                     "Peppermint",
                     "Nut Butter"
-                )
+                ),
+                availableQuantity = 10
             )
         )
     }

@@ -31,11 +31,11 @@ class MenuDetailsActivity : AppCompatActivity() {
 
     private val menuDetailsViewModel: MenuDetailsViewModel by viewModel() {
         parametersOf(
-            coffeeId
+            COFFEE_ID
         )
     }
     private lateinit var binding: ActivityMenuDetailsBinding
-    private val coffeeId: Int by lazy {
+    private val COFFEE_ID: Int by lazy {
         intent.getIntExtra("coffeeId", 0)
     }
 
@@ -51,9 +51,9 @@ class MenuDetailsActivity : AppCompatActivity() {
             insets
         }
 
-        menuDetailsViewModel.coffeeDetailsLiveData.observe(this) {
+        menuDetailsViewModel.menuDetailsUiState.observe(this) {
             when (it) {
-                is MenuDetailsViewModel.CoffeeDetailUiState.Error -> {
+                is MenuDetailsViewModel.CoffeeDetailsUiState.Error -> {
                     binding.lottieLoading.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
 
@@ -62,34 +62,35 @@ class MenuDetailsActivity : AppCompatActivity() {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 
-                MenuDetailsViewModel.CoffeeDetailUiState.Loading -> {
+                MenuDetailsViewModel.CoffeeDetailsUiState.Loading -> {
                     binding.lottieLoading.visibility = View.VISIBLE
                     binding.loadingBackground.visibility = View.VISIBLE
                 }
 
-                is MenuDetailsViewModel.CoffeeDetailUiState.Success -> {
+                is MenuDetailsViewModel.CoffeeDetailsUiState.Success -> {
                     binding.lottieLoading.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
                     val currency = "$"
-                    val price = String.format("%.2f", it.coffee.price)
+                    val price = String.format("%.2f", it.data.price)
                     binding.tvPrice.text = currency + price
-                    binding.collapsingToolBarLayout.title = it.coffee.name
-                    binding.tvDetailDescription.text = it.coffee.description
-                    binding.btnFav.isChecked = it.coffee.isFavourite
+                    binding.collapsingToolBarLayout.title = it.data.name
+                    binding.tvDetailDescription.text = it.data.description
+                    binding.btnFav.isChecked = it.data.isFavourite
+                    binding.tvQuantity.text = menuDetailsViewModel.placeHolderQuantity.toString()
 
                     binding.btnFav.icon = AppCompatResources.getDrawable(
                         binding.root.context,
-                        if (it.coffee.isFavourite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outlined
+                        if (it.data.isFavourite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outlined
                     )
 
                     Glide.with(this)
-                        .load(it.coffee.image)
+                        .load(it.data.image)
                         .into(binding.ivCoffeeDetail)
 
                     ArrayAdapter(
                         this,
                         R.layout.spinner_item,
-                        it.coffee.milk
+                        it.data.milk
                     ).also { adapter ->
                         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                         binding.spinnerMilk.adapter = adapter
@@ -102,7 +103,7 @@ class MenuDetailsActivity : AppCompatActivity() {
                     ArrayAdapter(
                         this,
                         R.layout.spinner_item,
-                        it.coffee.toppings
+                        it.data.toppings
                     ).also { adapter ->
                         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                         binding.spinnerToppings.adapter = adapter
@@ -114,6 +115,10 @@ class MenuDetailsActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+
+        menuDetailsViewModel.customOrderLiveData.observe(this) {
+            binding.tvQuantity.text = it.quantity.toString()
         }
 
         binding.chipGroupSize.setOnCheckedStateChangeListener { group, checkedIds ->
@@ -176,9 +181,9 @@ class MenuDetailsActivity : AppCompatActivity() {
             menuDetailsViewModel.onFavouriteClicked()
         }
 
-        menuDetailsViewModel.quantityLiveData.observe(this) {
-            binding.tvQuantity.text = menuDetailsViewModel.quantityLiveData.value.toString()
-        }
+//        menuDetailsViewModel.quantityLiveData.observe(this) {
+//            binding.tvQuantity.text = menuDetailsViewModel.quantityLiveData.value.toString()
+//        }
 
         binding.btnBack.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java).apply {
@@ -224,13 +229,11 @@ class MenuDetailsActivity : AppCompatActivity() {
 
         binding.btnMinus.setOnClickListener {
             menuDetailsViewModel.decreaseQuantity()
-            menuDetailsViewModel.updateQuantity(quantity = menuDetailsViewModel.quantityLiveData.value!!)
             Log.d("QuantityD", menuDetailsViewModel.customOrderLiveData.value.toString())
         }
 
         binding.btnPlus.setOnClickListener {
             menuDetailsViewModel.increaseQuantity()
-            menuDetailsViewModel.updateQuantity(quantity = menuDetailsViewModel.quantityLiveData.value!!)
             Log.d("QuantityD", menuDetailsViewModel.customOrderLiveData.value.toString())
         }
 

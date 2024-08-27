@@ -9,4 +9,5 @@ data class CoffeeModel(
     val image: String,
     val milk: List<String>,
     val toppings: List<String>,
+    val availableQuantity: Int
 )
