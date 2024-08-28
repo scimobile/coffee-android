@@ -4,6 +4,22 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowTranslucentNavigation">false</item>
+        <item name="materialButtonStyle">@style/CustomButtonStyle</item>
     </style>
     <style name="Theme.CoffeeAndroid" parent="Base.Theme.CoffeeAndroid" />
+
+    <style name="CustomButtonStyle" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@drawable/selector_btn_add_to_card</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+    <style name="CustomEditTextBackground" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="boxStrokeColor">#8E8E8E</item>
+        <item name="boxStrokeWidth">0.5dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="shapeAppearance">@style/Shape.Custom.Background</item>
+    </style>
+    <style name="Shape.Custom.Background" parent="ShapeAppearance.Material3.Corner.ExtraSmall">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
 </resources>

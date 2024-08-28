@@ -12,4 +12,55 @@
     <string name="onboarding_third_slide_button_text">Get Started</string>
     <string name="preference_file_key">com.sci.coffeeandroid.PREFERENCE_FILE_KEY</string>
     <string name="is_onboarding_shown">isOnboardingShown</string>
+    <string name="lorem">Where does it come from? Co /nWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots iWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatn a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 ofntrary to popular belief, Lorem Ipsum is not simply random text. It has roots iWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatWhere does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatn a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of</string>
+    <string name="price">$13.90</string>
+    <string name="description_header">Description</string>
+    <string name="detail_description">A brief yet enticing description of the coffee, highlighting its flavor profile, ingredients, and any unique features</string>
+    <string name="size">Size</string>
+    <string name="quantity">1</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="hint_special_instruction">e.g less ice</string>
+    <string name="special_instructions">Special instructions</string>
+    <string name="sugar">Sugar</string>
+    <string name="variation">Variation</string>
+    <string name="milk">Milk</string>
+    <string name="toppings">Toppings</string>
+    <string name="favourite">favourite</string>
+    <string name="back">back</string>
+    <string name="coffee_detail_image">coffee detail image</string>
+    <string name="COFFEE_ID">coffeeId</string>
+    <string-array name="milk_array">
+        <item>Almond Milk</item>
+        <item>Soy Milk</item>
+        <item>Oat Milk</item>
+        <item>Whole Milk</item>
+        <item>Skim Milk</item>
+        <item>Heavy Cream</item>
+        <item>Half-and-Half</item>
+        <item>2% Milk </item>
+    </string-array>
+    <string-array name="coffee_toppings">
+        <item>Whipped Cream</item>
+        <item>Cinnamon</item>
+        <item>Cocoa Powder</item>
+        <item>Chocolate Shavings</item>
+        <item>Nutmeg</item>
+        <item>Vanilla Extract</item>
+        <item>Caramel Drizzle</item>
+        <item>Chocolate Syrup</item>
+        <item>Honey</item>
+        <item>Maple Syrup</item>
+        <item>Peppermint</item>
+        <item>Nut Butter</item>
+        <item>Sugar Crystals</item>
+        <item>Edible Glitter</item>
+        <item>Sea Salt</item>
+        <item>Lavender</item>
+        <item>Toasted Coconut Flakes</item>
+        <item>Chopped Nuts</item>
+        <item>Marshmallows</item>
+        <item>Gingerbread Crumbs</item>
+    </string-array>
 </resources>

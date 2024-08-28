@@ -1,0 +1,16 @@
+package com.sci.coffeeandroid.feature.menudetails.data.model.response
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class CoffeeDetailResponse(
+    val id: Int,
+    val name: String?,
+    val price: Float?,
+    val isFavourite : Boolean?,
+    val description: String?,
+    val image: String?,
+    val milk: List<String>?,
+    val toppings: List<String>?,
+    val availableQuantity: Int?
+    )

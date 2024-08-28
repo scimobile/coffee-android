@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".feature.menudetails.ui.screen.MenuDetailsActivity">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_loading"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:elevation="8dp"
+        app:lottie_rawRes="@raw/coffee_loading"/>
+
+    <View
+        android:id="@+id/loading_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:elevation="6dp"
+        tools:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="start|top"
+        android:layout_marginHorizontal="@dimen/margin_medium_x_20"
+        android:layout_marginTop="@dimen/margin_medium_x_16"
+        android:background="@drawable/shape_btn_back"
+        android:contentDescription="@string/back"
+        android:elevation="6dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/white" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_tool_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/white"
+            app:expandedTitleTextAppearance="@style/TextAppearance.Poppins.Medium.Bold"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            >
+
+            <ImageView
+                android:id="@+id/iv_coffee_detail"
+                android:layout_width="320dp"
+                android:layout_height="260dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/coffee_detail_image"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/transparent"
+                android:title="Coffee Name"
+                android:titleTextAppearance="@style/TextAppearance.Poppins.Medium.Bold"
+                android:titleMarginStart="48dp"
+                app:layout_collapseMode="pin">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_fav"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginHorizontal="@dimen/margin_medium_x_20"
+                    android:layout_marginTop="@dimen/margin_medium_x_12"
+                    android:contentDescription="@string/favourite"
+                    app:buttonTint="@color/white"
+                    app:icon="@drawable/ic_heart_outlined"
+                    app:iconGravity="textStart"
+                    app:iconSize="30dp"
+                    app:iconTint="@color/color_coffee_brown"
+                    app:useMaterialThemeColors="false" />
+
+            </Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/margin_medium_x_20">
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/price" />
+
+            <TextView
+                android:id="@+id/tv_description_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/description_header"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+            <TextView
+                android:id="@+id/tv_detail_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_12"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/color_secondary_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description_header"
+                tools:text="@string/detail_description" />
+
+            <TextView
+                android:id="@+id/tv_size"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_16"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/size"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_description" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_size"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_chip_small"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:padding="6dp"
+                    android:text="Small"
+                    app:checkedIcon="@drawable/ic_cup"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_cup"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_chip_medium"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Medium"
+                    app:checkedIcon="@drawable/ic_cup"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_cup"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_radio_large"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Large"
+                    app:checkedIcon="@drawable/ic_cup"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_cup"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/tv_variation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_16"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/variation"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chip_group_size" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_variation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_variation"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_chip_hot"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:padding="6dp"
+                    android:text="Hot"
+                    app:checkedIcon="@drawable/ic_hot"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_hot"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_chip_cold"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Cold"
+                    app:checkedIcon="@drawable/ic_cold"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_cold"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/tv_sugar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_16"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/sugar"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chip_group_variation" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_sugar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_sugar"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_chip_sugar_none"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:padding="6dp"
+                    android:text="None"
+                    app:checkedIcon="@drawable/ic_sugar"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_sugar"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_chip_sugar_30percent"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="30%"
+                    app:checkedIcon="@drawable/ic_sugar"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_sugar"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/btn_chip_sugar_50percent"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="50%"
+                    app:checkedIcon="@drawable/ic_sugar"
+                    app:checkedIconEnabled="true"
+                    app:checkedIconTint="@color/white"
+                    app:chipCornerRadius="@dimen/margin_medium_x_12"
+                    app:chipIcon="@drawable/ic_sugar"
+                    app:chipIconTint="@color/color_coffee_brown"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="0.2dp"
+                    tools:ignore="HardcodedText" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/tv_milk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_16"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/milk"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chip_group_sugar" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/spinner_milk_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_12"
+                app:cardCornerRadius="@dimen/margin_medium_x_12"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_milk">
+
+                <Spinner
+                    android:id="@+id/spinner_milk"
+                    style="@style/CustomDropDownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:popupElevation="4dp" />
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/tv_toppings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_16"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/toppings"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinner_milk_card_view" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/spinner_toppings_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_12"
+                app:cardCornerRadius="@dimen/margin_medium_x_12"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_toppings">
+
+                <Spinner
+                    android:id="@+id/spinner_toppings"
+                    style="@style/CustomDropDownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:popupElevation="4dp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_special_instructions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_x_16"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/special_instructions"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinner_toppings_card_view" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomEditTextBackground"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_special_instructions">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_special_instructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_medium_x_16"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="top"
+                    android:hint="@string/hint_special_instruction"
+                    android:inputType="textMultiLine"
+                    android:minLines="3" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:elevation="4dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/btn_minus"
+            android:layout_width="@dimen/margin_medium_x_24"
+            android:layout_height="@dimen/margin_medium_x_24"
+            android:layout_marginStart="@dimen/margin_medium_x_30"
+            android:background="@color/color_coffee_brown"
+            android:src="@drawable/ic_minus"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btn_add_to_cart"
+            app:layout_constraintEnd_toStartOf="@+id/tv_quantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_add_to_cart"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintEnd_toStartOf="@+id/btn_plus"
+            app:layout_constraintStart_toEndOf="@+id/btn_minus"
+            app:layout_constraintTop_toTopOf="@id/btn_plus"
+            tools:text="1" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/btn_plus"
+            android:layout_width="@dimen/margin_medium_x_24"
+            android:layout_height="@dimen/margin_medium_x_24"
+            android:background="@color/color_coffee_brown"
+            android:src="@drawable/ic_plus"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btn_add_to_cart"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add_to_cart"
+            app:layout_constraintStart_toEndOf="@+id/tv_quantity"
+            app:layout_constraintTop_toTopOf="@id/btn_add_to_cart"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_to_cart"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="@dimen/margin_medium_x_30"
+            android:enabled="true"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/add_to_cart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_plus"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
