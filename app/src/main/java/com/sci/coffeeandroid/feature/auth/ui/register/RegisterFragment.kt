@@ -103,7 +103,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun observeViewModelEvent() {
-        viewModel.registerUiEvent.observe(viewLifecycleOwner) {
+        viewModel.viewmodelEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is RegisterViewModelEvent.Loading -> binding.pbRegister.visibility = View.VISIBLE
                 RegisterViewModelEvent.NewUser -> Toast.makeText(
@@ -154,7 +154,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun observeViewModelState() {
-        viewModel.registerViewModelState.observe(viewLifecycleOwner) {
+        viewModel.viewmodelState.observe(viewLifecycleOwner) {
             when (it) {
                 RegisterViewModelState.Idel -> binding.pbRegister.visibility = View.GONE
             }

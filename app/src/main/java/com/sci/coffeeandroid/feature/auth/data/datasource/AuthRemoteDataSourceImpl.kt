@@ -10,6 +10,8 @@ import com.sci.coffeeandroid.feature.auth.data.model.response.OTPResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.RegisterResponse
 import com.sci.coffeeandroid.feature.auth.data.service.AuthNetworkService
+import com.sci.coffeeandroid.feature.auth.domain.model.OTPModel
+import com.sci.coffeeandroid.feature.auth.domain.model.PasswordResetModel
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 import io.ktor.client.HttpClient
 
@@ -40,11 +42,17 @@ class AuthRemoteDataSourceImpl(private val authNetworkService: AuthNetworkServic
     override suspend fun resetPassword(
         email: String,
         newPassword: String
-    ): Result<PasswordResetResponse> {
+    ): Result<PasswordResetModel> {
         return  authNetworkService.resetPassword(email,newPassword)
+            .map {
+                it.toModel()
+            }
     }
 
-    override suspend fun getOTP(email: String): Result<OTPResponse> {
+    override suspend fun getOTP(email: String): Result<OTPModel> {
         return authNetworkService.getOTP(email)
+            .map {
+                it.toModel()
+            }
     }
 }

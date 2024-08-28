@@ -1,9 +1,10 @@
 package com.sci.coffeeandroid.feature.auth.data.datasource
 
 class AuthLocalDataSourceImpl(
+    private val tokenService: TokenService
 ) : AuthLocalDataSource {
 
-    private val tokenService: TokenService = TokenService
+
     override fun isUserLoggedIn() = !tokenService.token.isNullOrBlank()
     override fun saveAccessToken(token: String) {
         tokenService.token = token

@@ -44,10 +44,10 @@ class ResetPasswordViewModel(
     }
 
     private val _viewmodelUIState: MutableLiveData<ResetPasswordUiState> = MutableLiveData()
-    val viewmodelUIState: LiveData<ResetPasswordUiState> = _viewmodelUIState
+    val viewmodelState: LiveData<ResetPasswordUiState> = _viewmodelUIState
 
     private val _viewmodelUIEvent: SingleLiveEvent<ViewModelUIEvent> = SingleLiveEvent()
-    val viewmodelUIEvent: LiveData<ViewModelUIEvent> = _viewmodelUIEvent
+    val viewmodelEvent: LiveData<ViewModelUIEvent> = _viewmodelUIEvent
 
     private fun resetPassword(email : String) {
         val repeatedPassword= _uiState.value?.repeatedPassword

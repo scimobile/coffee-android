@@ -4,7 +4,6 @@ import com.sci.coffeeandroid.feature.auth.data.datasource.AuthLocalDataSource
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthLocalDataSourceImpl
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSource
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSourceImpl
-import com.sci.coffeeandroid.feature.auth.data.repository.AuthRepository
 import org.koin.dsl.module
 
 val datasourceModuleImpl = module {
@@ -15,6 +14,8 @@ val datasourceModuleImpl = module {
     }
 
     single<AuthLocalDataSource> {
-        AuthLocalDataSourceImpl()
+        AuthLocalDataSourceImpl(
+            tokenService = get()
+        )
     }
 }

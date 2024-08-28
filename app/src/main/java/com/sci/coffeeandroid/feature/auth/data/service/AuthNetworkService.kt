@@ -16,7 +16,7 @@ interface AuthNetworkService {
     ): Result<RegisterResponse>
 
     suspend fun login(
-        username: String,
+        email: String,
         password: String
     ): Result<LoginResponseModel>
 

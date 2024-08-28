@@ -114,10 +114,10 @@ class LoginViewModel(
     }
 
     private val _viewmodelUIState: MutableLiveData<ViewModelUIState> = MutableLiveData()
-    val viewmodelUIState: LiveData<ViewModelUIState> = _viewmodelUIState
+    val viewmodelState: LiveData<ViewModelUIState> = _viewmodelUIState
 
     private val _viewmodelUIEvent: SingleLiveEvent<LoginViewModelEvent> = SingleLiveEvent()
-    val viewmodelUIEvent: LiveData<LoginViewModelEvent> = _viewmodelUIEvent
+    val viewmodelEvent: LiveData<LoginViewModelEvent> = _viewmodelUIEvent
 
     init {
         if (authRepository.isUserLoggedIn()) {

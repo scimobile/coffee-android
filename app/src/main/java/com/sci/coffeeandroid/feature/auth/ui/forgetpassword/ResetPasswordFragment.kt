@@ -12,7 +12,6 @@ import com.sci.coffeeandroid.R
 import com.sci.coffeeandroid.databinding.FragmentResetPasswordBinding
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordUiState
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ResetPasswordViewModel
-import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelEvent
 import com.sci.coffeeandroid.feature.auth.ui.forgetpassword.viewmodel.ViewModelUIEvent
 import com.sci.coffeeandroid.feature.auth.ui.login.LoginFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,7 +63,7 @@ class ResetPasswordFragment : Fragment() {
             viewModel.onEvent( ResetPasswordFormEvent.RepeatedChangedEvent(text) )
         }
 
-        observeViewModelUiState()
+        observeViewModelState()
         observeViewModelEvent()
         observeUIState()
 
@@ -76,7 +75,7 @@ class ResetPasswordFragment : Fragment() {
         }
     }
     private fun observeViewModelEvent() {
-        viewModel.viewmodelUIEvent.observe(viewLifecycleOwner) {
+        viewModel.viewmodelEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelUIEvent.Error -> {
                     Toast.makeText(context, it.error, Toast.LENGTH_SHORT)
@@ -98,8 +97,8 @@ class ResetPasswordFragment : Fragment() {
         }
     }
 
-    private fun observeViewModelUiState() {
-        viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
+    private fun observeViewModelState() {
+        viewModel.viewmodelState.observe(viewLifecycleOwner) {
             when (it) {
                 ResetPasswordUiState.Idle -> TODO()
             }

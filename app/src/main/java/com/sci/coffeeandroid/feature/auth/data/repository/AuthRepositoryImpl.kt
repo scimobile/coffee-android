@@ -5,6 +5,8 @@ import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSource
 import com.sci.coffeeandroid.feature.auth.data.datasource.AuthRemoteDataSourceImpl
 import com.sci.coffeeandroid.feature.auth.data.model.response.OTPResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
+import com.sci.coffeeandroid.feature.auth.domain.model.OTPModel
+import com.sci.coffeeandroid.feature.auth.domain.model.PasswordResetModel
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 
 class AuthRepositoryImpl(
@@ -35,8 +37,9 @@ class AuthRepositoryImpl(
     override suspend fun resetPassword(
         email: String,
         newPassword: String
-    ): Result<PasswordResetResponse> {
+    ): Result<PasswordResetModel> {
         return authRemoteDataSource.resetPassword(email,newPassword)
+
     }
 
     override fun isUserLoggedIn() = authLocalDataSource.isUserLoggedIn()
@@ -46,7 +49,7 @@ class AuthRepositoryImpl(
         authLocalDataSource.removeAccessToken()
     }
 
-    override suspend fun getOTP(email: String): Result<OTPResponse> {
+    override suspend fun getOTP(email: String): Result<OTPModel> {
         return authRemoteDataSource.getOTP(email)
     }
 }

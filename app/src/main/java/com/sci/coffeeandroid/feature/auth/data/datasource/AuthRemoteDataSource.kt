@@ -1,6 +1,8 @@
 package com.sci.coffeeandroid.feature.auth.data.datasource
 import com.sci.coffeeandroid.feature.auth.data.model.response.OTPResponse
 import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetResponse
+import com.sci.coffeeandroid.feature.auth.domain.model.OTPModel
+import com.sci.coffeeandroid.feature.auth.domain.model.PasswordResetModel
 import com.sci.coffeeandroid.feature.auth.domain.model.UserModel
 
 interface AuthRemoteDataSource {
@@ -19,9 +21,9 @@ interface AuthRemoteDataSource {
     suspend fun resetPassword(
         email: String,
         newPassword: String
-    ): Result<PasswordResetResponse>
+    ): Result<PasswordResetModel>
 
     suspend fun getOTP(
         email: String,
-    ) : Result<OTPResponse>
+    ) : Result<OTPModel>
 }

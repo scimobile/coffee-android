@@ -83,10 +83,10 @@ class RegisterViewModel(
     }
 
     private val _registerViewModelState: MutableLiveData<RegisterViewModelState> = MutableLiveData()
-    val registerViewModelState: LiveData<RegisterViewModelState> = _registerViewModelState
+    val viewmodelState: LiveData<RegisterViewModelState> = _registerViewModelState
 
     private val _registerUiEvent: SingleLiveEvent<RegisterViewModelEvent> = SingleLiveEvent()
-    val registerUiEvent: LiveData<RegisterViewModelEvent> = _registerUiEvent
+    val viewmodelEvent: LiveData<RegisterViewModelEvent> = _registerUiEvent
 
 
     private fun register() {

@@ -1,6 +1,5 @@
 package com.sci.coffeeandroid.feature.auth.ui.login
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,7 +89,7 @@ class LoginFragment : Fragment() {
             replaceFragment(ForgotPasswordFragment.newInstance())
         }
 
-        observerUiState()
+        observeViewModelState()
         observeViewModelEvent()
         observeUIState()
     }
@@ -114,7 +113,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun observeViewModelEvent() {
-        viewModel.viewmodelUIState.observe(viewLifecycleOwner) {
+        viewModel.viewmodelState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewModelUIState.Idle -> {
                     binding.pbLogin.visibility = View.GONE
@@ -123,8 +122,8 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun observerUiState() {
-        viewModel.viewmodelUIEvent.observe(viewLifecycleOwner) {
+    private fun observeViewModelState() {
+        viewModel.viewmodelEvent.observe(viewLifecycleOwner) {
             when (it) {
                 LoginViewModelEvent.Loading -> {
                     binding.pbLogin.visibility = View.VISIBLE

@@ -32,10 +32,10 @@ class ForgotPasswordViewModel(
     }
 
     private val _viewmodelUIState: MutableLiveData<ViewModelUiState> = MutableLiveData()
-    val viewmodelUIState: LiveData<ViewModelUiState> = _viewmodelUIState
+    val viewmodelState: LiveData<ViewModelUiState> = _viewmodelUIState
 
     private val _viewmodelUIEvent: SingleLiveEvent<ViewModelEvent> = SingleLiveEvent()
-    val viewmodelUIEvent: LiveData<ViewModelEvent> = _viewmodelUIEvent
+    val viewmodelEvent: LiveData<ViewModelEvent> = _viewmodelUIEvent
 
 
     private fun getOTP() {

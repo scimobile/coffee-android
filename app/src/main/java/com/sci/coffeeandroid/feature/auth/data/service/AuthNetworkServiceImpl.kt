@@ -9,15 +9,20 @@ import com.sci.coffeeandroid.feature.auth.data.model.response.PasswordResetRespo
 import com.sci.coffeeandroid.feature.auth.data.model.response.RegisterResponse
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-class AuthNetworkServiceImpl(httpClient: HttpClient) : AuthNetworkService {
+class AuthNetworkServiceImpl(
+    private val httpClient: HttpClient,
+    private val fakeService: FakeService
+) : AuthNetworkService {
     override suspend fun register(
         username: String,
         email: String,
         phone: String,
         password: String
     ): Result<RegisterResponse> {
+
         val request = RegisterRequestModel(
             username = username,
             email = email,
@@ -48,28 +53,7 @@ class AuthNetworkServiceImpl(httpClient: HttpClient) : AuthNetworkService {
             email = email,
             password = password
         )
-        withContext(Dispatchers.IO) {
-            Thread.sleep(2000)
-        }
-        if (email.contains("@") ) {
-
-            return Result.success(
-                LoginResponseModel(
-                    data = LoginResponseModel.User(
-                        email = request.email,
-                        phoneNumber = "0995858585",
-                        username = "Test User",
-                        accessToken = "accessbeirjfjfjqoqjdjdoqofjfj.djdjdjkq.odododf.irrjgjdj"
-                    ),
-                    status = true,
-                    message = "Successfully LoggedIn"
-                )
-            )
-        } else {
-            return Result.failure(
-                Exception("Invalid email or password")
-            )
-        }
+        return fakeService.login(email,password)
     }
 
 
