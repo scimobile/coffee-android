@@ -31,12 +31,12 @@ class MenuDetailsActivity : AppCompatActivity() {
 
     private val menuDetailsViewModel: MenuDetailsViewModel by viewModel() {
         parametersOf(
-            COFFEE_ID
+            coffeeId
         )
     }
     private lateinit var binding: ActivityMenuDetailsBinding
-    private val COFFEE_ID: Int by lazy {
-        intent.getIntExtra("coffeeId", 0)
+    private val coffeeId: Int by lazy {
+        intent.getIntExtra(getString(R.string.COFFEE_ID), 0)
     }
 
     @SuppressLint("DefaultLocale", "SetTextI18n")
@@ -258,7 +258,7 @@ class MenuDetailsActivity : AppCompatActivity() {
     companion object {
         fun newIntent(context: Context, coffeeId: Int) =
             Intent(context, MenuDetailsActivity::class.java).apply {
-                putExtra("coffeeId", coffeeId)
+                putExtra(context.getString(R.string.COFFEE_ID), coffeeId)
             }
     }
 }

@@ -30,6 +30,7 @@
     <string name="favourite">favourite</string>
     <string name="back">back</string>
     <string name="coffee_detail_image">coffee detail image</string>
+    <string name="COFFEE_ID">coffeeId</string>
     <string-array name="milk_array">
         <item>Almond Milk</item>
         <item>Soy Milk</item>
